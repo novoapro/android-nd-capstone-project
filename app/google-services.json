@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "23216749266",
+    "firebase_url": "https://android-nd-capstone-project.firebaseio.com",
+    "project_id": "android-nd-capstone-project",
+    "storage_bucket": "android-nd-capstone-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23216749266:android:fa476efb1c3bc8e0",
+        "android_client_info": {
+          "package_name": "com.manpdev.appointment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23216749266-72nulsruash78gckesrss8f5tmo1nr57.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manpdev.appointment",
+            "certificate_hash": "14C77B6036E8458F45DEF78E6F83F0FECA120924"
+          }
+        },
+        {
+          "client_id": "23216749266-emsvqv07cb6509rlb4rjspf0ukc270en.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaKDZJXcpzq001cup019HfE695Ay3njJk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23216749266-emsvqv07cb6509rlb4rjspf0ukc270en.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
