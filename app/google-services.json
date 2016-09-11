@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "23216749266",
-    "firebase_url": "https://android-nd-capstone-project.firebaseio.com",
-    "project_id": "android-nd-capstone-project",
-    "storage_bucket": "android-nd-capstone-project.appspot.com"
+    "project_number": "1094385421627",
+    "firebase_url": "https://appointment-e145a.firebaseio.com",
+    "project_id": "appointment-e145a",
+    "storage_bucket": "appointment-e145a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:23216749266:android:fa476efb1c3bc8e0",
+        "mobilesdk_app_id": "1:1094385421627:android:fa476efb1c3bc8e0",
         "android_client_info": {
           "package_name": "com.manpdev.appointment"
         }
       },
       "oauth_client": [
         {
-          "client_id": "23216749266-72nulsruash78gckesrss8f5tmo1nr57.apps.googleusercontent.com",
+          "client_id": "1094385421627-nn22ukgbchpgjhk1bt3l2rlsu5vg6llb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.manpdev.appointment",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "23216749266-emsvqv07cb6509rlb4rjspf0ukc270en.apps.googleusercontent.com",
+          "client_id": "1094385421627-4jvas1pu14so2fn95fli5uo6njk0k20n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCaKDZJXcpzq001cup019HfE695Ay3njJk"
+          "current_key": "AIzaSyCAFEPoYNDvvp10uo9GnUtKi5y7OhvP8B4"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "23216749266-emsvqv07cb6509rlb4rjspf0ukc270en.apps.googleusercontent.com",
+              "client_id": "1094385421627-4jvas1pu14so2fn95fli5uo6njk0k20n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
