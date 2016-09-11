@@ -59,6 +59,12 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        mDrawer.removeDrawerListener(mToggle);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -82,7 +88,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-      //  int id = item.getItemId();
+//        int id = item.getItemId();
 
 //        if (id == R.id.nav_camera) {
 //            // Handle the camera action
@@ -103,14 +109,15 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         return true;
     }
 
+    @MenuRes
+    protected int getNavigationMenuRes() {
+        return R.menu.default_navigation_menu;
+    }
+
     @LayoutRes
     protected abstract int getContentLayoutId();
 
     @IdRes
     protected abstract int getCheckedItemId();
 
-    @MenuRes
-    public int getNavigationMenuRes() {
-        return R.menu.default_navigation_menu;
-    }
 }
