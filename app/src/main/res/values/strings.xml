@@ -19,4 +19,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!--NAVIGATION_MENU-->
+    <string name="menu_client_appointment">My Appointments</string>
+    <string name="menu_client_provider_list">Providers</string>
+    <string name="menu_section_client">Client</string>
+    <string name="menu_section_provider">Service Provider</string>
+    <string name="menu_provider_service">My Service</string>
+    <string name="menu_provider_appointments">Appointment</string>
+    <string name="menu_provider_review">Reviews</string>
 </resources>

@@ -1,3 +1,10 @@
 <resources>
 
+    <style name="AppTheme.Button.Default" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/bg_button_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+
 </resources>

@@ -19,6 +19,6 @@ public class AppointmentListActivity extends BaseNavigationActivity {
 
     @Override
     protected int getCheckedItemId() {
-        return R.id.nav_manage;
+        return R.id.nav_client_appointment;
     }
 }
