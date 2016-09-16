@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
 
-public class AppointmentListActivity extends BaseNavigationActivity {
+public class ProviderServiceActivity extends BaseNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,11 +14,11 @@ public class AppointmentListActivity extends BaseNavigationActivity {
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_appointment_list;
+        return R.layout.activity_provider_service;
     }
 
     @Override
     protected int getCheckedItemId() {
-        return R.id.nav_client_appointment;
+        return R.id.nav_provider_service;
     }
 }

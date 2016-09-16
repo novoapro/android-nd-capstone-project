@@ -1,42 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:checkable="false"
-        android:enabled="false"
-        android:title="@string/menu_section_client" />
-    <group
-        android:id="@+id/grp1"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_client_appointment"
-            android:icon="@drawable/ic_appointments"
-            android:title="@string/menu_client_appointment" />
-        <item
-            android:id="@+id/nav_client_list_providers"
-            android:icon="@drawable/ic_providers"
-            android:title="@string/menu_client_provider_list" />
-    </group>
+    <item android:title="@string/menu_section_client">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_client_appointment"
+                    android:icon="@drawable/ic_appointments"
+                    android:title="@string/menu_client_appointment" />
+                <item
+                    android:id="@+id/nav_client_list_providers"
+                    android:icon="@drawable/ic_providers"
+                    android:title="@string/menu_client_provider_list" />
+            </group>
+        </menu>
+    </item>
 
-    <item
-        android:checkable="false"
-        android:enabled="false"
-        android:title="@string/menu_section_provider" />
-    <group
-        android:id="@+id/grp2"
-        android:checkableBehavior="single"
-        android:menuCategory="container">
-        <item
-            android:id="@+id/nav_provider_service"
-            android:icon="@drawable/ic_service"
-            android:title="@string/menu_provider_service" />
-        <item
-            android:id="@+id/nav_provider_appointment"
-            android:icon="@drawable/ic_s_appointments"
-            android:title="@string/menu_provider_appointments" />
-        <item
-            android:id="@+id/nav_provider_reviews"
-            android:icon="@drawable/ic_review"
-            android:title="@string/menu_provider_review" />
-    </group>
-
+    <item android:title="@string/menu_section_provider">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_provider_service"
+                    android:icon="@drawable/ic_service"
+                    android:title="@string/menu_provider_service" />
+                <item
+                    android:id="@+id/nav_provider_appointment"
+                    android:icon="@drawable/ic_s_appointments"
+                    android:title="@string/menu_provider_appointments" />
+                <item
+                    android:id="@+id/nav_provider_reviews"
+                    android:icon="@drawable/ic_review"
+                    android:title="@string/menu_provider_review" />
+            </group>
+        </menu>
+    </item>
 </menu>

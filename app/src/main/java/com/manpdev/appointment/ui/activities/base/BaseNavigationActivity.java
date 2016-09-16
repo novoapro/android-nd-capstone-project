@@ -1,5 +1,6 @@
 package com.manpdev.appointment.ui.activities.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -18,6 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.manpdev.appointment.R;
+import com.manpdev.appointment.ui.activities.ClientAppointmentListActivity;
+import com.manpdev.appointment.ui.activities.ClientProviderListActivity;
+import com.manpdev.appointment.ui.activities.ProviderAppointmentListActivity;
+import com.manpdev.appointment.ui.activities.ProviderServiceActivity;
+import com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,12 +49,17 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.inflateMenu(getNavigationMenuRes());
-        mNavigationView.setCheckedItem(getCheckedItemId());
 
         mContainer = (ViewGroup) findViewById(R.id.view_content);
         View.inflate(this, getContentLayoutId(), mContainer);
 
         mActionFab = (FloatingActionButton) findViewById(R.id.fab);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mNavigationView.setCheckedItem(getCheckedItemId());
     }
 
     @Override
@@ -88,24 +99,39 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
+        if(item.getItemId() == getCheckedItemId()) {
+            mDrawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
 
-//        if (id == R.id.nav_camera) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        Intent toLaunch;
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()){
+            case R.id.nav_provider_service:
+                toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceActivity.class);
+                break;
+
+            case R.id.nav_provider_appointment:
+                toLaunch = new Intent(BaseNavigationActivity.this, ProviderAppointmentListActivity.class);
+                break;
+
+            case R.id.nav_provider_reviews:
+                toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceReviewListActivity.class);
+                break;
+
+            case R.id.nav_client_list_providers:
+                toLaunch = new Intent(BaseNavigationActivity.this, ClientProviderListActivity.class);
+                break;
+
+            default:
+            case R.id.nav_client_appointment:
+                toLaunch = new Intent(BaseNavigationActivity.this, ClientAppointmentListActivity.class);
+                break;
+        }
+
+        startActivity(toLaunch);
+
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

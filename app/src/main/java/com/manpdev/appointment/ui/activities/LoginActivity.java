@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity  implements LoginContract.V
     }
 
     private void launchFirstActivity() {
-        Intent intent = new Intent(LoginActivity.this, AppointmentListActivity.class);
+        Intent intent = new Intent(LoginActivity.this, ClientAppointmentListActivity.class);
         startActivity(intent);
         finish();
     }

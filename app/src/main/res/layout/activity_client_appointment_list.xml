@@ -5,7 +5,7 @@
     android:id="@+id/activity_appointment_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.manpdev.appointment.ui.activities.AppointmentListActivity">
+    tools:context="com.manpdev.appointment.ui.activities.ClientAppointmentListActivity">
 
     <TextView
         android:text="TextView"

@@ -26,7 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.AppointmentListActivity"></activity>
+
+        <activity android:name=".ui.activities.ClientAppointmentListActivity" android:launchMode="singleTop" />
+        <activity android:name=".ui.activities.ClientProviderListActivity" android:launchMode="singleTop" />
+        <activity android:name=".ui.activities.ProviderServiceActivity" android:launchMode="singleTop" />
+        <activity android:name=".ui.activities.ProviderAppointmentListActivity" android:launchMode="singleTop" />
+        <activity android:name=".ui.activities.ProviderServiceReviewListActivity" android:launchMode="singleTop" />
     </application>
 
 </manifest>
