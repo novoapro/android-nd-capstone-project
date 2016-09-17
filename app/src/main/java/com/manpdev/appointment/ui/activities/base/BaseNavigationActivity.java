@@ -39,6 +39,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolBar);
 
@@ -99,14 +100,14 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == getCheckedItemId()) {
+        if (item.getItemId() == getCheckedItemId()) {
             mDrawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
         Intent toLaunch;
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_provider_service:
                 toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceActivity.class);
                 break;
@@ -129,6 +130,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 break;
         }
 
+        toLaunch.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(toLaunch);
 
         mDrawer.closeDrawer(GravityCompat.START);
