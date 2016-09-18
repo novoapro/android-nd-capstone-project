@@ -5,11 +5,26 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Items"/>
-
-    <style name="AppTheme.Items.Default">
-        <item name="android:background">@drawable/bg_list_item_default</item>
+    <style name="AppTheme.Item">
+        <item name="android:padding">@dimen/half_dimen</item>
     </style>
 
+    <style name="AppTheme.Item.Default">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Item.Default.Elevated">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Item.Selectable">
+    </style>
+
+    <style name="AppTheme.Item.Selectable.Default">
+        <item name="android:background">@drawable/bg_selectable_item</item>
+    </style>
+
+    <style name="AppTheme.Item.Selectable.Elevated" parent="AppTheme.Item.Selectable.Default">
+    </style>
 
 </resources>

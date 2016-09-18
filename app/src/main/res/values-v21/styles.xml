@@ -1,9 +1,13 @@
 <resources>
 
-    <style name="AppTheme.Items.Default">
-        <item name="android:background">@drawable/bg_list_item_default</item>
+    <style name="AppTheme.Item.Default.Elevated">
+        <item name="android:background">@android:color/white</item>
         <item name="android:elevation">2dp</item>
     </style>
 
+    <style name="AppTheme.Item.Selectable.Elevated">
+        <item name="android:background">@drawable/bg_selectable_item</item>
+        <item name="android:elevation">2dp</item>
+    </style>
 
 </resources>

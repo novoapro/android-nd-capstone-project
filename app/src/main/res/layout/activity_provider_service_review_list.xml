@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/half_dimen"
         tools:context="com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity">
 
         <RatingBar
@@ -23,6 +22,8 @@
             android:id="@+id/rv_reviews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
             tools:listitem="@layout/list_item_provider_reviews" />
 
     </LinearLayout>

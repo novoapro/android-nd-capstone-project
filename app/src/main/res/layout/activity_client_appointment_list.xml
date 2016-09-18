@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
-        android:id="@+id/activity_appointment_list"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/half_dimen"
-        tools:context="com.manpdev.appointment.ui.activities.ClientAppointmentListActivity">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_client_appointment" />
-
-    </LinearLayout>
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        tools:context="com.manpdev.appointment.ui.activities.ClientAppointmentListActivity"
+        tools:listitem="@layout/list_item_client_appointment" />
 </layout>

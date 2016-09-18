@@ -30,7 +30,7 @@
 
         <activity android:name=".ui.activities.ClientAppointmentListActivity" android:launchMode="singleTask" />
         <activity android:name=".ui.activities.ClientProviderListActivity" android:launchMode="singleTask" />
-        <activity android:name=".ui.activities.ProviderServiceActivity" android:launchMode="singleTask" />
+        <activity android:name=".ui.activities.ProviderServiceInfoActivity" android:launchMode="singleTask" />
         <activity android:name=".ui.activities.ProviderAppointmentListActivity" android:launchMode="singleTask" />
         <activity android:name=".ui.activities.ProviderServiceReviewListActivity" android:launchMode="singleTask" />
     </application>

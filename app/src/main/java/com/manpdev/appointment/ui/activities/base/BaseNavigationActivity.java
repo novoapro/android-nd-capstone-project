@@ -22,7 +22,7 @@ import com.manpdev.appointment.R;
 import com.manpdev.appointment.ui.activities.ClientAppointmentListActivity;
 import com.manpdev.appointment.ui.activities.ClientProviderListActivity;
 import com.manpdev.appointment.ui.activities.ProviderAppointmentListActivity;
-import com.manpdev.appointment.ui.activities.ProviderServiceActivity;
+import com.manpdev.appointment.ui.activities.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
@@ -108,8 +108,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         Intent toLaunch;
 
         switch (item.getItemId()) {
-            case R.id.nav_provider_service:
-                toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceActivity.class);
+            case R.id.nav_provider_service_info:
+                toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceInfoActivity.class);
                 break;
 
             case R.id.nav_provider_appointment:

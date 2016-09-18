@@ -2,17 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
+        style="@style/AppTheme.Item.Selectable.Elevated"
         android:id="@+id/cl_container"
+        android:layout_margin="@dimen/mini_dimen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <android.support.constraint.ConstraintLayout
-            style="@style/AppTheme.Items.Default"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/quarter_dimen"
-            android:padding="@dimen/half_dimen">
 
             <TextView
                 android:id="@+id/tv_title"
@@ -61,5 +56,4 @@
                 tools:text="5h" />
 
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
 </layout>

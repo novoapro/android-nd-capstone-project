@@ -19,7 +19,7 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_provider_service"
+                    android:id="@+id/nav_provider_service_info"
                     android:icon="@drawable/ic_service"
                     android:title="@string/menu_provider_service" />
                 <item

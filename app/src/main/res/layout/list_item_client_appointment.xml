@@ -3,17 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/cl_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <android.support.constraint.ConstraintLayout
-            style="@style/AppTheme.Items.Default"
+            style="@style/AppTheme.Item.Selectable.Elevated"
+            android:id="@+id/cl_container"
+            android:layout_margin="@dimen/mini_dimen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/quarter_dimen"
-            android:padding="@dimen/half_dimen">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/iv_client_avatar"
@@ -61,5 +56,4 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_provider_name"
                 tools:text="From: 10:00am To: 11:00am" />
         </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
 </layout>

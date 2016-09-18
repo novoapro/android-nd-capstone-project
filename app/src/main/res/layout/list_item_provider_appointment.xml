@@ -3,93 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_container"
+        style="@style/AppTheme.Item.Selectable.Elevated"
+        android:layout_margin="@dimen/mini_dimen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            style="@style/AppTheme.Items.Default"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/quarter_dimen"
-            android:padding="@dimen/half_dimen">
+        <TextView
+            android:id="@+id/tv_client_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Client Name" />
 
-            <TextView
-                android:id="@+id/tv_client_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Client Name" />
+        <TextView
+            android:id="@+id/tv_appointment_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:textStyle="normal|bold|italic"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_appointment_date"
+            app:layout_constraintRight_toLeftOf="@+id/ib_send_message"
+            app:layout_constraintTop_toBottomOf="@+id/tv_appointment_date"
+            tools:text="Available" />
 
-            <TextView
-                android:id="@+id/tv_appointment_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:maxLines="1"
-                android:textStyle="normal|bold|italic"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_appointment_date"
-                app:layout_constraintRight_toLeftOf="@+id/ib_send_message"
-                app:layout_constraintTop_toBottomOf="@+id/tv_appointment_date"
-                tools:text="Available" />
+        <TextView
+            android:id="@+id/tv_appointment_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_client_name"
+            app:layout_constraintRight_toLeftOf="@+id/ib_send_message"
+            app:layout_constraintTop_toBottomOf="@+id/tv_client_name"
+            tools:text="01/12/2016 10:00am - 11:00am" />
 
-            <TextView
-                android:id="@+id/tv_appointment_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_client_name"
-                app:layout_constraintRight_toLeftOf="@+id/ib_send_message"
-                app:layout_constraintTop_toBottomOf="@+id/tv_client_name"
-                tools:text="01/12/2016 10:00am - 11:00am" />
+        <ImageButton
+            android:id="@+id/ib_send_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:contentDescription=""
+            android:padding="@dimen/quarter_dimen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/ib_approve"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_message"
+            tools:ignore="ContentDescription" />
 
-            <ImageButton
-                android:id="@+id/ib_send_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:contentDescription=""
-                android:padding="@dimen/quarter_dimen"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/ib_approve"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_message"
-                tools:ignore="ContentDescription" />
+        <ImageButton
+            android:id="@+id/ib_approve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/quarter_dimen"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_send_message"
+            app:layout_constraintRight_toLeftOf="@+id/ib_reject"
+            app:layout_constraintTop_toTopOf="@+id/ib_send_message"
+            app:srcCompat="@drawable/ic_check"
+            tools:ignore="ContentDescription" />
 
-            <ImageButton
-                android:id="@+id/ib_approve"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/quarter_dimen"
-                app:layout_constraintBottom_toBottomOf="@+id/ib_send_message"
-                app:layout_constraintRight_toLeftOf="@+id/ib_reject"
-                app:layout_constraintTop_toTopOf="@+id/ib_send_message"
-                app:srcCompat="@drawable/ic_check"
-                tools:ignore="ContentDescription" />
+        <ImageButton
+            android:id="@+id/ib_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/quarter_dimen"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_approve"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ib_approve"
+            app:srcCompat="@drawable/ic_clear"
+            tools:ignore="ContentDescription" />
 
-            <ImageButton
-                android:id="@+id/ib_reject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/quarter_dimen"
-                app:layout_constraintBottom_toBottomOf="@+id/ib_approve"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ib_approve"
-                app:srcCompat="@drawable/ic_clear"
-                tools:ignore="ContentDescription" />
-
-        </android.support.constraint.ConstraintLayout>
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

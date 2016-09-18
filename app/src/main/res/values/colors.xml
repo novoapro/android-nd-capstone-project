@@ -9,4 +9,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
 
+    <color name="accent_light">#5aff9800</color>
+
 </resources>
