@@ -5,6 +5,11 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.Items"/>
+
+    <style name="AppTheme.Items.Default">
+        <item name="android:background">@drawable/bg_list_item_default</item>
+    </style>
 
 
 </resources>

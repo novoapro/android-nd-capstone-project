@@ -7,9 +7,16 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="quarter_dimen">4dp</dimen>
+    <dimen name="half_dimen">8dp</dimen>
+    <dimen name="default_dimen">16dp</dimen>
+    <dimen name="double_dimen">32dp</dimen>
 
     <!--BUTTON-->
     <dimen name="button_inset_vertical">4dp</dimen>
     <dimen name="button_inset_horizontal">6dp</dimen>
+
+    <!--LIST_ITEMS-->
+    <dimen name="list_item_main_image_dimension">70dp</dimen>
 
 </resources>

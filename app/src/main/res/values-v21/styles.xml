@@ -1,1 +1,9 @@
-<resources></resources>
+<resources>
+
+    <style name="AppTheme.Items.Default">
+        <item name="android:background">@drawable/bg_list_item_default</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
+
+</resources>
