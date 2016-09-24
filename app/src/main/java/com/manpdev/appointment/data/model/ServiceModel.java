@@ -1,21 +1,27 @@
-package com.manpdev.appointment.model.entities;
+package com.manpdev.appointment.data.model;
+
+import com.google.firebase.database.Exclude;
 
 /**
  * novoa on 9/11/16.
  */
 
-public class Service {
+public class ServiceModel{
+    
+    public static final String MODEL_ROOT_ID = "services";
 
     private String id;
+
     private String name;
     private String type;
     private String description;
     private String email;
     private String phone;
 
-    public Service() {
+    public ServiceModel() {
     }
 
+    @Exclude
     public String getId() {
         return id;
     }

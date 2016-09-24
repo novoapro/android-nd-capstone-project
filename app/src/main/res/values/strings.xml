@@ -28,4 +28,15 @@
     <string name="menu_provider_service">My Service</string>
     <string name="menu_provider_appointments">Appointment</string>
     <string name="menu_provider_review">Reviews</string>
+
+
+    <!--LOGIN/REGISTRATION-->
+    <string name="signing_failed">Signing failed!</string>
+    <string name="hint_phone_number">Phone Number</string>
+    <string name="welcome_message">Welcome to APPoinment.</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="action_register">Register</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="empty_fullname_error_msg">Full name could not be blank.</string>
+    <string name="empty_phone_number_error_msg">Phone number is required</string>
 </resources>

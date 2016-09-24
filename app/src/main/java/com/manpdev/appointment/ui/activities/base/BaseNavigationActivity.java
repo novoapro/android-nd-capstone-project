@@ -40,6 +40,9 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        mContainer = (ViewGroup) findViewById(R.id.view_content);
+        View.inflate(this, getContentLayoutId(), mContainer);
+
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolBar);
 
@@ -50,9 +53,6 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.inflateMenu(getNavigationMenuRes());
-
-        mContainer = (ViewGroup) findViewById(R.id.view_content);
-        View.inflate(this, getContentLayoutId(), mContainer);
 
         mActionFab = (FloatingActionButton) findViewById(R.id.fab);
     }
@@ -71,8 +71,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         mDrawer.removeDrawerListener(mToggle);
     }
 

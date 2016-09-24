@@ -1,19 +1,25 @@
-package com.manpdev.appointment.model.entities;
+package com.manpdev.appointment.data.model;
+
+import com.google.firebase.database.Exclude;
 
 /**
  * novoa on 9/11/16.
  */
 
-public class Review {
+public class ReviewModel{
+
+    public static final String MODEL_ROOT_ID = "reviews";
 
     private String id;
+
     private String title;
     private String body;
     private float rating;
 
-    public Review() {
+    public ReviewModel() {
     }
 
+    @Exclude
     public String getId() {
         return id;
     }

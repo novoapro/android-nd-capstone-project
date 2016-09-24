@@ -2,6 +2,11 @@ package com.manpdev.appointment.di;
 
 import com.manpdev.appointment.di.module.ContextModule;
 import com.manpdev.appointment.di.module.FirebaseModule;
+import com.manpdev.appointment.di.module.DataModule;
+import com.manpdev.appointment.ui.di.ActivityComponent;
+import com.manpdev.appointment.ui.di.modules.PresentersModule;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 
@@ -9,11 +14,14 @@ import dagger.Component;
  * novoa on 9/18/16.
  */
 
-@Component(modules = {
-        FirebaseModule.class,
-        ContextModule.class}
-)
+@Component(modules =
+        {
+                ContextModule.class,
+                FirebaseModule.class,
+                DataModule.class
+        })
+@Singleton
 public interface ApplicationComponent {
 
-
+    ActivityComponent plus(PresentersModule module);
 }

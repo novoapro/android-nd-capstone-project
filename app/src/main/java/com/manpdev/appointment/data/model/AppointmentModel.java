@@ -1,4 +1,6 @@
-package com.manpdev.appointment.model.entities;
+package com.manpdev.appointment.data.model;
+
+import com.google.firebase.database.Exclude;
 
 import java.util.Date;
 
@@ -6,8 +8,12 @@ import java.util.Date;
  * novoa on 9/11/16.
  */
 
-public class Appointment {
+public class AppointmentModel {
+
+    public static final String MODEL_ROOT_ID = "appointments";
+
     private String id;
+
     private Date datetime;
     private int duration;
     private int state;
@@ -18,9 +24,11 @@ public class Appointment {
     private String clientId;
     private String clientName;
 
-    public Appointment() {
+    public AppointmentModel() {
     }
 
+
+    @Exclude
     public String getId() {
         return id;
     }

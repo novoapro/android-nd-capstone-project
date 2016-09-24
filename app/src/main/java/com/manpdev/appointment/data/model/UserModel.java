@@ -1,19 +1,29 @@
-package com.manpdev.appointment.model.entities;
+package com.manpdev.appointment.data.model;
+
+import com.google.firebase.database.Exclude;
 
 /**
  * novoa on 9/11/16.
  */
 
-public class User {
+public class UserModel{
+
+    public static final String MODEL_ROOT_ID = "users";
+
     private String id;
     private String email;
     private String fullName;
     private String phone;
     private String avatar;
 
-    public User() {
+    public UserModel() {
     }
 
+    public UserModel(String id) {
+        this.id = id;
+    }
+
+    @Exclude
     public String getId() {
         return id;
     }
