@@ -39,4 +39,9 @@
     <string name="action_cancel">Cancel</string>
     <string name="empty_fullname_error_msg">Full name could not be blank.</string>
     <string name="empty_phone_number_error_msg">Phone number is required</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="loading_label">loading</string>
 </resources>

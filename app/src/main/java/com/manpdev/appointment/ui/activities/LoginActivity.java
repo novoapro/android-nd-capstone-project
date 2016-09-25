@@ -13,8 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.databinding.ActivityLoginBinding;
-import com.manpdev.appointment.ui.di.modules.PresentersModule;
 import com.manpdev.appointment.ui.mvp.LoginContract;
+import com.manpdev.appointment.ui.mvp.di.modules.PresentersModule;
 
 import javax.inject.Inject;
 
@@ -41,7 +41,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         });
 
         ((AppointmentApplication)getApplication()).getApplicationComponent()
-                .plus(new PresentersModule())
+                .activity()
+                .mvp(new PresentersModule())
                 .inject(this);
     }
 

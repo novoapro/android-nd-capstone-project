@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.databinding.ActivityUserRegistrationBinding;
-import com.manpdev.appointment.ui.di.modules.PresentersModule;
 import com.manpdev.appointment.ui.mvp.UserRegistrationContract;
+import com.manpdev.appointment.ui.mvp.di.modules.PresentersModule;
 
 import javax.inject.Inject;
 
@@ -30,7 +30,8 @@ public class UserRegistrationActivity extends AppCompatActivity implements UserR
 
         ((AppointmentApplication) getApplication())
                 .getApplicationComponent()
-                .plus(new PresentersModule())
+                .activity()
+                .mvp(new PresentersModule())
                 .inject(this);
 
 

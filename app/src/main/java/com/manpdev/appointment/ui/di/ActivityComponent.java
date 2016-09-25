@@ -1,8 +1,8 @@
 package com.manpdev.appointment.ui.di;
 
-import com.manpdev.appointment.ui.activities.LoginActivity;
-import com.manpdev.appointment.ui.activities.UserRegistrationActivity;
-import com.manpdev.appointment.ui.di.modules.PresentersModule;
+import com.manpdev.appointment.ui.activities.SplashScreenActivity;
+import com.manpdev.appointment.ui.mvp.di.MVPComponent;
+import com.manpdev.appointment.ui.mvp.di.modules.PresentersModule;
 
 import dagger.Subcomponent;
 
@@ -11,8 +11,10 @@ import dagger.Subcomponent;
  */
 
 @ActivityScope
-@Subcomponent(modules = PresentersModule.class)
+@Subcomponent()
 public interface ActivityComponent {
-    void inject(LoginActivity view);
-    void inject(UserRegistrationActivity view);
+
+    void inject(SplashScreenActivity splashScreenActivity);
+
+    MVPComponent mvp(PresentersModule module);
 }

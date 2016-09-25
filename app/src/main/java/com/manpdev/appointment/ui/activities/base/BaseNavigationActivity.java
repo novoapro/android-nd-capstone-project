@@ -1,6 +1,9 @@
 package com.manpdev.appointment.ui.activities.base;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -13,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +28,15 @@ import com.manpdev.appointment.ui.activities.ClientProviderListActivity;
 import com.manpdev.appointment.ui.activities.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activities.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity;
+import com.manpdev.appointment.ui.helpers.TransitionHelper;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    public static Intent getFirstNavigationActivityIntent(Activity host) {
+        return new Intent(host, ClientAppointmentListActivity.class);
+    }
 
     protected ActionBarDrawerToggle mToggle;
     protected DrawerLayout mDrawer;
@@ -39,6 +49,10 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+
+        setActivityTransition();
+
 
         mContainer = (ViewGroup) findViewById(R.id.view_content);
         View.inflate(this, getContentLayoutId(), mContainer);
@@ -55,6 +69,15 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mNavigationView.inflateMenu(getNavigationMenuRes());
 
         mActionFab = (FloatingActionButton) findViewById(R.id.fab);
+    }
+
+    @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
+    private void setActivityTransition() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            return;
+
+        getWindow().setEnterTransition(new Fade());
+        getWindow().setExitTransition(new Fade());
     }
 
     @Override
@@ -99,14 +122,40 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         if (item.getItemId() == getCheckedItemId()) {
             mDrawer.closeDrawer(GravityCompat.START);
             return true;
         }
 
-        Intent toLaunch;
+        mDrawer.closeDrawer(GravityCompat.START);
+        mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
 
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                launchChildActivity(item);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
+        return true;
+    }
+
+    private void launchChildActivity(@NonNull MenuItem item) {
+        Intent toLaunch;
         switch (item.getItemId()) {
             case R.id.nav_provider_service_info:
                 toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceInfoActivity.class);
@@ -130,11 +179,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 break;
         }
 
-        toLaunch.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(toLaunch);
-
-        mDrawer.closeDrawer(GravityCompat.START);
-        return true;
+        TransitionHelper.transitionToActivity(this, toLaunch);
     }
 
     @MenuRes

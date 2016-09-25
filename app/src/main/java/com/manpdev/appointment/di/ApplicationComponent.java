@@ -4,7 +4,6 @@ import com.manpdev.appointment.di.module.ContextModule;
 import com.manpdev.appointment.di.module.FirebaseModule;
 import com.manpdev.appointment.di.module.DataModule;
 import com.manpdev.appointment.ui.di.ActivityComponent;
-import com.manpdev.appointment.ui.di.modules.PresentersModule;
 
 import javax.inject.Singleton;
 
@@ -23,5 +22,6 @@ import dagger.Component;
 @Singleton
 public interface ApplicationComponent {
 
-    ActivityComponent plus(PresentersModule module);
+    ActivityComponent activity();
+
 }
