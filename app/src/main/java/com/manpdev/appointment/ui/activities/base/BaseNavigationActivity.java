@@ -22,13 +22,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
+import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.ui.activities.ClientAppointmentListActivity;
 import com.manpdev.appointment.ui.activities.ClientProviderListActivity;
 import com.manpdev.appointment.ui.activities.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activities.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity;
 import com.manpdev.appointment.ui.helpers.TransitionHelper;
+
+import javax.inject.Inject;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +48,9 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected ViewGroup mContainer;
     protected FloatingActionButton mActionFab;
     protected NavigationView mNavigationView;
+
+    @Inject
+    public AuthProvider mAuthProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,10 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mNavigationView.inflateMenu(getNavigationMenuRes());
 
         mActionFab = (FloatingActionButton) findViewById(R.id.fab);
+
+        ((AppointmentApplication)getApplication()).getApplicationComponent()
+                .activity()
+                .inject(this);
     }
 
     @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
@@ -117,7 +128,12 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+
+        if(id == R.id.action_logout)
+            mAuthProvider.logoutUser();
+
+
+        return id == R.id.action_logout || super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -128,7 +144,6 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
             return true;
         }
 
-        mDrawer.closeDrawer(GravityCompat.START);
         mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -151,6 +166,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
             }
         });
 
+        mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -179,7 +195,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 break;
         }
 
-        TransitionHelper.transitionToActivity(this, toLaunch);
+        toLaunch.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(toLaunch);
     }
 
     @MenuRes
