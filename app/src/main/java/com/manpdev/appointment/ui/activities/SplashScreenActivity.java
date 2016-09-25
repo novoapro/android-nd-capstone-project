@@ -13,7 +13,6 @@ import com.manpdev.appointment.data.model.UserModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
-import com.manpdev.appointment.ui.helpers.TransitionHelper;
 
 import javax.inject.Inject;
 

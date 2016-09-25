@@ -35,6 +35,7 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
     private final Context mContext;
     private final AuthProvider mAuthProvider;
     private final DataProvider<UserModel> mUserProvider;
+    private GoogleApiClient mGoogleApiClient;
 
     private boolean mViewAttached;
 
@@ -74,17 +75,10 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
         if (!mViewAttached)
             return;
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(mContext.getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+        if(mGoogleApiClient == null)
+            initGoogleClient(hostActivity);
 
-        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(mContext)
-                .enableAutoManage(hostActivity, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         mView.launchGoogleAuthentication(signInIntent);
     }
 
@@ -102,6 +96,19 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.w(TAG, "onConnectionFailed: " + connectionResult.getErrorMessage());
+    }
+
+
+    private void initGoogleClient(AppCompatActivity hostActivity){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(mContext.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(mContext)
+                .enableAutoManage(hostActivity, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void checkAppUserData(String userId) {
