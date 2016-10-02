@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.squareup.picasso.Picasso;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,17 +25,23 @@ public class ContextModule {
     }
 
     @Provides
-    public Context provideContext() {
+    Context provideContext() {
         return mContext;
     }
 
     @Provides
-    public SharedPreferences provideSharedPreferences(Context _context) {
+    SharedPreferences provideSharedPreferences(Context _context) {
         return PreferenceManager.getDefaultSharedPreferences(_context);
     }
 
     @Provides
-    public SharedPreferences.Editor provideSharedPreferencesEditor(SharedPreferences _sharedPreferences) {
+    @Singleton
+    Picasso providePicasso(Context context){
+        return Picasso.with(context);
+    }
+
+    @Provides
+    SharedPreferences.Editor provideSharedPreferencesEditor(SharedPreferences _sharedPreferences) {
         return _sharedPreferences.edit();
     }
 }

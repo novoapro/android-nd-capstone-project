@@ -1,5 +1,6 @@
 package com.manpdev.appointment.data.remote.firebase;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -52,11 +53,6 @@ public class FBAuthProvider implements AuthProvider, FirebaseAuth.AuthStateListe
     }
 
     @Override
-    public void loginUser(@NonNull String username, @NonNull String password) {
-        mFirebaseAuth.signInWithEmailAndPassword(username, password);
-    }
-
-    @Override
     public void loginWithGoogle(@NonNull String token) {
         AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
         firebaseAuthWithCredentials(credential);
@@ -81,6 +77,16 @@ public class FBAuthProvider implements AuthProvider, FirebaseAuth.AuthStateListe
     @Override
     public String getUserEmail() {
         return mFirebaseAuth.getCurrentUser() != null ? mFirebaseAuth.getCurrentUser().getEmail() : null;
+    }
+
+    @Override
+    public String getUserFullName() {
+        return mFirebaseAuth.getCurrentUser() != null ? mFirebaseAuth.getCurrentUser().getDisplayName() : null;
+    }
+
+    @Override
+    public Uri getUserAvatarUri() {
+        return mFirebaseAuth.getCurrentUser() != null ? mFirebaseAuth.getCurrentUser().getPhotoUrl() : null;
     }
 
     private void firebaseAuthWithCredentials(AuthCredential credential) {

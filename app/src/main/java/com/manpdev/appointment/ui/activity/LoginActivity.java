@@ -86,13 +86,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void launchRegistrationActivity() {
-        Intent intent = new Intent(LoginActivity.this, UserRegistrationActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
     public void enableSigninControllers(boolean b) {
         mViewDataBinding.signInButton.setEnabled(b);
         mViewDataBinding.progressBar.setVisibility(b ? View.INVISIBLE : View.VISIBLE);

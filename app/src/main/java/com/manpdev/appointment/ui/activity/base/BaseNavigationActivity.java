@@ -3,6 +3,7 @@ package com.manpdev.appointment.ui.activity.base;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -25,20 +26,22 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.remote.AuthProvider;
+import com.manpdev.appointment.databinding.NavHeaderNavigationBinding;
 import com.manpdev.appointment.ui.activity.ClientAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ClientProviderListActivity;
 import com.manpdev.appointment.ui.activity.LoginActivity;
 import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
+import com.manpdev.appointment.ui.helper.TransitionHelper;
+import com.manpdev.appointment.ui.utils.CircularTransformation;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    private int mSelectedItem;
 
     public static Intent getFirstNavigationActivityIntent(Activity host) {
         return new Intent(host, ClientAppointmentListActivity.class);
@@ -51,8 +54,14 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected FloatingActionButton mActionFab;
     protected NavigationView mNavigationView;
 
+    private int mSelectedItem;
+    private NavHeaderNavigationBinding mNavigationHeaderView;
+
     @Inject
     public AuthProvider mAuthProvider;
+
+    @Inject
+    public Picasso mPicasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +77,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(
-                this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -79,35 +88,27 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         mNavigationView.inflateMenu(getNavigationMenuRes());
+        mNavigationHeaderView = DataBindingUtil.bind(mNavigationView.getHeaderView(0));
 
         mActionFab = (FloatingActionButton) findViewById(R.id.fab);
-
-        ((AppointmentApplication)getApplication()).getApplicationComponent()
+        ((AppointmentApplication) getApplication()).getApplicationComponent()
                 .activity()
                 .inject(this);
-    }
-
-    @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
-    private void setActivityTransition() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            return;
-
-        getWindow().setEnterTransition(new Fade());
-        getWindow().setExitTransition(new Fade());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mSelectedItem = getCheckedItemId();
-        mNavigationView.setCheckedItem(mSelectedItem);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mSelectedItem = getCheckedItemId();
+        mNavigationView.setCheckedItem(mSelectedItem);
         mDrawer.addDrawerListener(mToggle);
         mToggle.syncState();
+        updateHeaderInformation();
     }
 
     @Override
@@ -134,10 +135,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if(id == R.id.action_logout)
+        if (id == R.id.action_logout)
             logout();
-
 
         return id == R.id.action_logout || super.onOptionsItemSelected(item);
     }
@@ -153,7 +152,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     private void launchChildActivity() {
         Intent toLaunch;
 
-        if(mSelectedItem == getCheckedItemId())
+        if (mSelectedItem == getCheckedItemId())
             return;
 
         switch (mSelectedItem) {
@@ -179,8 +178,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 break;
         }
 
-        toLaunch.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(toLaunch);
+        TransitionHelper.transitionToActivity(this, toLaunch);
     }
 
     @MenuRes
@@ -194,6 +192,25 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @IdRes
     protected abstract int getCheckedItemId();
 
+    @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
+    private void setActivityTransition() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            return;
+
+        Fade fade = new Fade();
+        fade.excludeTarget(findViewById(R.id.toolbar), true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+    }
+
+    private void updateHeaderInformation() {
+        mPicasso.load(mAuthProvider.getUserAvatarUri())
+                .transform(new CircularTransformation())
+                .into(mNavigationHeaderView.ivUserImage);
+
+        mNavigationHeaderView.tvUserEmail.setText(mAuthProvider.getUserEmail());
+        mNavigationHeaderView.tvUserFullName.setText(mAuthProvider.getUserFullName());
+    }
 
     private void logout() {
         mAuthProvider.logoutUser();
@@ -202,5 +219,4 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         startActivity(intent);
         finish();
     }
-
 }

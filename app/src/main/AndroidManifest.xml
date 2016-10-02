@@ -46,7 +46,6 @@
         <activity
             android:name=".ui.activity.ProviderServiceReviewListActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activity.UserRegistrationActivity" />
     </application>
 
 </manifest>

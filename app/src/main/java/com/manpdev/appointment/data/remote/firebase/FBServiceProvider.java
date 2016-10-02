@@ -3,7 +3,7 @@ package com.manpdev.appointment.data.remote.firebase;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.manpdev.appointment.data.model.UserModel;
+import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
 
@@ -16,47 +16,47 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-public class FBUserProvider extends FBBaseDatabaseProvider implements DataProvider<UserModel> {
+public class FBServiceProvider extends FBBaseDatabaseProvider implements DataProvider<ServiceModel> {
 
     @Inject
-    public FBUserProvider(FirebaseDatabase firebaseDatabase) {
+    public FBServiceProvider(FirebaseDatabase firebaseDatabase) {
         super(firebaseDatabase);
     }
 
     @Override
-    public Single<UserModel> getSingleValueObservable(String id) {
+    public Single<ServiceModel> getSingleValueObservable(String id) {
         return observeSingleValue(
                 firebaseDatabase.getReference()
-                        .child(UserModel.MODEL_ROOT_ID)
+                        .child(ServiceModel.MODEL_ROOT_ID)
                         .child(id),
-                UserModel.class
+                ServiceModel.class
         );
     }
 
     @Override
-    public Observable<UserModel> getCollectionObservable() {
+    public Observable<ServiceModel> getCollectionObservable() {
         return Observable.empty();
     }
 
     @Override
-    public Single<Void> insert(@NonNull UserModel element) {
+    public Single<Void> insert(@NonNull ServiceModel element) {
         return observeSingleValue(
                 firebaseDatabase.getReference()
-                        .child(UserModel.MODEL_ROOT_ID)
+                        .child(ServiceModel.MODEL_ROOT_ID)
                         .child(element.getId())
                         .setValue(element));
     }
 
     @Override
-    public Single<Void> update(@NonNull UserModel element) {
+    public Single<Void> update(@NonNull ServiceModel element) {
         return insert(element);
     }
 
     @Override
-    public Single<Void> remove(@NonNull UserModel element) {
+    public Single<Void> remove(@NonNull ServiceModel element) {
         return observeSingleValue(
                 firebaseDatabase.getReference()
-                        .child(UserModel.MODEL_ROOT_ID)
+                        .child(ServiceModel.MODEL_ROOT_ID)
                         .child(element.getId())
                         .removeValue());
     }

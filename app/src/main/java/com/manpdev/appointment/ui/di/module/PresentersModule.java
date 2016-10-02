@@ -2,13 +2,9 @@ package com.manpdev.appointment.ui.di.module;
 
 import android.content.Context;
 
-import com.manpdev.appointment.data.model.UserModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.ui.mvp.LoginContract;
-import com.manpdev.appointment.ui.mvp.UserRegistrationContract;
 import com.manpdev.appointment.ui.presenter.LoginPresenter;
-import com.manpdev.appointment.ui.presenter.UserRegistrationPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,14 +20,7 @@ public class PresentersModule {
     }
 
     @Provides
-    LoginContract.Presenter provideLoginPresenter(Context context, AuthProvider authProvider,
-                                                  DataProvider<UserModel> userProvider){
-        return new LoginPresenter(context, authProvider, userProvider);
-    }
-
-    @Provides
-    UserRegistrationContract.Presenter provideUserRegistrationPresenter(AuthProvider authProvider,
-                                                                        DataProvider<UserModel> userProvider){
-        return new UserRegistrationPresenter(authProvider, userProvider);
+    LoginContract.Presenter provideLoginPresenter(Context context, AuthProvider authProvider){
+        return new LoginPresenter(context, authProvider);
     }
 }

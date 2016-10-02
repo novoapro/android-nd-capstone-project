@@ -9,21 +9,15 @@ import android.view.View;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
-import com.manpdev.appointment.data.model.UserModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 
 import javax.inject.Inject;
-
-import rx.functions.Action1;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     public static final int DELAY_MILLIS = 2000;
-    @Inject
-    public DataProvider<UserModel> mUserProvider;
 
     @Inject
     public AuthProvider mAuthProvider;
@@ -70,23 +64,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void openProperActivity() {
-        if (mAuthProvider.isUserLoggedIn()) {
-            mUserProvider
-                    .getSingleValueObservable(mAuthProvider.getUserId())
-                    .subscribe(
-                            new Action1<UserModel>() {
-                                @Override
-                                public void call(UserModel userModel) {
-                                    launchFirstNavigationActivity();
-                                }
-                            },
-                            new Action1<Throwable>() {
-                                @Override
-                                public void call(Throwable throwable) {
-                                    launchLoginActivity();
-                                }
-                            });
-        } else
+        if (mAuthProvider.isUserLoggedIn())
+            launchFirstNavigationActivity();
+        else
             launchLoginActivity();
     }
 

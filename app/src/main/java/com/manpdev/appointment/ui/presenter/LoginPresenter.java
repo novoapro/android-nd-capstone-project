@@ -13,14 +13,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.manpdev.appointment.R;
-import com.manpdev.appointment.data.model.UserModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.listeners.AuthStateProviderListener;
-import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.ui.mvp.LoginContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
-
-import rx.functions.Action1;
 
 /**
  * novoa on 9/11/16.
@@ -34,16 +30,13 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
     private LoginContract.View mView;
     private final Context mContext;
     private final AuthProvider mAuthProvider;
-    private final DataProvider<UserModel> mUserProvider;
     private GoogleApiClient mGoogleApiClient;
 
     private boolean mViewAttached;
 
-    public LoginPresenter(Context context, AuthProvider authProvider,
-                          DataProvider<UserModel> mUserProvider) {
+    public LoginPresenter(Context context, AuthProvider authProvider) {
         this.mContext = context;
         this.mAuthProvider = authProvider;
-        this.mUserProvider = mUserProvider;
     }
 
     @Override
@@ -89,8 +82,6 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
 
         if (TextUtils.isEmpty(userId))
             mView.enableSigninControllers(true);
-        else
-            checkAppUserData(userId);
     }
 
     @Override
@@ -109,27 +100,5 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
                 .enableAutoManage(hostActivity, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-    }
-
-    private void checkAppUserData(String userId) {
-        mUserProvider.getSingleValueObservable(userId)
-                .subscribe(
-                        new Action1<UserModel>() {
-                            @Override
-                            public void call(UserModel userModel) {
-                                if (mViewAttached) {
-                                    if (userModel == null)
-                                        mView.launchRegistrationActivity();
-                                    else
-                                        mView.launchFirstActivity();
-                                }
-                            }
-                        }, new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-                                if (mViewAttached)
-                                    mView.launchRegistrationActivity();
-                            }
-                        });
     }
 }

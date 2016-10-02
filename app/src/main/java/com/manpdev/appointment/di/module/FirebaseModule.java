@@ -32,10 +32,4 @@ public class FirebaseModule {
     public FirebaseAuth provideFirebaseAuth() {
         return FirebaseAuth.getInstance();
     }
-
-    @Provides
-    @Singleton
-    public FirebaseAnalytics provideFirebaseAnalytics(Context _context) {
-        return FirebaseAnalytics.getInstance(_context);
-    }
 }
