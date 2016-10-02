@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.activities;
+package com.manpdev.appointment.ui.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,7 +14,7 @@ import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.databinding.ActivityLoginBinding;
 import com.manpdev.appointment.ui.mvp.LoginContract;
-import com.manpdev.appointment.ui.mvp.di.modules.PresentersModule;
+import com.manpdev.appointment.ui.di.module.PresentersModule;
 
 import javax.inject.Inject;
 

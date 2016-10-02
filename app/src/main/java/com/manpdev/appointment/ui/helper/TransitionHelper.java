@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.helpers;
+package com.manpdev.appointment.ui.helper;
 
 import android.app.Activity;
 import android.content.Intent;

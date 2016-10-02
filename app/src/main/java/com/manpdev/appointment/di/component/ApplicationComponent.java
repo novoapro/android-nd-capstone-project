@@ -1,9 +1,9 @@
-package com.manpdev.appointment.di;
+package com.manpdev.appointment.di.component;
 
 import com.manpdev.appointment.di.module.ContextModule;
 import com.manpdev.appointment.di.module.FirebaseModule;
 import com.manpdev.appointment.di.module.DataModule;
-import com.manpdev.appointment.ui.di.ActivityComponent;
+import com.manpdev.appointment.ui.di.component.ActivityComponent;
 
 import javax.inject.Singleton;
 

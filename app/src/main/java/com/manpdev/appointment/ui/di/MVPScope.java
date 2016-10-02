@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.mvp.di;
+package com.manpdev.appointment.ui.di;
 
 import javax.inject.Scope;
 

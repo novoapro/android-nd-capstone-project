@@ -1,11 +1,11 @@
-package com.manpdev.appointment.ui.activities;
+package com.manpdev.appointment.ui.activity;
 
 import android.os.Bundle;
 
 import com.manpdev.appointment.R;
-import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
+import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 
-public class ClientProviderListActivity extends BaseNavigationActivity {
+public class ClientAppointmentListActivity extends BaseNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,11 +14,11 @@ public class ClientProviderListActivity extends BaseNavigationActivity {
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_client_provider_list;
+        return R.layout.activity_client_appointment_list;
     }
 
     @Override
     protected int getCheckedItemId() {
-        return R.id.nav_client_list_providers;
+        return R.id.nav_client_appointment;
     }
 }

@@ -1,9 +1,9 @@
-package com.manpdev.appointment.ui.di;
+package com.manpdev.appointment.ui.di.component;
 
-import com.manpdev.appointment.ui.activities.SplashScreenActivity;
-import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
-import com.manpdev.appointment.ui.mvp.di.MVPComponent;
-import com.manpdev.appointment.ui.mvp.di.modules.PresentersModule;
+import com.manpdev.appointment.ui.activity.SplashScreenActivity;
+import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
+import com.manpdev.appointment.ui.di.ActivityScope;
+import com.manpdev.appointment.ui.di.module.PresentersModule;
 
 import dagger.Subcomponent;
 

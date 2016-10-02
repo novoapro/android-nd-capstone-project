@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.activities.base;
+package com.manpdev.appointment.ui.activity.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -25,18 +25,20 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.ui.activities.ClientAppointmentListActivity;
-import com.manpdev.appointment.ui.activities.ClientProviderListActivity;
-import com.manpdev.appointment.ui.activities.ProviderAppointmentListActivity;
-import com.manpdev.appointment.ui.activities.ProviderServiceInfoActivity;
-import com.manpdev.appointment.ui.activities.ProviderServiceReviewListActivity;
-import com.manpdev.appointment.ui.helpers.TransitionHelper;
+import com.manpdev.appointment.ui.activity.ClientAppointmentListActivity;
+import com.manpdev.appointment.ui.activity.ClientProviderListActivity;
+import com.manpdev.appointment.ui.activity.LoginActivity;
+import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
+import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
+import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
 
 import javax.inject.Inject;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    private int mSelectedItem;
 
     public static Intent getFirstNavigationActivityIntent(Activity host) {
         return new Intent(host, ClientAppointmentListActivity.class);
@@ -56,10 +58,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-
-
         setActivityTransition();
-
 
         mContainer = (ViewGroup) findViewById(R.id.view_content);
         View.inflate(this, getContentLayoutId(), mContainer);
@@ -69,7 +68,13 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(
-                this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                launchChildActivity();
+            }
+        };
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -94,7 +99,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        mNavigationView.setCheckedItem(getCheckedItemId());
+        mSelectedItem = getCheckedItemId();
+        mNavigationView.setCheckedItem(mSelectedItem);
     }
 
     @Override
@@ -130,7 +136,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.action_logout)
-            mAuthProvider.logoutUser();
+            logout();
 
 
         return id == R.id.action_logout || super.onOptionsItemSelected(item);
@@ -139,40 +145,18 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
-        if (item.getItemId() == getCheckedItemId()) {
-            mDrawer.closeDrawer(GravityCompat.START);
-            return true;
-        }
-
-        mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                launchChildActivity(item);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
-
+        mSelectedItem = item.getItemId();
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void launchChildActivity(@NonNull MenuItem item) {
+    private void launchChildActivity() {
         Intent toLaunch;
-        switch (item.getItemId()) {
+
+        if(mSelectedItem == getCheckedItemId())
+            return;
+
+        switch (mSelectedItem) {
             case R.id.nav_provider_service_info:
                 toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceInfoActivity.class);
                 break;
@@ -209,5 +193,14 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
     @IdRes
     protected abstract int getCheckedItemId();
+
+
+    private void logout() {
+        mAuthProvider.logoutUser();
+        Intent intent = new Intent(BaseNavigationActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 
 }

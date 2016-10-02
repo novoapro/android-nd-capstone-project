@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context="com.manpdev.appointment.ui.activities.adapters.LoginActivity">
+        tools:context="com.manpdev.appointment.ui.activity.adapters.LoginActivity">
 
         <!-- Login progress -->
 

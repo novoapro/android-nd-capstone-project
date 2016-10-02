@@ -19,7 +19,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.activities.SplashScreenActivity"
+            android:name=".ui.activity.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
@@ -29,24 +29,24 @@
         </activity>
 
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name=".ui.activities.ClientAppointmentListActivity"
+            android:name=".ui.activity.ClientAppointmentListActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.ClientProviderListActivity"
+            android:name=".ui.activity.ClientProviderListActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.ProviderServiceInfoActivity"
+            android:name=".ui.activity.ProviderServiceInfoActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.ProviderAppointmentListActivity"
+            android:name=".ui.activity.ProviderAppointmentListActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.ProviderServiceReviewListActivity"
+            android:name=".ui.activity.ProviderServiceReviewListActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.activities.UserRegistrationActivity" />
+        <activity android:name=".ui.activity.UserRegistrationActivity" />
     </application>
 
 </manifest>

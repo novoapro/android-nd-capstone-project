@@ -3,8 +3,8 @@ package com.manpdev.appointment;
 import android.app.Application;
 import android.util.Log;
 
-import com.manpdev.appointment.di.ApplicationComponent;
-import com.manpdev.appointment.di.DaggerApplicationComponent;
+import com.manpdev.appointment.di.component.ApplicationComponent;
+import com.manpdev.appointment.di.component.DaggerApplicationComponent;
 import com.manpdev.appointment.di.module.ContextModule;
 import com.manpdev.appointment.di.module.DataModule;
 import com.manpdev.appointment.di.module.FirebaseModule;

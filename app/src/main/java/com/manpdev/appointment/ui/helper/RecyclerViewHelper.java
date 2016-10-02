@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.helpers;
+package com.manpdev.appointment.ui.helper;
 
 /**
  * novoa on 9/18/16.

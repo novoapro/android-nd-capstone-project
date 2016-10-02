@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.activities;
+package com.manpdev.appointment.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -12,7 +12,7 @@ import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.UserModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.DataProvider;
-import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
+import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 
 import javax.inject.Inject;
 

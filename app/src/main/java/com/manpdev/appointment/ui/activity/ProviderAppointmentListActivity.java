@@ -1,9 +1,9 @@
-package com.manpdev.appointment.ui.activities;
+package com.manpdev.appointment.ui.activity;
 
 import android.os.Bundle;
 
 import com.manpdev.appointment.R;
-import com.manpdev.appointment.ui.activities.base.BaseNavigationActivity;
+import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 
 public class ProviderAppointmentListActivity extends BaseNavigationActivity {
 

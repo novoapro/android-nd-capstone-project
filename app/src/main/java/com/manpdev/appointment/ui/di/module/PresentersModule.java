@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.mvp.di.modules;
+package com.manpdev.appointment.ui.di.module;
 
 import android.content.Context;
 
