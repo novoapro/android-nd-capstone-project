@@ -19,7 +19,6 @@ public interface LoginContract extends MVPContract{
     interface View extends MVPContract.View{
         void launchFirstActivity();
         void launchGoogleAuthentication(Intent intent);
-
         void enableSigninControllers(boolean b);
     }
 }

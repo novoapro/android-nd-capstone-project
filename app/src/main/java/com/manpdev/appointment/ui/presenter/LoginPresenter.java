@@ -82,6 +82,8 @@ public class LoginPresenter implements LoginContract.Presenter, AuthStateProvide
 
         if (TextUtils.isEmpty(userId))
             mView.enableSigninControllers(true);
+        else
+            mView.launchFirstActivity();
     }
 
     @Override

@@ -10,13 +10,11 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +24,7 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.remote.AuthProvider;
+import com.manpdev.appointment.databinding.ActivityNavigationBinding;
 import com.manpdev.appointment.databinding.NavHeaderNavigationBinding;
 import com.manpdev.appointment.ui.activity.ClientAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ClientProviderListActivity;
@@ -33,7 +32,6 @@ import com.manpdev.appointment.ui.activity.LoginActivity;
 import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
-import com.manpdev.appointment.ui.helper.TransitionHelper;
 import com.manpdev.appointment.ui.utils.CircularTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -42,20 +40,15 @@ import javax.inject.Inject;
 public abstract class BaseNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
     public static Intent getFirstNavigationActivityIntent(Activity host) {
         return new Intent(host, ClientAppointmentListActivity.class);
     }
 
     protected ActionBarDrawerToggle mToggle;
-    protected DrawerLayout mDrawer;
-    protected Toolbar mToolBar;
-    protected ViewGroup mContainer;
-    protected FloatingActionButton mActionFab;
-    protected NavigationView mNavigationView;
 
     private int mSelectedItem;
     private NavHeaderNavigationBinding mNavigationHeaderView;
+    protected ActivityNavigationBinding mBaseViewBinding;
 
     @Inject
     public AuthProvider mAuthProvider;
@@ -66,18 +59,17 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        mBaseViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_navigation);
         setActivityTransition();
 
-        mContainer = (ViewGroup) findViewById(R.id.view_content);
-        View.inflate(this, getContentLayoutId(), mContainer);
+        View.inflate(this, getContentLayoutId(), (ViewGroup) mBaseViewBinding.toolbarContainer.navContent);
 
-        mToolBar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolBar);
+        setSupportActionBar(mBaseViewBinding.toolbarContainer.toolbar);
 
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(
-                this, mDrawer, mToolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                this, mBaseViewBinding.drawerLayout,
+                mBaseViewBinding.toolbarContainer.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -85,12 +77,10 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
             }
         };
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationView.setNavigationItemSelectedListener(this);
-        mNavigationView.inflateMenu(getNavigationMenuRes());
-        mNavigationHeaderView = DataBindingUtil.bind(mNavigationView.getHeaderView(0));
+        mBaseViewBinding.navView.setNavigationItemSelectedListener(this);
+        mBaseViewBinding.navView.inflateMenu(getNavigationMenuRes());
+        mNavigationHeaderView = DataBindingUtil.bind(mBaseViewBinding.navView.getHeaderView(0));
 
-        mActionFab = (FloatingActionButton) findViewById(R.id.fab);
         ((AppointmentApplication) getApplication()).getApplicationComponent()
                 .activity()
                 .inject(this);
@@ -105,8 +95,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         mSelectedItem = getCheckedItemId();
-        mNavigationView.setCheckedItem(mSelectedItem);
-        mDrawer.addDrawerListener(mToggle);
+        mBaseViewBinding.navView.setCheckedItem(mSelectedItem);
+        mBaseViewBinding.drawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         updateHeaderInformation();
     }
@@ -114,7 +104,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        mDrawer.removeDrawerListener(mToggle);
+        mBaseViewBinding.drawerLayout.removeDrawerListener(mToggle);
     }
 
     @Override
@@ -145,7 +135,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
         mSelectedItem = item.getItemId();
-        mDrawer.closeDrawer(GravityCompat.START);
+        mBaseViewBinding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -178,7 +168,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 break;
         }
 
-        TransitionHelper.transitionToActivity(this, toLaunch);
+        toLaunch.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(toLaunch);
     }
 
     @MenuRes
