@@ -21,7 +21,6 @@
                 android:layout_height="160dp"
                 android:layout_width="0dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_logo_no_text"
                 android:background="@android:color/white"
                 tools:ignore="ContentDescription"
                 app:layout_constraintTop_toTopOf="parent"
@@ -35,9 +34,10 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_width="0dp"
                 android:layout_marginEnd="8dp"
-                style="@style/AppTheme.Item.Default.Elevated"
+                style="@style/AppTheme.Item.Default"
                 app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/constraintLayout">
+                android:id="@+id/constraintLayout"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/tv_service_name"
@@ -58,9 +58,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginTop="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,7 +66,6 @@
                     android:id="@+id/tv_service_type"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     tools:text="Service Type"
-                    style=""
                     android:textStyle="normal|bold"
                     android:layout_marginTop="4dp"
                     app:layout_constraintTop_toBottomOf="@+id/tv_service_name"
@@ -76,83 +73,75 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintHorizontal_bias="0.0" />
 
+                <TextView
+                    android:paddingStart="@dimen/double_dimen"
+                    android:paddingEnd="@dimen/double_dimen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:minWidth="@dimen/contact_ui_component_min_width"
+                    android:drawableStart="@drawable/ic_place"
+                    android:drawablePadding="@dimen/double_dimen"
+                    tools:text="5689 Sand River. Tampa, Fl, 33615"
+                    android:id="@+id/tv_service_address"
+                    android:autoLink="none"
+                    style="@style/AppTheme.Item.Selectable.Elevated"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_service_description"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_service_phone"
+                    style="@style/AppTheme.Item.Selectable.Elevated"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/double_dimen"
+                    android:paddingEnd="@dimen/double_dimen"
+                    android:autoLink="phone"
+                    android:minWidth="@dimen/contact_ui_component_min_width"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="@dimen/double_dimen"
+                    tools:text="888 888 8888"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_service_address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintRight_toRightOf="parent" />
+
             </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                style="@style/AppTheme.Item.Selectable.Elevated"
-                android:paddingStart="@dimen/double_dimen"
-                android:paddingEnd="@dimen/double_dimen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="email"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:minWidth="@dimen/contact_ui_component_min_width"
-                android:drawableStart="@drawable/ic_email"
-                android:drawablePadding="@dimen/double_dimen"
-                tools:text="email@address.com"
-                android:id="@+id/tv_service_email"
-                android:layout_marginTop="42dp"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-                android:layout_marginStart="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintRight_toRightOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_service_phone"
-                style="@style/AppTheme.Item.Selectable.Elevated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/double_dimen"
-                android:paddingEnd="@dimen/double_dimen"
-                android:autoLink="phone"
-                android:minWidth="@dimen/contact_ui_component_min_width"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:drawableStart="@drawable/ic_phone"
-                android:drawablePadding="@dimen/double_dimen"
-                tools:text="888 888 8888"
-                android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_service_email"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_service_email"
-                app:layout_constraintRight_toRightOf="@+id/tv_service_email" />
-
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_add"
-                android:id="@+id/ib_add_service"
-                style="@style/AppTheme.Item.Selectable.Elevated"
-                tools:ignore="ContentDescription"
-                app:layout_constraintRight_toLeftOf="@+id/ib_edit_service"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintTop_toTopOf="@+id/ib_edit_service" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:srcCompat="@drawable/ic_mode_edit"
                 android:id="@+id/ib_edit_service"
-                style="@style/AppTheme.Item.Selectable.Elevated"
+                style="@style/AppTheme.Item.Selectable.Transparent"
                 tools:ignore="ContentDescription"
-                android:layout_marginTop="64dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_service_phone"
-                app:layout_constraintRight_toRightOf="@+id/tv_service_phone"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_service_phone"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                android:layout_marginStart="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="16dp" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:srcCompat="@drawable/ic_delete"
                 android:id="@+id/ib_remove_service"
-                style="@style/AppTheme.Item.Selectable.Elevated"
+                style="@style/AppTheme.Item.Selectable.Transparent"
                 tools:ignore="ContentDescription"
-                app:layout_constraintTop_toTopOf="@+id/ib_edit_service"
-                android:layout_marginStart="24dp"
-                app:layout_constraintLeft_toRightOf="@+id/ib_edit_service" />
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="16dp" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

@@ -17,13 +17,19 @@
         <item name="android:background">@android:color/white</item>
     </style>
 
-    <style name="AppTheme.Item.Selectable"></style>
+    <style name="AppTheme.Item.Selectable">
+        <item name="android:textColor">@color/accent</item>
+    </style>
 
     <style name="AppTheme.Item.Selectable.Default">
         <item name="android:background">@drawable/bg_selectable_item</item>
     </style>
 
-    <style name="AppTheme.Item.Selectable.Elevated" parent="AppTheme.Item.Selectable.Default"></style>
+    <style name="AppTheme.Item.Selectable.Transparent">
+        <item name="android:background">@drawable/bg_selectable_item_transparent</item>
+    </style>
+
+    <style name="AppTheme.Item.Selectable.Elevated" parent="AppTheme.Item.Selectable.Default" />
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>

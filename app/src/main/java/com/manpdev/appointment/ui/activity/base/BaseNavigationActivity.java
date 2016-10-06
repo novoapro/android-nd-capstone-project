@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
@@ -32,13 +33,14 @@ import com.manpdev.appointment.ui.activity.LoginActivity;
 import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
+import com.manpdev.appointment.ui.mvp.base.MVPContract;
 import com.manpdev.appointment.ui.utils.CircularTransformation;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 public abstract class BaseNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MVPContract.View {
 
     public static Intent getFirstNavigationActivityIntent(Activity host) {
         return new Intent(host, ClientAppointmentListActivity.class);
@@ -62,7 +64,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         mBaseViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_navigation);
         setActivityTransition();
 
-        View.inflate(this, getContentLayoutId(), (ViewGroup) mBaseViewBinding.toolbarContainer.navContent);
+        inflateChildLayout();
 
         setSupportActionBar(mBaseViewBinding.toolbarContainer.toolbar);
 
@@ -172,6 +174,16 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         startActivity(toLaunch);
     }
 
+    @Override
+    public void showError(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showError(int msgRes) {
+        Toast.makeText(this, msgRes, Toast.LENGTH_LONG).show();
+    }
+
     @MenuRes
     protected int getNavigationMenuRes() {
         return R.menu.default_navigation_menu;
@@ -182,6 +194,10 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
     @IdRes
     protected abstract int getCheckedItemId();
+
+    protected void inflateChildLayout(){
+        DataBindingUtil.inflate(getLayoutInflater(), getContentLayoutId(), mBaseViewBinding.toolbarContainer.navContent, true);
+    }
 
     @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)
     private void setActivityTransition() {

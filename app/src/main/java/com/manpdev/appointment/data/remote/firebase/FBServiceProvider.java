@@ -43,7 +43,7 @@ public class FBServiceProvider extends FBBaseDatabaseProvider implements DataPro
         return observeSingleValue(
                 firebaseDatabase.getReference()
                         .child(ServiceModel.MODEL_ROOT_ID)
-                        .child(element.getId())
+                        .child(element.getuId())
                         .setValue(element));
     }
 
@@ -57,7 +57,7 @@ public class FBServiceProvider extends FBBaseDatabaseProvider implements DataPro
         return observeSingleValue(
                 firebaseDatabase.getReference()
                         .child(ServiceModel.MODEL_ROOT_ID)
-                        .child(element.getId())
+                        .child(element.getuId())
                         .removeValue());
     }
 }

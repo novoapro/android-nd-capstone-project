@@ -42,16 +42,15 @@ public abstract class FBBaseDatabaseProvider {
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(TAG, dataSnapshot.toString());
-                        T value = dataSnapshot.getValue(clazz);
-                        if (value != null) {
-                            if (!subscriber.isUnsubscribed()) {
-                                subscriber.onSuccess(value);
+                        try {
+                            T value = dataSnapshot.getValue(clazz);
+                            if (value != null) {
+                                if (!subscriber.isUnsubscribed())
+                                    subscriber.onSuccess(value);
                             }
-                        } else {
-                            if (!subscriber.isUnsubscribed()) {
-                                subscriber.onError(new Throwable("Invalid data " + clazz.getSimpleName()));
-                            }
+                        } catch (Exception ex) {
+                            if (!subscriber.isUnsubscribed())
+                                subscriber.onError(ex);
                         }
                     }
 
@@ -75,24 +74,24 @@ public abstract class FBBaseDatabaseProvider {
                 query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(TAG, dataSnapshot.toString());
-                        T value = dataSnapshot.getValue(clazz);
-                        if (value != null) {
-                            if (!subscriber.isUnsubscribed()) {
-                                subscriber.onNext(value);
+                        try {
+                            T value = dataSnapshot.getValue(clazz);
+                            if (value != null) {
+                                if (!subscriber.isUnsubscribed())
+                                    subscriber.onNext(value);
+
                             }
-                        } else {
-                            if (!subscriber.isUnsubscribed()) {
-                                subscriber.onError(new Throwable("Unable to cast firebase data response to " + clazz.getSimpleName()));
-                            }
+                        } catch (Exception ex) {
+                            if (!subscriber.isUnsubscribed())
+                                subscriber.onError(ex);
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError error) {
-                        if (!subscriber.isUnsubscribed()) {
+                        if (!subscriber.isUnsubscribed())
                             subscriber.onError(new Throwable(error.getMessage()));
-                        }
+
                     }
                 });
             }
@@ -108,16 +107,16 @@ public abstract class FBBaseDatabaseProvider {
                 task.addOnSuccessListener(new OnSuccessListener<T>() {
                     @Override
                     public void onSuccess(T result) {
-                        if (!subscriber.isUnsubscribed()) {
+                        if (!subscriber.isUnsubscribed())
                             subscriber.onSuccess(result);
-                        }
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        if (!subscriber.isUnsubscribed()) {
+                        if (!subscriber.isUnsubscribed())
                             subscriber.onError(e);
-                        }
+
                     }
                 });
             }
@@ -138,13 +137,10 @@ public abstract class FBBaseDatabaseProvider {
                         List<T> items = new ArrayList<>();
                         for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                             T value = childSnapshot.getValue(clazz);
-                            if (value == null) {
-                                if (!subscriber.isUnsubscribed()) {
-                                    subscriber.onError(new Throwable("Invalid Data response " + clazz.getSimpleName()));
-                                }
-                            } else {
-                                items.add(value);
-                            }
+                            if (value == null)
+                                continue;
+
+                            items.add(value);
                         }
 
                         if (!subscriber.isUnsubscribed()) {
@@ -155,9 +151,9 @@ public abstract class FBBaseDatabaseProvider {
 
                     @Override
                     public void onCancelled(DatabaseError error) {
-                        if (!subscriber.isUnsubscribed()) {
+                        if (!subscriber.isUnsubscribed())
                             subscriber.onError(new Throwable(error.getMessage()));
-                        }
+
                     }
                 });
             }
