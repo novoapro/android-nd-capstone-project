@@ -28,6 +28,11 @@ public class ClientProviderModel {
         return uId;
     }
 
+    @Exclude
+    public Map<String, Boolean> getSubscriptions() {
+        return subscriptions;
+    }
+
     public void setuId(String uId) {
         this.uId = uId;
     }

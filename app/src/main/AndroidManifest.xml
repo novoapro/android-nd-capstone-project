@@ -17,20 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
         <activity
             android:name=".ui.activity.SplashScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.ClientAppointmentListActivity"
             android:launchMode="singleTask" />
@@ -46,6 +45,9 @@
         <activity
             android:name=".ui.activity.ProviderServiceReviewListActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".ui.activity.EditServiceInfoActivity" />
+        <activity android:name=".ui.activity.CreateAppointmentActivity" />
+        <activity android:name=".ui.activity.CreateReviewActivity"></activity>
     </application>
 
 </manifest>
