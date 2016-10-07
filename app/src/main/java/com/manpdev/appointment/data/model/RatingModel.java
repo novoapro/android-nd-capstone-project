@@ -41,4 +41,19 @@ public class RatingModel {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public void increaseTotal(double rating){
+        total += rating;
+    }
+
+    public void increaseCount(){
+        total += 1;
+    }
+
+    public double getRating(){
+        if(count == 0)
+            return 0;
+
+        return total/count;
+    }
 }
