@@ -1,4 +1,4 @@
-package com.manpdev.appointment.data.remote.firebase;
+package com.manpdev.appointment.data.remote.firebase.base;
 
 import android.support.annotation.NonNull;
 
@@ -10,8 +10,6 @@ import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 import rx.Single;
 
@@ -19,10 +17,9 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-abstract class FBAppointmentProvider extends FBBaseDatabaseProvider implements DataProvider<AppointmentModel> {
+public abstract class FBAppointmentProvider extends FBBaseDatabaseProvider implements DataProvider<AppointmentModel> {
 
-    @Inject
-    FBAppointmentProvider(FirebaseDatabase firebaseDatabase) {
+    protected FBAppointmentProvider(FirebaseDatabase firebaseDatabase) {
         super(firebaseDatabase);
     }
 

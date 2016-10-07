@@ -2,21 +2,28 @@ package com.manpdev.appointment.data.model;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.Date;
+
 /**
  * novoa on 9/11/16.
  */
 
 public class ReviewModel{
 
-    public static final String MODEL_ROOT_ID = "reviews";
+    public static final String MODEL_ROOT_ID = "service-reviews";
 
     private String id;
-
-    private String title;
-    private String body;
+    private String uId;
+    private String author;
+    private Date datetime;
     private float rating;
+    private String review;
 
     public ReviewModel() {
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     @Exclude
@@ -24,20 +31,29 @@ public class ReviewModel{
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    @Exclude
+    public String getuId() {
+        return uId;
     }
 
-    public String getBody() {
-        return body;
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
     }
 
     public float getRating() {
@@ -46,5 +62,13 @@ public class ReviewModel{
 
     public void setRating(float rating) {
         this.rating = rating;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 }
