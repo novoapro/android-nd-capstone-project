@@ -34,7 +34,7 @@ public class FBServiceProvider extends FBBaseDatabaseProvider implements DataPro
     }
 
     @Override
-    public Observable<ServiceModel> getCollectionObservable() {
+    public Observable<ServiceModel> getCollectionObservable(String id) {
         return Observable.empty();
     }
 
