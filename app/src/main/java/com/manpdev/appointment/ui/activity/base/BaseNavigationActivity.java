@@ -19,7 +19,6 @@ import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
@@ -28,7 +27,6 @@ import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.databinding.ActivityNavigationBinding;
 import com.manpdev.appointment.databinding.NavHeaderNavigationBinding;
 import com.manpdev.appointment.ui.activity.ClientAppointmentListActivity;
-import com.manpdev.appointment.ui.activity.ClientProviderListActivity;
 import com.manpdev.appointment.ui.activity.LoginActivity;
 import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
@@ -158,10 +156,6 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
             case R.id.nav_provider_reviews:
                 toLaunch = new Intent(BaseNavigationActivity.this, ProviderServiceReviewListActivity.class);
-                break;
-
-            case R.id.nav_client_list_providers:
-                toLaunch = new Intent(BaseNavigationActivity.this, ClientProviderListActivity.class);
                 break;
 
             default:

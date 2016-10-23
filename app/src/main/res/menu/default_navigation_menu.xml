@@ -7,10 +7,6 @@
                     android:id="@+id/nav_client_appointment"
                     android:icon="@drawable/ic_appointments"
                     android:title="@string/menu_client_appointment" />
-                <item
-                    android:id="@+id/nav_client_list_providers"
-                    android:icon="@drawable/ic_providers"
-                    android:title="@string/menu_client_provider_list" />
             </group>
         </menu>
     </item>

@@ -1,5 +1,11 @@
 package com.manpdev.appointment.data.model;
 
+import android.support.annotation.IntDef;
+
+import com.google.firebase.database.Exclude;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Date;
 
 /**
@@ -14,9 +20,11 @@ public class AppointmentModel {
     private String pId;
     private String client;
     private String provider;
-    private Date datetime;
+    private Long datetime;
     private int state;
     private String notes;
+
+    private Date date;
 
     public AppointmentModel() {
 
@@ -54,12 +62,27 @@ public class AppointmentModel {
         this.provider = provider;
     }
 
-    public Date getDatetime() {
+    public Long getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Date datetime) {
+    public void setDatetime(Long datetime) {
         this.datetime = datetime;
+    }
+
+    @Exclude
+    public Date getDate() {
+        if (date == null)
+            date = new Date(datetime);
+
+        date.setTime(datetime);
+        return date;
+    }
+
+    @Exclude
+    public void setDate(Date date) {
+        this.datetime = date.getTime();
+        this.date = date;
     }
 
     public int getState() {
@@ -77,4 +100,31 @@ public class AppointmentModel {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    @Exclude
+    public String getStateString() {
+        switch (this.state) {
+            case REQUESTED:
+                return "Requested";
+            case ACCEPTED:
+                return "Accepted";
+            case DENIED:
+                return "Denied";
+
+            default:
+            case COMPLETED:
+                return "Completed";
+        }
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({REQUESTED, ACCEPTED, DENIED, COMPLETED})
+    @interface StateInt {
+    }
+
+    public static final int REQUESTED = 0;
+    public static final int ACCEPTED = 1;
+    public static final int DENIED = 2;
+    public static final int COMPLETED = 3;
+
 }

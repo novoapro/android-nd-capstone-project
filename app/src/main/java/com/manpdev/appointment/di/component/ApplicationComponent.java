@@ -21,7 +21,5 @@ import dagger.Component;
         })
 @Singleton
 public interface ApplicationComponent {
-
     ActivityComponent activity();
-
 }

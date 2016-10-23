@@ -23,7 +23,7 @@ public class FirebaseModule {
     @Singleton
     public FirebaseDatabase provideFirebaseDatabase() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
+        firebaseDatabase.setPersistenceEnabled(false);
         return firebaseDatabase;
     }
 

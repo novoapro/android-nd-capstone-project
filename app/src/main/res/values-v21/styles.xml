@@ -2,7 +2,7 @@
 
 
     <style name="AppTheme.Item.Default.Elevated">
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@drawable/bg_item_default</item>
         <item name="android:elevation">2dp</item>
     </style>
 

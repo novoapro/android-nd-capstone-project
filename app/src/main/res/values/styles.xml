@@ -6,7 +6,6 @@
     </style>
 
     <style name="AppTheme.Item">
-        <item name="android:padding">@dimen/half_dimen</item>
     </style>
 
     <style name="AppTheme.Item.Default">

@@ -34,9 +34,6 @@
             android:name=".ui.activity.ClientAppointmentListActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activity.ClientProviderListActivity"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".ui.activity.ProviderServiceInfoActivity"
             android:launchMode="singleTask" />
         <activity

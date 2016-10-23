@@ -1,15 +1,71 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 
+import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
+import com.manpdev.appointment.data.model.AppointmentModel;
+import com.manpdev.appointment.databinding.ActivityClientAppointmentListBinding;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
+import com.manpdev.appointment.ui.adapter.ClientAppointmentAdapter;
+import com.manpdev.appointment.ui.di.module.PresentersModule;
+import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
+import com.squareup.picasso.Picasso;
 
-public class ClientAppointmentListActivity extends BaseNavigationActivity {
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Observable;
+
+public class ClientAppointmentListActivity extends BaseNavigationActivity implements ClientAppoinmentContract.View {
+
+    private ActivityClientAppointmentListBinding mViewBinding;
+    private ClientAppointmentAdapter mAdapter;
+
+    @Inject
+    ClientAppoinmentContract.Presenter mPresenter;
+
+    @Inject
+    Picasso mPicasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((AppointmentApplication)getApplication()).getApplicationComponent()
+                .activity()
+                .mvp(new PresentersModule())
+                .inject(this);
+
+        mAdapter = new ClientAppointmentAdapter(null, mPicasso);
+        mViewBinding.rvList.setLayoutManager(new LinearLayoutManager(this));
+        mViewBinding.rvList.setHasFixedSize(true);
+        mViewBinding.rvList.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.attachView(this);
+        mPresenter.loadList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.detachView();
+    }
+
+    @Override
+    protected void inflateChildLayout() {
+        mViewBinding = DataBindingUtil.inflate(
+                getLayoutInflater(),
+                getContentLayoutId(),
+                mBaseViewBinding.toolbarContainer.navContent,
+                true);
     }
 
     @Override
@@ -20,5 +76,10 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity {
     @Override
     protected int getCheckedItemId() {
         return R.id.nav_client_appointment;
+    }
+
+    @Override
+    public void showList(Observable<List<AppointmentModel>> appointments) {
+        mAdapter.updateDataFromObservable(appointments);
     }
 }

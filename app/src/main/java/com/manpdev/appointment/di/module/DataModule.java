@@ -4,7 +4,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.DataProvider;
 import com.manpdev.appointment.data.remote.firebase.FBAuthProvider;
 import com.manpdev.appointment.data.remote.firebase.FBServiceProvider;
 
@@ -31,7 +30,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    public DataProvider<ServiceModel> provideServiceInfoProvider(FirebaseDatabase fbDatabase){
+    public FBServiceProvider provideServiceInfoProvider(FirebaseDatabase fbDatabase){
         return new FBServiceProvider(fbDatabase);
     }
 }

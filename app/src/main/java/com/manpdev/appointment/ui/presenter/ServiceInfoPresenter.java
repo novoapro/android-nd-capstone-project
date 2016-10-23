@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.DataProvider;
+import com.manpdev.appointment.data.remote.firebase.FBServiceProvider;
 import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
@@ -20,14 +20,12 @@ public class ServiceInfoPresenter implements ServiceInfoContract.Presenter {
     private static final String TAG = "LoginPresenter";
 
     private ServiceInfoContract.View mView;
-    private final Context mContext;
     private final AuthProvider mAuthProvider;
-    private final DataProvider<ServiceModel> mServiceProvider;
+    private final FBServiceProvider mServiceProvider;
 
     private boolean mViewAttached;
 
-    public ServiceInfoPresenter(Context context, AuthProvider authProvider, DataProvider<ServiceModel> serviceProvider) {
-        this.mContext = context;
+    public ServiceInfoPresenter(Context context, AuthProvider authProvider, FBServiceProvider serviceProvider) {
         this.mAuthProvider = authProvider;
         this.mServiceProvider = serviceProvider;
     }
