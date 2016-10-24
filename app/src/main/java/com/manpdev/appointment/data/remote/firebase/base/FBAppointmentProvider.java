@@ -29,15 +29,15 @@ public abstract class FBAppointmentProvider extends FBBaseDatabaseProvider{
     public Single<Void> insert(@NonNull AppointmentModel element) {
         String appointmentId = firebaseDatabase.getReference()
                 .child(AppointmentModel.MODEL_ROOT_ID_CLIENT)
-                .child(element.getcId())
+                .child(element.getCid())
                 .push().getKey();
 
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getcId() + "/" + appointmentId,
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getCid() + "/" + appointmentId,
                 element);
 
-        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_PROVIDER + "/" + element.getpId() + "/" + appointmentId,
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_PROVIDER + "/" + element.getPid() + "/" + appointmentId,
                 element);
 
         return observeSingleValue(
@@ -53,8 +53,8 @@ public abstract class FBAppointmentProvider extends FBBaseDatabaseProvider{
     public Single<Void> remove(@NonNull AppointmentModel element) {
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getcId(), null);
-        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_PROVIDER + "/" + element.getpId(), null);
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getCid(), null);
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_PROVIDER + "/" + element.getPid(), null);
 
         return observeSingleValue(
                 firebaseDatabase.getReference()

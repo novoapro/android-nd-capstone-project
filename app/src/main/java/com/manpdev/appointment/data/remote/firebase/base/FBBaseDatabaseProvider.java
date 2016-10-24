@@ -129,7 +129,7 @@ public abstract class FBBaseDatabaseProvider {
         return Observable.create(new Observable.OnSubscribe<List<T>>() {
             @Override
             public void call(final Subscriber<? super List<T>> subscriber) {
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Log.d(TAG, dataSnapshot.toString());
@@ -138,13 +138,11 @@ public abstract class FBBaseDatabaseProvider {
                             T value = childSnapshot.getValue(clazz);
                             if (value == null)
                                 continue;
-
                             items.add(value);
                         }
 
                         if (!subscriber.isUnsubscribed()) {
                             subscriber.onNext(items);
-                            subscriber.onCompleted();
                         }
                     }
 
@@ -152,7 +150,6 @@ public abstract class FBBaseDatabaseProvider {
                     public void onCancelled(DatabaseError error) {
                         if (!subscriber.isUnsubscribed())
                             subscriber.onError(new Throwable(error.getMessage()));
-
                     }
                 });
             }

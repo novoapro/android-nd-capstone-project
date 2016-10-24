@@ -16,6 +16,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 
 /**
  * novoa on 10/23/16.
@@ -27,6 +28,25 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     private final Picasso mPicasso;
     private List<AppointmentModel> mAppointmentList;
 
+    private Subscription mSubscription;
+    private Observer<List<AppointmentModel>> mAppointmentObserver = new Observer<List<AppointmentModel>>() {
+        @Override
+        public void onCompleted() {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public void onNext(List<AppointmentModel> appointmentModel) {
+            mAppointmentList = appointmentModel;
+            notifyDataSetChanged();
+        }
+    };
+
     public ClientAppointmentAdapter(List<AppointmentModel> appointmentList, Picasso picasso) {
         if (appointmentList == null)
             mAppointmentList = new ArrayList<>();
@@ -36,24 +56,15 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
         this.mPicasso = picasso;
     }
 
-    public void updateDataFromObservable(Observable<List<AppointmentModel>> appointmentModelObservable){
+    public void updateDataFromObservable(Observable<List<AppointmentModel>> appointmentModelObservable) {
         mAppointmentList.clear();
-        appointmentModelObservable.subscribe(new Observer<List<AppointmentModel>>() {
-            @Override
-            public void onCompleted() {
-                notifyDataSetChanged();
-            }
+        stopUpdateFromObservable();
+        mSubscription = appointmentModelObservable.subscribe(mAppointmentObserver);
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNext(List<AppointmentModel> appointmentModel) {
-                mAppointmentList = appointmentModel;
-            }
-        });
+    public void stopUpdateFromObservable() {
+        if (mSubscription != null && !mSubscription.isUnsubscribed())
+            mSubscription.unsubscribe();
     }
 
     @Override

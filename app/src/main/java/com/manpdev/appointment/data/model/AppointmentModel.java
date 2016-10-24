@@ -16,8 +16,8 @@ public class AppointmentModel {
     public static final String MODEL_ROOT_ID_CLIENT = "client-appointments";
     public static final String MODEL_ROOT_ID_PROVIDER = "provider-appointments";
 
-    private String cId;
-    private String pId;
+    private String cid;
+    private String pid;
     private String client;
     private String provider;
     private Long datetime;
@@ -30,20 +30,20 @@ public class AppointmentModel {
 
     }
 
-    public String getcId() {
-        return cId;
+    public String getCid() {
+        return cid;
     }
 
-    public void setcId(String cId) {
-        this.cId = cId;
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
-    public String getpId() {
-        return pId;
+    public String getPid() {
+        return pid;
     }
 
-    public void setpId(String pId) {
-        this.pId = pId;
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 
     public String getClient() {

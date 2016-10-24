@@ -57,6 +57,7 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     protected void onPause() {
         super.onPause();
         mPresenter.detachView();
+        mAdapter.stopUpdateFromObservable();
     }
 
     @Override
