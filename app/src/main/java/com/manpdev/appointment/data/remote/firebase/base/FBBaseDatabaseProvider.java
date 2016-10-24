@@ -124,7 +124,6 @@ public abstract class FBBaseDatabaseProvider {
                 .subscribeOn(Schedulers.io());
     }
 
-
     @NonNull
     protected <T> Observable<List<T>> observeValuesList(@NonNull final Query query, @NonNull final Class<T> clazz) {
         return Observable.create(new Observable.OnSubscribe<List<T>>() {

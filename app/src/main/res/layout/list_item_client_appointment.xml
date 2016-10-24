@@ -35,27 +35,28 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="8dp"
                     app:layout_constraintLeft_toRightOf="@+id/iv_appointment_state"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     tools:ignore="HardcodedText"
                     app:layout_constraintRight_toLeftOf="@+id/iv_calendar"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintHorizontal_bias="0.0" />
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:textStyle="normal|bold" />
 
                 <TextView
                     android:text="TextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_app_date"
                     app:layout_constraintTop_toBottomOf="@+id/tv_provider_name"
                     app:layout_constraintLeft_toLeftOf="@+id/tv_provider_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     tools:ignore="HardcodedText"
                     app:layout_constraintRight_toRightOf="@+id/tv_provider_name"
                     app:layout_constraintHorizontal_bias="0.0" />
 
                 <TextView
                     android:text="TextView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_app_state"
                     app:layout_constraintTop_toBottomOf="@+id/tv_app_date"
