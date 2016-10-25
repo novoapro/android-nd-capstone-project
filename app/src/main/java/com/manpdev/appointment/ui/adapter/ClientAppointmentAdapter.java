@@ -80,7 +80,7 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
 
     @Override
     public void onBindViewHolder(final ClientAppointmentItemHolder holder, final int position) {
-        int iconRes = getIconRes(mAppointmentList.get(position).getState());
+        int iconRes = (mAppointmentList.get(position).getIconRes());
         Log.d(TAG, "onBindViewHolder: " + iconRes);
         holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
         holder.mViewBinding.tvProviderName.setText(mAppointmentList.get(position).getProvider());
@@ -112,25 +112,6 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
                 mListener.onReviewClicked(mAppointmentList.get(holder.getAdapterPosition()));
             }
         });
-    }
-
-    private Integer getIconRes(int state) {
-        switch (state) {
-            case AppointmentModel.COMPLETED:
-                return R.drawable.ic_completed;
-
-            case AppointmentModel.DENIED:
-                return R.drawable.ic_denied;
-
-            case AppointmentModel.ACCEPTED:
-                return R.drawable.ic_accepted;
-
-            case AppointmentModel.REQUESTED:
-                return R.drawable.ic_requested;
-
-            default:
-                return R.drawable.ic_loading;
-        }
     }
 
     class ClientAppointmentItemHolder extends RecyclerView.ViewHolder {

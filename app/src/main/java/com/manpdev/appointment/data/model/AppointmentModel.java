@@ -1,8 +1,10 @@
 package com.manpdev.appointment.data.model;
 
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 
 import com.google.firebase.database.Exclude;
+import com.manpdev.appointment.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -116,6 +118,27 @@ public class AppointmentModel {
 
             default:
                 return "Unknown";
+        }
+    }
+
+    @Exclude
+    @DrawableRes
+    public Integer getIconRes() {
+        switch (state) {
+            case AppointmentModel.COMPLETED:
+                return R.drawable.ic_completed;
+
+            case AppointmentModel.DENIED:
+                return R.drawable.ic_denied;
+
+            case AppointmentModel.ACCEPTED:
+                return R.drawable.ic_accepted;
+
+            case AppointmentModel.REQUESTED:
+                return R.drawable.ic_requested;
+
+            default:
+                return R.drawable.ic_loading;
         }
     }
 
