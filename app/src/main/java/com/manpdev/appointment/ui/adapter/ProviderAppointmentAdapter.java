@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.AppointmentModel;
-import com.manpdev.appointment.databinding.ListItemClientAppointmentBinding;
+import com.manpdev.appointment.databinding.ListItemProviderAppointmentBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +23,10 @@ import rx.Subscription;
  * novoa on 10/23/16.
  */
 
-public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppointmentAdapter.ClientAppointmentItemHolder>{
-    private static final String TAG = "ClientAppointmentAdapte";
+public class ProviderAppointmentAdapter extends RecyclerView.Adapter<ProviderAppointmentAdapter.ProviderAppointmentItemHolder>{
+    private static final String TAG = "ProviderAppointmentAd";
     private List<AppointmentModel> mAppointmentList;
-    private ClientAppointmentItemListener mListener;
+    private ProviderAppointmentItemListener mListener;
 
     private Subscription mSubscription;
     private Observer<List<AppointmentModel>> mAppointmentObserver = new Observer<List<AppointmentModel>>() {
@@ -48,18 +48,19 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     };
 
 
-    public ClientAppointmentAdapter(List<AppointmentModel> appointmentList) {
+    public ProviderAppointmentAdapter(List<AppointmentModel> appointmentList) {
         if (appointmentList == null)
             mAppointmentList = new ArrayList<>();
         else
             mAppointmentList = appointmentList;
     }
 
-    public void addItemListener(@NonNull ClientAppointmentItemListener listener){
+    public void addItemListener(@NonNull ProviderAppointmentItemListener listener){
         mListener = listener;
     }
 
     public void updateDataFromObservable(Observable<List<AppointmentModel>> appointmentModelObservable) {
+        Log.d(TAG, "updateDataFromObservable()");
         mAppointmentList.clear();
         stopUpdateFromObservable();
         mSubscription = appointmentModelObservable.subscribe(mAppointmentObserver);
@@ -71,21 +72,18 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     }
 
     @Override
-    public ClientAppointmentItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProviderAppointmentItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_client_appointment, parent, false);
+                .inflate(R.layout.list_item_provider_appointment, parent, false);
 
-        return new ClientAppointmentItemHolder(v);
+        return new ProviderAppointmentItemHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final ClientAppointmentItemHolder holder, final int position) {
-        int iconRes = (mAppointmentList.get(position).getIconRes());
-        holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
-        holder.mViewBinding.tvProviderName.setText(mAppointmentList.get(position).getProvider());
+    public void onBindViewHolder(final ProviderAppointmentItemHolder holder, final int position) {
+        holder.mViewBinding.tvClientName.setText(mAppointmentList.get(position).getClient());
         holder.mViewBinding.tvAppState.setText(mAppointmentList.get(position).getStateString());
         holder.mViewBinding.tvAppDate.setText(mAppointmentList.get(position).getDate().toString());
-
         setItemListener(holder);
     }
 
@@ -95,29 +93,29 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     }
 
 
-    private void setItemListener(final ClientAppointmentItemHolder holder) {
+    private void setItemListener(final ProviderAppointmentItemHolder holder) {
         if(mListener == null)
             return;
 
         holder.mViewBinding.ivCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onCalendarClicked(mAppointmentList.get(holder.getAdapterPosition()));
+                mListener.onCalendar(mAppointmentList.get(holder.getAdapterPosition()));
             }
         });
-        holder.mViewBinding.ivReview.setOnClickListener(new View.OnClickListener() {
+        holder.mViewBinding.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onReviewClicked(mAppointmentList.get(holder.getAdapterPosition()));
+                mListener.onEdit(mAppointmentList.get(holder.getAdapterPosition()));
             }
         });
     }
 
-    class ClientAppointmentItemHolder extends RecyclerView.ViewHolder {
+    class ProviderAppointmentItemHolder extends RecyclerView.ViewHolder {
 
-        private ListItemClientAppointmentBinding mViewBinding;
+        private ListItemProviderAppointmentBinding mViewBinding;
 
-        ClientAppointmentItemHolder(View itemView) {
+        ProviderAppointmentItemHolder(View itemView) {
             super(itemView);
             mViewBinding = DataBindingUtil.bind(itemView);
         }

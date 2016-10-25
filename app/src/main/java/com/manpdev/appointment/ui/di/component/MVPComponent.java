@@ -2,6 +2,7 @@ package com.manpdev.appointment.ui.di.component;
 
 import com.manpdev.appointment.ui.activity.ClientAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.LoginActivity;
+import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.di.MVPScope;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
@@ -19,4 +20,5 @@ public interface MVPComponent {
     void inject(LoginActivity view);
     void inject(ProviderServiceInfoActivity view);
     void inject(ClientAppointmentListActivity clientAppointmentListActivity);
+    void inject(ProviderAppointmentListActivity providerAppointmentListActivity);
 }

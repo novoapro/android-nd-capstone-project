@@ -38,4 +38,9 @@ public class ProviderAppointmentPresenter implements ProviderAppoinmentContract.
     public void detachView() {
         mViewAttached = false;
     }
+
+    @Override
+    public void loadList() {
+        mView.showList(mAppointmentProvider.getCollectionObservable(mAuthProvider.getUserId()));
+    }
 }

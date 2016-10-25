@@ -1,7 +1,11 @@
 package com.manpdev.appointment.ui.mvp;
 
-import com.manpdev.appointment.data.model.ServiceModel;
+import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
+
+import java.util.List;
+
+import rx.Observable;
 
 /**
  * novoa on 9/11/16.
@@ -9,11 +13,10 @@ import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
 public interface ProviderAppoinmentContract extends MVPContract{
     interface Presenter extends MVPContract.Presenter{
-
+        void loadList();
     }
 
     interface View extends MVPContract.View{
-        void updateServiceInformation(ServiceModel service);
-        void launchAddServiceView();
+        void showList(Observable<List<AppointmentModel>> appointments);
     }
 }

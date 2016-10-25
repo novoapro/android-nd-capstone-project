@@ -14,7 +14,6 @@ import com.manpdev.appointment.ui.adapter.ClientAppointmentAdapter;
 import com.manpdev.appointment.ui.adapter.ClientAppointmentItemListener;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,9 +28,6 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
 
     @Inject
     ClientAppoinmentContract.Presenter mPresenter;
-
-    @Inject
-    Picasso mPicasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
