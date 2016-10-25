@@ -5,15 +5,19 @@ import android.content.Context;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.FBCAppointmentProvider;
 import com.manpdev.appointment.data.remote.firebase.FBPAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.FBRatingProvider;
+import com.manpdev.appointment.data.remote.firebase.FBReviewProvider;
 import com.manpdev.appointment.data.remote.firebase.FBServiceProvider;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
 import com.manpdev.appointment.ui.mvp.LoginContract;
 import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
 import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
+import com.manpdev.appointment.ui.mvp.ServiceReviewContract;
 import com.manpdev.appointment.ui.presenter.ClientAppointmentPresenter;
 import com.manpdev.appointment.ui.presenter.LoginPresenter;
 import com.manpdev.appointment.ui.presenter.ProviderAppointmentPresenter;
 import com.manpdev.appointment.ui.presenter.ServiceInfoPresenter;
+import com.manpdev.appointment.ui.presenter.ServiceReviewPresenter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -46,5 +50,10 @@ public class PresentersModule {
     @Provides
     ProviderAppoinmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider){
         return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider);
+    }
+
+    @Provides
+    ServiceReviewContract.Presenter provideServiceReviewPresenter(Context context, AuthProvider authProvider, FBReviewProvider reviewProvider, FBRatingProvider ratingProvider){
+        return new ServiceReviewPresenter(context, authProvider, reviewProvider, ratingProvider);
     }
 }

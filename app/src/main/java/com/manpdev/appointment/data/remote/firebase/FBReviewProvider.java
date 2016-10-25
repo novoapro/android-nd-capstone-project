@@ -6,6 +6,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import rx.Observable;
@@ -31,8 +33,8 @@ public class FBReviewProvider extends FBBaseDatabaseProvider {
         );
     }
 
-    public Observable<ReviewModel> getCollectionObservable(String id) {
-        return observeValue(firebaseDatabase.getReference()
+    public Observable<List<ReviewModel>> getCollectionObservable(String id) {
+        return observeValuesList(firebaseDatabase.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
                         .child(id),
                 ReviewModel.class);
@@ -43,7 +45,7 @@ public class FBReviewProvider extends FBBaseDatabaseProvider {
         return observeSingleValue(
                 firebaseDatabase.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
-                        .child(element.getuId())
+                        .child(element.getUid())
                         .setValue(element));
     }
 
@@ -51,7 +53,7 @@ public class FBReviewProvider extends FBBaseDatabaseProvider {
         return observeSingleValue(
                 firebaseDatabase.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
-                        .child(element.getuId())
+                        .child(element.getUid())
                         .child(element.getId())
                         .removeValue());
     }

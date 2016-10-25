@@ -40,7 +40,12 @@ public class FBRatingProvider extends FBBaseDatabaseProvider {
     }
 
     public Observable<RatingModel> getCollectionObservable(String id) {
-        return Observable.empty();
+        return observeValue(
+                firebaseDatabase.getReference()
+                        .child(RatingModel.MODEL_ROOT_ID)
+                        .child(id),
+                RatingModel.class
+        );
     }
 
     public Single<Void> insert(@NonNull final RatingModel element) {

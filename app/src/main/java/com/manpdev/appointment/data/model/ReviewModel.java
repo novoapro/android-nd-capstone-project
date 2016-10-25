@@ -13,9 +13,10 @@ public class ReviewModel{
     public static final String MODEL_ROOT_ID = "service-reviews";
 
     private String id;
-    private String uId;
+    private String uid;
     private String author;
-    private Date datetime;
+    private Long datetime;
+    private Date date;
     private float rating;
     private String review;
 
@@ -36,23 +37,23 @@ public class ReviewModel{
     }
 
     @Exclude
-    public String getuId() {
-        return uId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    public Date getDatetime() {
+    public Long getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Date datetime) {
+    public void setDatetime(Long datetime) {
         this.datetime = datetime;
     }
 
@@ -70,5 +71,20 @@ public class ReviewModel{
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    @Exclude
+    public Date getDate() {
+        if (date == null)
+            date = new Date(datetime);
+
+        date.setTime(datetime);
+        return date;
+    }
+
+    @Exclude
+    public void setDate(Date date) {
+        this.datetime = date.getTime();
+        this.date = date;
     }
 }

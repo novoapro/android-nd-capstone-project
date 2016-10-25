@@ -16,14 +16,13 @@
             android:layout_gravity="center_horizontal"
             android:isIndicator="true"
             android:numStars="5"
-            tools:rating="3.5" />
+            tools:rating="3.5"
+            android:layout_marginTop="@dimen/quarter_dimen" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_reviews"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
             tools:listitem="@layout/list_item_provider_reviews" />
 
     </LinearLayout>
