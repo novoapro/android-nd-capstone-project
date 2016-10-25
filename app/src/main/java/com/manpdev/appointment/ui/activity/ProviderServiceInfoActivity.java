@@ -75,7 +75,7 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
         }
         
         mPicasso.load(service.getBanner())
-                .placeholder(getDrawable(R.drawable.ic_logo_no_text))
+                .placeholder(R.drawable.ic_logo_no_text)
                 .into(mViewBinding.ivServiceBanner);
 
         mViewBinding.tvServiceName.setText(service.getName());
@@ -89,14 +89,6 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
             @Override
             public void onClick(View v) {
                 // TODO: 10/6/16 Open edit view should be the same one as create.
-            }
-        });
-
-        mViewBinding.ibRemoveService.setVisibility(View.VISIBLE);
-        mViewBinding.ibRemoveService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 10/6/16 show confirmation popup.
             }
         });
     }

@@ -20,7 +20,9 @@ import rx.Single;
 import rx.SingleSubscriber;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
 
 /**
  * novoa on 24/05/2016.
@@ -124,36 +126,49 @@ public abstract class FBBaseDatabaseProvider {
                 .subscribeOn(Schedulers.io());
     }
 
+
     @NonNull
     protected <T> Observable<List<T>> observeValuesList(@NonNull final Query query, @NonNull final Class<T> clazz) {
         return Observable.create(new Observable.OnSubscribe<List<T>>() {
+
             @Override
             public void call(final Subscriber<? super List<T>> subscriber) {
-                query.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.d(TAG, dataSnapshot.toString());
-                        List<T> items = new ArrayList<>();
-                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                            T value = childSnapshot.getValue(clazz);
-                            if (value == null)
-                                continue;
-                            items.add(value);
-                        }
+                final ValueEventListener valueEventListener = getFBListValueEventListener(clazz, subscriber);
+                query.addValueEventListener(valueEventListener);
 
-                        if (!subscriber.isUnsubscribed()) {
-                            subscriber.onNext(items);
-                        }
-                    }
-
+                subscriber.add(Subscriptions.create(new Action0() {
                     @Override
-                    public void onCancelled(DatabaseError error) {
-                        if (!subscriber.isUnsubscribed())
-                            subscriber.onError(new Throwable(error.getMessage()));
+                    public void call() {
+                        query.removeEventListener(valueEventListener);
                     }
-                });
+                }));
             }
-        });
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    private <T> ValueEventListener getFBListValueEventListener(@NonNull final Class<T> clazz,
+                                                               final Subscriber<? super List<T>> subscriber) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, dataSnapshot.toString());
+                List<T> items = new ArrayList<>();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    T value = childSnapshot.getValue(clazz);
+                    if (value == null)
+                        continue;
+                    items.add(value);
+                }
+                if (!subscriber.isUnsubscribed())
+                    subscriber.onNext(items);
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                if (!subscriber.isUnsubscribed())
+                    subscriber.onError(new Throwable(error.getMessage()));
+            }
+        };
     }
 
 }

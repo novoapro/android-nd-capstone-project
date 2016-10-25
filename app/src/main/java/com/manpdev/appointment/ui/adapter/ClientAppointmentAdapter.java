@@ -1,7 +1,9 @@
 package com.manpdev.appointment.ui.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,6 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.databinding.ListItemClientAppointmentBinding;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,10 @@ import rx.Subscription;
  * novoa on 10/23/16.
  */
 
-public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppointmentAdapter.ClientAppointmentItemHolder> {
-
-
-    private final Picasso mPicasso;
+public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppointmentAdapter.ClientAppointmentItemHolder>{
+    private static final String TAG = "ClientAppointmentAdapte";
     private List<AppointmentModel> mAppointmentList;
+    private ClientAppointmentItemListener mListener;
 
     private Subscription mSubscription;
     private Observer<List<AppointmentModel>> mAppointmentObserver = new Observer<List<AppointmentModel>>() {
@@ -47,13 +47,16 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
         }
     };
 
-    public ClientAppointmentAdapter(List<AppointmentModel> appointmentList, Picasso picasso) {
+
+    public ClientAppointmentAdapter(List<AppointmentModel> appointmentList) {
         if (appointmentList == null)
             mAppointmentList = new ArrayList<>();
         else
             mAppointmentList = appointmentList;
+    }
 
-        this.mPicasso = picasso;
+    public void addItemListener(@NonNull ClientAppointmentItemListener listener){
+        mListener = listener;
     }
 
     public void updateDataFromObservable(Observable<List<AppointmentModel>> appointmentModelObservable) {
@@ -76,15 +79,58 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     }
 
     @Override
-    public void onBindViewHolder(ClientAppointmentItemHolder holder, int position) {
+    public void onBindViewHolder(final ClientAppointmentItemHolder holder, final int position) {
+        int iconRes = getIconRes(mAppointmentList.get(position).getState());
+        Log.d(TAG, "onBindViewHolder: " + iconRes);
+        holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
         holder.mViewBinding.tvProviderName.setText(mAppointmentList.get(position).getProvider());
         holder.mViewBinding.tvAppState.setText(mAppointmentList.get(position).getStateString());
         holder.mViewBinding.tvAppDate.setText(mAppointmentList.get(position).getDate().toString());
+
+        setItemListener(holder);
     }
 
     @Override
     public int getItemCount() {
         return mAppointmentList.size();
+    }
+
+
+    private void setItemListener(final ClientAppointmentItemHolder holder) {
+        if(mListener == null)
+            return;
+
+        holder.mViewBinding.ivCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onCalendarClicked(mAppointmentList.get(holder.getAdapterPosition()));
+            }
+        });
+        holder.mViewBinding.ivReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onReviewClicked(mAppointmentList.get(holder.getAdapterPosition()));
+            }
+        });
+    }
+
+    private Integer getIconRes(int state) {
+        switch (state) {
+            case AppointmentModel.COMPLETED:
+                return R.drawable.ic_completed;
+
+            case AppointmentModel.DENIED:
+                return R.drawable.ic_denied;
+
+            case AppointmentModel.ACCEPTED:
+                return R.drawable.ic_accepted;
+
+            case AppointmentModel.REQUESTED:
+                return R.drawable.ic_requested;
+
+            default:
+                return R.drawable.ic_loading;
+        }
     }
 
     class ClientAppointmentItemHolder extends RecyclerView.ViewHolder {
@@ -94,10 +140,6 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
         ClientAppointmentItemHolder(View itemView) {
             super(itemView);
             mViewBinding = DataBindingUtil.bind(itemView);
-        }
-
-        public ListItemClientAppointmentBinding getViewBinding() {
-            return mViewBinding;
         }
     }
 

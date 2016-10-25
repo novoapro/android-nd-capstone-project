@@ -111,9 +111,11 @@ public class AppointmentModel {
             case DENIED:
                 return "Denied";
 
-            default:
             case COMPLETED:
                 return "Completed";
+
+            default:
+                return "Unknown";
         }
     }
 
