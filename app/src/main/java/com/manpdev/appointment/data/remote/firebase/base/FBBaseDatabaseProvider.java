@@ -37,6 +37,31 @@ public abstract class FBBaseDatabaseProvider {
     }
 
     @NonNull
+    protected <T> Single<T> observeSingleValue(@NonNull final Task<T> task) {
+        return Single.create(new Single.OnSubscribe<T>() {
+            @Override
+            public void call(final SingleSubscriber<? super T> subscriber) {
+                task.addOnSuccessListener(new OnSuccessListener<T>() {
+                    @Override
+                    public void onSuccess(T result) {
+                        if (!subscriber.isUnsubscribed())
+                            subscriber.onSuccess(result);
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (!subscriber.isUnsubscribed())
+                            subscriber.onError(e);
+
+                    }
+                });
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    @NonNull
     protected <T> Single<T> observeSingleValue(@NonNull final Query query, @NonNull final Class<T> clazz) {
         return Single.create(new Single.OnSubscribe<T>() {
             @Override
@@ -46,10 +71,8 @@ public abstract class FBBaseDatabaseProvider {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
                             T value = dataSnapshot.getValue(clazz);
-                            if (value != null) {
-                                if (!subscriber.isUnsubscribed())
-                                    subscriber.onSuccess(value);
-                            }
+                            if (!subscriber.isUnsubscribed())
+                                subscriber.onSuccess(value);
                         } catch (Exception ex) {
                             if (!subscriber.isUnsubscribed())
                                 subscriber.onError(ex);
@@ -87,11 +110,10 @@ public abstract class FBBaseDatabaseProvider {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
                             T value = dataSnapshot.getValue(clazz);
-                            if (value != null) {
-                                if (!subscriber.isUnsubscribed())
-                                    subscriber.onNext(value);
 
-                            }
+                            if (!subscriber.isUnsubscribed())
+                                subscriber.onNext(value);
+
                         } catch (Exception ex) {
                             if (!subscriber.isUnsubscribed())
                                 subscriber.onError(ex);
@@ -117,32 +139,6 @@ public abstract class FBBaseDatabaseProvider {
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }
-
-    @NonNull
-    protected <T> Single<T> observeSingleValue(@NonNull final Task<T> task) {
-        return Single.create(new Single.OnSubscribe<T>() {
-            @Override
-            public void call(final SingleSubscriber<? super T> subscriber) {
-                task.addOnSuccessListener(new OnSuccessListener<T>() {
-                    @Override
-                    public void onSuccess(T result) {
-                        if (!subscriber.isUnsubscribed())
-                            subscriber.onSuccess(result);
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (!subscriber.isUnsubscribed())
-                            subscriber.onError(e);
-
-                    }
-                });
-            }
-        }).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io());
-    }
-
 
     @NonNull
     protected <T> Observable<List<T>> observeValuesList(@NonNull final Query query, @NonNull final Class<T> clazz) {
@@ -180,6 +176,7 @@ public abstract class FBBaseDatabaseProvider {
                 if (!subscriber.isUnsubscribed())
                     subscriber.onNext(items);
             }
+
             @Override
             public void onCancelled(DatabaseError error) {
                 if (!subscriber.isUnsubscribed())

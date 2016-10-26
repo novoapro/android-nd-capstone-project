@@ -2,14 +2,11 @@ package com.manpdev.appointment.ui.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
@@ -104,6 +101,8 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
                 openMap(service.getAddress());
             }
         });
+
+        mViewBinding.activityProviderService.setVisibility(View.VISIBLE);
     }
 
     @Override
