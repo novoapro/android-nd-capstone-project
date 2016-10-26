@@ -41,7 +41,7 @@ public abstract class FBBaseDatabaseProvider {
         return Single.create(new Single.OnSubscribe<T>() {
             @Override
             public void call(final SingleSubscriber<? super T> subscriber) {
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                final ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
@@ -62,7 +62,16 @@ public abstract class FBBaseDatabaseProvider {
                             subscriber.onError(new Throwable(error.getMessage()));
                         }
                     }
-                });
+                };
+
+                query.addListenerForSingleValueEvent(valueEventListener);
+
+                subscriber.add(Subscriptions.create(new Action0() {
+                    @Override
+                    public void call() {
+                        query.removeEventListener(valueEventListener);
+                    }
+                }));
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
@@ -73,7 +82,7 @@ public abstract class FBBaseDatabaseProvider {
         return Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(final Subscriber<? super T> subscriber) {
-                query.addValueEventListener(new ValueEventListener() {
+                final ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         try {
@@ -95,7 +104,15 @@ public abstract class FBBaseDatabaseProvider {
                             subscriber.onError(new Throwable(error.getMessage()));
 
                     }
-                });
+                };
+
+                query.addValueEventListener(valueEventListener);
+                subscriber.add(Subscriptions.create(new Action0() {
+                    @Override
+                    public void call() {
+                        query.removeEventListener(valueEventListener);
+                    }
+                }));
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

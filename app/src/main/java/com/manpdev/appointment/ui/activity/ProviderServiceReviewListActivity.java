@@ -19,6 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 
 public class ProviderServiceReviewListActivity extends BaseNavigationActivity implements ServiceReviewContract.View {
@@ -28,6 +29,7 @@ public class ProviderServiceReviewListActivity extends BaseNavigationActivity im
 
     @Inject
     ServiceReviewContract.Presenter mPresenter;
+    private Subscription mRatingSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,9 @@ public class ProviderServiceReviewListActivity extends BaseNavigationActivity im
         super.onPause();
         mPresenter.detachView();
         mAdapter.stopUpdateFromObservable();
+
+        if(mRatingSubscription != null)
+            mRatingSubscription.unsubscribe();
     }
 
     @Override
@@ -86,10 +91,10 @@ public class ProviderServiceReviewListActivity extends BaseNavigationActivity im
 
     @Override
     public void showServiceRating(Observable<RatingModel> rating) {
-        rating.subscribe(new Action1<RatingModel>() {
+        mRatingSubscription = rating.subscribe(new Action1<RatingModel>() {
             @Override
             public void call(RatingModel ratingModel) {
-                mViewBinding.rbServiceRating.setRating((float)ratingModel.getRating());
+                mViewBinding.rbServiceRating.setRating((float) ratingModel.getRating());
             }
         });
     }

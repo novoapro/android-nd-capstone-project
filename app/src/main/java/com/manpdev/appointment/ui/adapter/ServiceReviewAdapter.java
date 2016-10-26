@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.databinding.ListItemProviderReviewsBinding;
+import com.manpdev.appointment.ui.utils.DateFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ServiceReviewAdapter extends RecyclerView.Adapter<ServiceReviewAdap
         holder.mViewBinding.rbRating.setRating(mReviews.get(position).getRating());
         holder.mViewBinding.tvReviewText.setText(mReviews.get(position).getReview());
         holder.mViewBinding.tvAuthorName.setText(mReviews.get(position).getAuthor());
-        holder.mViewBinding.tvReviewDate.setText(mReviews.get(position).getDate().toString());
+        holder.mViewBinding.tvReviewDate.setText(DateFormatter.getShortDate(mReviews.get(position).getDate()));
     }
 
     @Override

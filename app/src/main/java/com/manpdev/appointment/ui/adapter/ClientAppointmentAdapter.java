@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.databinding.ListItemClientAppointmentBinding;
+import com.manpdev.appointment.ui.utils.DateFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
         holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
         holder.mViewBinding.tvProviderName.setText(mAppointmentList.get(position).getProvider());
         holder.mViewBinding.tvAppState.setText(mAppointmentList.get(position).getStateString());
-        holder.mViewBinding.tvAppDate.setText(mAppointmentList.get(position).getDate().toString());
+        holder.mViewBinding.tvAppDate.setText(DateFormatter.getDateTimeFormat(mAppointmentList.get(position).getDate()));
 
         setItemListener(holder);
     }
