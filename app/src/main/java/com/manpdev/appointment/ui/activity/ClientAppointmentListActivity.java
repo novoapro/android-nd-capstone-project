@@ -1,8 +1,13 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
@@ -44,6 +49,13 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
         mViewBinding.rvList.setLayoutManager(new LinearLayoutManager(this));
         mViewBinding.rvList.setHasFixedSize(true);
         mViewBinding.rvList.setAdapter(mAdapter);
+
+        addFABButton(R.drawable.ic_add, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAppointmentCreatorView();
+            }
+        });
     }
 
     @Override
@@ -92,5 +104,10 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     @Override
     public void onReviewClicked(AppointmentModel model) {
         Toast.makeText(this, model.getNotes(), Toast.LENGTH_LONG).show();
+    }
+
+    private void openAppointmentCreatorView() {
+        Intent intent = new Intent(ClientAppointmentListActivity.this, CreateAppointmentActivity.class);
+        startActivity(intent);
     }
 }

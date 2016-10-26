@@ -1,9 +1,15 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
@@ -66,7 +72,7 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
     }
 
     @Override
-    public void updateServiceInformation(ServiceModel service) {
+    public void updateServiceInformation(final ServiceModel service) {
         Log.d(TAG, "updateServiceInformation");
         
         if(service == null) {
@@ -88,13 +94,38 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
         mViewBinding.ibEditService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 10/6/16 Open edit view should be the same one as create.
+                openServiceEditorActivity();
+            }
+        });
+
+        mViewBinding.tvServiceAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMap(service.getAddress());
             }
         });
     }
 
     @Override
     public void launchAddServiceView() {
-        // TODO: 10/6/16 Implement this.
+        openServiceEditorActivity();
+    }
+
+
+    private void openServiceEditorActivity() {
+        Intent intent = new Intent(ProviderServiceInfoActivity.this, EditServiceInfoActivity.class);
+        startActivity(intent);
+    }
+
+    private void openMap(String address) {
+        Uri gmmIntentUri = Uri.parse(String.format("geo:0,0?q=%s", address));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        try {
+            startActivity(mapIntent);
+        } catch (ActivityNotFoundException e) {
+            Log.w(TAG, "openMap: ", e);
+        }
     }
 }

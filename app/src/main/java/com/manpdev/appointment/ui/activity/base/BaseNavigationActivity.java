@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
@@ -189,8 +190,16 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     @IdRes
     protected abstract int getCheckedItemId();
 
-    protected void inflateChildLayout(){
+    protected void inflateChildLayout() {
         DataBindingUtil.inflate(getLayoutInflater(), getContentLayoutId(), mBaseViewBinding.toolbarContainer.navContent, true);
+    }
+
+    protected void addFABButton(@DrawableRes int icon, View.OnClickListener listener) {
+        mBaseViewBinding.toolbarContainer.fab.setImageResource(icon);
+        mBaseViewBinding.toolbarContainer.fab.setVisibility(View.VISIBLE);
+
+        if (listener != null)
+            mBaseViewBinding.toolbarContainer.fab.setOnClickListener(listener);
     }
 
     @TargetApi(value = Build.VERSION_CODES.LOLLIPOP)

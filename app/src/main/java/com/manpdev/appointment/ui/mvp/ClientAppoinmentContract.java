@@ -15,6 +15,7 @@ import rx.Observable;
 public interface ClientAppoinmentContract extends MVPContract{
     interface Presenter extends MVPContract.Presenter{
         void loadList();
+        void createNewAppointment();
     }
 
     interface View extends MVPContract.View{

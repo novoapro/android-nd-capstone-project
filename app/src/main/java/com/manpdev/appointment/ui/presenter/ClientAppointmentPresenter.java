@@ -52,4 +52,9 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
     public void loadList() {
         mView.showList(mAppointmentProvider.getCollectionObservable(mAuthProvider.getUserId()));
     }
+
+    @Override
+    public void createNewAppointment() {
+
+    }
 }
