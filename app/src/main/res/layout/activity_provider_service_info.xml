@@ -17,7 +17,6 @@
             tools:visibility="visible"
             tools:context="com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity">
 
-
             <ImageView
                 android:id="@+id/iv_service_banner"
                 android:layout_height="160dp"

@@ -20,5 +20,4 @@
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
     </style>
-
 </resources>

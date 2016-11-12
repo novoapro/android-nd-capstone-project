@@ -20,6 +20,7 @@ public class ServiceModel{
     private String description;
     private String banner;
     private String phone;
+    private boolean active;
     private Map<String, Object> mInstanceMap;
 
     public ServiceModel() {
@@ -28,6 +29,10 @@ public class ServiceModel{
     @Exclude
     public String getuId() {
         return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
     public String getName() {
@@ -76,6 +81,14 @@ public class ServiceModel{
 
     public void setBanner(String banner) {
         this.banner = banner;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Exclude

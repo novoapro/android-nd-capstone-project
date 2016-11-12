@@ -12,6 +12,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,7 +21,6 @@ import android.transition.Fade;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
@@ -33,6 +33,7 @@ import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
+import com.manpdev.appointment.ui.utils.AlertsHelper;
 import com.manpdev.appointment.ui.utils.CircularTransformation;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +57,9 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
 
     @Inject
     public Picasso mPicasso;
+
+    @Inject
+    public AlertsHelper mAlertHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,8 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         ((AppointmentApplication) getApplication()).getApplicationComponent()
                 .activity()
                 .inject(this);
+
+        mAlertHelper.setContext(this);
     }
 
     @Override
@@ -169,16 +175,6 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         startActivity(toLaunch);
     }
 
-    @Override
-    public void showError(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showError(int msgRes) {
-        Toast.makeText(this, msgRes, Toast.LENGTH_LONG).show();
-    }
-
     @MenuRes
     protected int getNavigationMenuRes() {
         return R.menu.default_navigation_menu;
@@ -195,7 +191,13 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
     }
 
     protected void addFABButton(@DrawableRes int icon, View.OnClickListener listener) {
-        mBaseViewBinding.toolbarContainer.fab.setImageResource(icon);
+        VectorDrawableCompat drawableCompat = VectorDrawableCompat.create(getResources(), icon, null);
+
+        if (drawableCompat != null)
+            //noinspection deprecation
+            drawableCompat.setTint(getResources().getColor(android.R.color.white));
+
+        mBaseViewBinding.toolbarContainer.fab.setImageDrawable(drawableCompat);
         mBaseViewBinding.toolbarContainer.fab.setVisibility(View.VISIBLE);
 
         if (listener != null)
@@ -228,5 +230,15 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void showError(String msg) {
+        mAlertHelper.showError(msg);
+    }
+
+    @Override
+    public void showError(int msgRes) {
+        mAlertHelper.showError(msgRes);
     }
 }

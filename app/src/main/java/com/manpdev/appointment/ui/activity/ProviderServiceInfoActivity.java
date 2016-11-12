@@ -1,10 +1,12 @@
 package com.manpdev.appointment.ui.activity;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +37,8 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
                 .activity()
                 .mvp(new PresentersModule())
                 .inject(this);
+
+        mAlertHelper.setContext(this);
     }
 
     @Override
@@ -71,9 +75,11 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
     @Override
     public void updateServiceInformation(final ServiceModel service) {
         Log.d(TAG, "updateServiceInformation");
-        
+
+        mAlertHelper.hideDialog();
+
         if(service == null) {
-            launchAddServiceView();
+            showConfirmationDialog(R.string.no_service_enable_message);
             return;
         }
         
@@ -106,10 +112,31 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
     }
 
     @Override
-    public void launchAddServiceView() {
-        openServiceEditorActivity();
+    public void showConfirmationDialog(@StringRes int msgRes) {
+        Log.d(TAG, "showConfirmationDialog()");
+
+        mAlertHelper.showConfirmationDialog(msgRes,
+                android.R.string.ok,
+                android.R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        openServiceEditorActivity();
+                    }
+                },
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }
+        );
     }
 
+    @Override
+    public void serviceUpdated() {
+
+    }
 
     private void openServiceEditorActivity() {
         Intent intent = new Intent(ProviderServiceInfoActivity.this, EditServiceInfoActivity.class);

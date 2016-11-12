@@ -1,6 +1,7 @@
 package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.manpdev.appointment.data.model.ServiceModel;
@@ -43,19 +44,16 @@ public class ServiceInfoPresenter implements ServiceInfoContract.Presenter {
                         if (!mViewAttached)
                             return;
 
-                        if (serviceModel != null)
-                            mView.updateServiceInformation(serviceModel);
-                        else
-                            mView.launchAddServiceView();
+                        mView.updateServiceInformation(serviceModel);
+
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         if (!mViewAttached)
                             return;
-                        
+
                         mView.showError(throwable.getMessage());
-                        mView.launchAddServiceView();
                     }
                 });
     }
@@ -63,5 +61,27 @@ public class ServiceInfoPresenter implements ServiceInfoContract.Presenter {
     @Override
     public void detachView() {
         mViewAttached = false;
+    }
+
+
+    @Override
+    public void updateServiceInfo(@NonNull ServiceModel service) {
+        service.setuId(mAuthProvider.getUserId());
+
+        mServiceProvider.insert(service).subscribe(
+                new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        if (mViewAttached)
+                            mView.serviceUpdated();
+                    }
+                },
+                new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (mViewAttached)
+                            mView.showError(throwable.getMessage());
+                    }
+                });
     }
 }

@@ -4,6 +4,7 @@ import com.manpdev.appointment.ui.activity.SplashScreenActivity;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 import com.manpdev.appointment.ui.di.ActivityScope;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
+import com.manpdev.appointment.ui.di.module.UIUtilsModule;
 
 import dagger.Subcomponent;
 
@@ -12,7 +13,7 @@ import dagger.Subcomponent;
  */
 
 @ActivityScope
-@Subcomponent()
+@Subcomponent(modules = UIUtilsModule.class)
 public interface ActivityComponent {
 
     MVPComponent mvp(PresentersModule module);
