@@ -1,4 +1,4 @@
-package com.manpdev.appointment.data.remote.firebase.base;
+package com.manpdev.appointment.data.remote.firebase.database.base;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

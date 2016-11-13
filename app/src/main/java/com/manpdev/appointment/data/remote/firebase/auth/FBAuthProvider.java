@@ -1,4 +1,4 @@
-package com.manpdev.appointment.data.remote.firebase;
+package com.manpdev.appointment.data.remote.firebase.auth;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -25,7 +25,6 @@ public class FBAuthProvider implements AuthProvider, FirebaseAuth.AuthStateListe
     private FirebaseAuth mFirebaseAuth;
     private AuthStateProviderListener mListener;
 
-    @Inject
     public FBAuthProvider(FirebaseAuth firebaseAuth) {
         this.mFirebaseAuth = firebaseAuth;
     }

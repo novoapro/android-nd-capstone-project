@@ -33,7 +33,7 @@ import com.manpdev.appointment.ui.activity.ProviderAppointmentListActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceInfoActivity;
 import com.manpdev.appointment.ui.activity.ProviderServiceReviewListActivity;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
-import com.manpdev.appointment.ui.utils.AlertsHelper;
+import com.manpdev.appointment.ui.helper.AlertsHelper;
 import com.manpdev.appointment.ui.utils.CircularTransformation;
 import com.squareup.picasso.Picasso;
 

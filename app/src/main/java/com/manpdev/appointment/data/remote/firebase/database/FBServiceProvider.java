@@ -1,10 +1,10 @@
-package com.manpdev.appointment.data.remote.firebase;
+package com.manpdev.appointment.data.remote.firebase.database;
 
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.ServiceModel;
-import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
 
 import javax.inject.Inject;
 
@@ -30,7 +30,6 @@ public class FBServiceProvider extends FBBaseDatabaseProvider{
                 ServiceModel.class
         );
     }
-
 
     public Observable<ServiceModel> getCollectionObservable(String id) {
         return Observable.empty();

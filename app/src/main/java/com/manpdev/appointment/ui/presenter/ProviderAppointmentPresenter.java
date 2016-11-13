@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.firebase.FBPAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
 import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 

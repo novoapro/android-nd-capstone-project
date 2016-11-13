@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.firebase.FBServiceProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
 import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 

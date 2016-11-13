@@ -15,7 +15,6 @@ import dagger.Subcomponent;
 @ActivityScope
 @Subcomponent(modules = UIUtilsModule.class)
 public interface ActivityComponent {
-
     MVPComponent mvp(PresentersModule module);
     void inject(SplashScreenActivity splashScreenActivity);
     void inject(BaseNavigationActivity baseNavigationActivity);

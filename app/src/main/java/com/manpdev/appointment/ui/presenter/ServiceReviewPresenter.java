@@ -3,16 +3,11 @@ package com.manpdev.appointment.ui.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.manpdev.appointment.data.model.RatingModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.firebase.FBPAppointmentProvider;
-import com.manpdev.appointment.data.remote.firebase.FBRatingProvider;
-import com.manpdev.appointment.data.remote.firebase.FBReviewProvider;
-import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
+import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
 import com.manpdev.appointment.ui.mvp.ServiceReviewContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
-
-import rx.Observable;
 
 /**
  * novoa on 9/11/16.

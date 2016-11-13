@@ -3,19 +3,10 @@ package com.manpdev.appointment.ui.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.firebase.FBCAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
-import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Action1;
 
 /**
  * novoa on 9/11/16.

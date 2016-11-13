@@ -1,4 +1,4 @@
-package com.manpdev.appointment.ui.utils;
+package com.manpdev.appointment.ui.helper;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

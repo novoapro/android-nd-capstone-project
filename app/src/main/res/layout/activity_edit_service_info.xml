@@ -104,19 +104,20 @@
                 android:id="@+id/textInputLayout6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+                android:layout_marginStart="16dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <EditText
                     android:id="@+id/et_servicephone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="phone"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,TextFields"
+                    android:inputType="" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -125,12 +126,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="32dp"
                 android:text="Save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                app:layout_constraintTop_toBottomOf="@+id/ib_banner_upload" />
 
             <Button
                 android:id="@+id/bn_cancel"
@@ -138,11 +138,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginTop="32dp"
                 android:text="Cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/bn_save"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -155,6 +153,46 @@
                 app:layout_constraintLeft_toRightOf="@+id/sw_enable"
                 app:layout_constraintBottom_toBottomOf="@+id/sw_enable"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:text="@string/banner_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintTop_toTopOf="@+id/ib_banner_upload"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_banner_upload"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/ic_cloud_upload"
+                android:id="@+id/ib_banner_upload"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toRightOf="@+id/textView3"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_file_name"
+                app:layout_constraintTop_toTopOf="@+id/ib_banner_upload"
+                app:layout_constraintBottom_toBottomOf="@+id/ib_banner_upload"
+                android:layout_marginStart="16dp"
+                app:layout_constraintLeft_toRightOf="@+id/ib_banner_upload"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textStyle="normal|italic"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:ignore="HardcodedText" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

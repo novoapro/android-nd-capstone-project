@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1094385421627-torgvh3akgbu8qatl4entfdoi99tafvm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.manpdev.appointment",
+            "certificate_hash": "32E86FDD699122D995DCBFA623C68AC6EC522A5C"
+          }
+        },
+        {
           "client_id": "1094385421627-nn22ukgbchpgjhk1bt3l2rlsu5vg6llb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

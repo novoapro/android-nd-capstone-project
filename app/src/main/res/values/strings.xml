@@ -48,6 +48,7 @@
     <string name="user_avatar_description">User Profile Image</string>
     <string name="no_service_enable_message">Do you want to enable your service?</string>
     <string name="save_service_changes_warning">Are you sure that you want to update the service info?</string>
-    <string name="saving_action">saving...</string>
+    <string name="saving_action">saving…</string>
     <string name="action_enabled">Enabled</string>
+    <string name="banner_label">banner</string>
 </resources>

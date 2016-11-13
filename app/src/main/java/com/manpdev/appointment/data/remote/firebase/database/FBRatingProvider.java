@@ -1,4 +1,4 @@
-package com.manpdev.appointment.data.remote.firebase;
+package com.manpdev.appointment.data.remote.firebase.database;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -10,7 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.manpdev.appointment.data.model.RatingModel;
-import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
 
 import javax.inject.Inject;
 

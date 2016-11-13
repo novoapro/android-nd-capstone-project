@@ -87,6 +87,7 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
                 .placeholder(R.drawable.ic_logo_no_text)
                 .into(mViewBinding.ivServiceBanner);
 
+        mViewBinding.serviceStateIndicator.setVisibility(service.isActive() ? View.VISIBLE : View.GONE);
         mViewBinding.tvServiceName.setText(service.getName());
         mViewBinding.tvServiceDescription.setText(service.getDescription());
         mViewBinding.tvServiceType.setText(service.getType());

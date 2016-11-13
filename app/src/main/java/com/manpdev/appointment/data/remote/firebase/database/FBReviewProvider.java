@@ -1,10 +1,10 @@
-package com.manpdev.appointment.data.remote.firebase;
+package com.manpdev.appointment.data.remote.firebase.database;
 
 import android.support.annotation.NonNull;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.ReviewModel;
-import com.manpdev.appointment.data.remote.firebase.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
 
 import java.util.List;
 

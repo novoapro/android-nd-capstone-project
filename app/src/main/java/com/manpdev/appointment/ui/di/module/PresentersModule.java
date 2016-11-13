@@ -3,11 +3,11 @@ package com.manpdev.appointment.ui.di.module;
 import android.content.Context;
 
 import com.manpdev.appointment.data.remote.AuthProvider;
-import com.manpdev.appointment.data.remote.firebase.FBCAppointmentProvider;
-import com.manpdev.appointment.data.remote.firebase.FBPAppointmentProvider;
-import com.manpdev.appointment.data.remote.firebase.FBRatingProvider;
-import com.manpdev.appointment.data.remote.firebase.FBReviewProvider;
-import com.manpdev.appointment.data.remote.firebase.FBServiceProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
 import com.manpdev.appointment.ui.mvp.LoginContract;
 import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
