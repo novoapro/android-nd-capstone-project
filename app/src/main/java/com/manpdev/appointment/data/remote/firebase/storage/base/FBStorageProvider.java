@@ -1,4 +1,4 @@
-package com.manpdev.appointment.data.remote.firebase.storage;
+package com.manpdev.appointment.data.remote.firebase.storage.base;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -23,6 +23,8 @@ import javax.inject.Inject;
 public class FBStorageProvider implements StorageProvider{
 
     private static final String TAG = "FBAuthProvider";
+
+    public static final String PUBLIC_REFERENCE = "public";
 
     private final FirebaseStorage mFireBaseStorage;
 

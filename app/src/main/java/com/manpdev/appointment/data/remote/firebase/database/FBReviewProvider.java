@@ -2,9 +2,8 @@ package com.manpdev.appointment.data.remote.firebase.database;
 
 import android.support.annotation.NonNull;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.ReviewModel;
-import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.DatabaseProvider;
 
 import java.util.List;
 
@@ -17,16 +16,18 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-public class FBReviewProvider extends FBBaseDatabaseProvider {
+public class FBReviewProvider{
+
+    private final DatabaseProvider mDatabaseProvider;
 
     @Inject
-    public FBReviewProvider(FirebaseDatabase firebaseDatabase) {
-        super(firebaseDatabase);
+    public FBReviewProvider(DatabaseProvider databaseProvider) {
+        mDatabaseProvider = databaseProvider;
     }
 
     public Single<ReviewModel> getSingleValueObservable(String id) {
-        return observeSingleValue(
-                firebaseDatabase.getReference()
+        return mDatabaseProvider.observeSingleValue(
+                mDatabaseProvider.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
                         .child(id),
                 ReviewModel.class
@@ -34,7 +35,7 @@ public class FBReviewProvider extends FBBaseDatabaseProvider {
     }
 
     public Observable<List<ReviewModel>> getCollectionObservable(String id) {
-        return observeValuesList(firebaseDatabase.getReference()
+        return mDatabaseProvider.observeValuesList(mDatabaseProvider.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
                         .child(id),
                 ReviewModel.class);
@@ -42,16 +43,16 @@ public class FBReviewProvider extends FBBaseDatabaseProvider {
 
 
     public Single<Void> insert(@NonNull ReviewModel element) {
-        return observeSingleValue(
-                firebaseDatabase.getReference()
+        return mDatabaseProvider.observeSingleValue(
+                mDatabaseProvider.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
                         .child(element.getUid())
                         .setValue(element));
     }
 
     public Single<Void> remove(@NonNull ReviewModel element) {
-        return observeSingleValue(
-                firebaseDatabase.getReference()
+        return mDatabaseProvider.observeSingleValue(
+                mDatabaseProvider.getReference()
                         .child(ReviewModel.MODEL_ROOT_ID)
                         .child(element.getUid())
                         .child(element.getId())

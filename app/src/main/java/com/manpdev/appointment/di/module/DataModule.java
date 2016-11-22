@@ -3,15 +3,13 @@ package com.manpdev.appointment.di.module;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
+import com.manpdev.appointment.data.remote.DatabaseProvider;
 import com.manpdev.appointment.data.remote.StorageProvider;
 import com.manpdev.appointment.data.remote.firebase.auth.FBAuthProvider;
-import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
-import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
-import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
-import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
-import com.manpdev.appointment.data.remote.firebase.storage.FBStorageProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
+import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.firebase.storage.base.FBStorageProvider;
 
 import javax.inject.Singleton;
 
@@ -30,8 +28,14 @@ public class DataModule {
 
     @Provides
     @Singleton
-    AuthProvider provideAuthProvider(FirebaseAuth fbAuth){
-        return new FBAuthProvider(fbAuth);
+    DatabaseProvider provideDatabaseProvider(FirebaseDatabase fbDatabase){
+        return new FBBaseDatabaseProvider(fbDatabase);
+    }
+
+    @Provides
+    @Singleton
+    AuthProvider provideAuthProvider(FirebaseAuth fbAuth, FBUserProvider userProvider){
+        return new FBAuthProvider(fbAuth, userProvider);
     }
 
     @Provides

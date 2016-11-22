@@ -6,11 +6,10 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.manpdev.appointment.data.model.RatingModel;
-import com.manpdev.appointment.data.remote.firebase.database.base.FBBaseDatabaseProvider;
+import com.manpdev.appointment.data.remote.DatabaseProvider;
 
 import javax.inject.Inject;
 
@@ -21,18 +20,20 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-public class FBRatingProvider extends FBBaseDatabaseProvider {
+public class FBRatingProvider{
 
     private static final String TAG = "FBRatingProvider";
 
+    private final DatabaseProvider mDatabaseProvider;
+
     @Inject
-    public FBRatingProvider(FirebaseDatabase firebaseDatabase) {
-        super(firebaseDatabase);
+    public FBRatingProvider(DatabaseProvider databaseProvider) {
+        mDatabaseProvider = databaseProvider;
     }
 
     public Single<RatingModel> getSingleValueObservable(String id) {
-        return observeSingleValue(
-                firebaseDatabase.getReference()
+        return mDatabaseProvider.observeSingleValue(
+                mDatabaseProvider.getReference()
                         .child(RatingModel.MODEL_ROOT_ID)
                         .child(id),
                 RatingModel.class
@@ -40,8 +41,8 @@ public class FBRatingProvider extends FBBaseDatabaseProvider {
     }
 
     public Observable<RatingModel> getCollectionObservable(String id) {
-        return observeValue(
-                firebaseDatabase.getReference()
+        return mDatabaseProvider.observeValue(
+                mDatabaseProvider.getReference()
                         .child(RatingModel.MODEL_ROOT_ID)
                         .child(id),
                 RatingModel.class
@@ -49,7 +50,7 @@ public class FBRatingProvider extends FBBaseDatabaseProvider {
     }
 
     public Single<Void> insert(@NonNull final RatingModel element) {
-        final DatabaseReference ref = firebaseDatabase.getReference()
+        final DatabaseReference ref = mDatabaseProvider.getReference()
                 .child(RatingModel.MODEL_ROOT_ID)
                 .child(element.getuId());
 

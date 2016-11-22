@@ -1,7 +1,7 @@
 package com.manpdev.appointment.data.remote.firebase.database;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.manpdev.appointment.data.model.AppointmentModel;
+import com.manpdev.appointment.data.remote.DatabaseProvider;
 import com.manpdev.appointment.data.remote.firebase.database.base.FBAppointmentProvider;
 
 import java.util.List;
@@ -17,13 +17,14 @@ import rx.Observable;
 public class FBCAppointmentProvider extends FBAppointmentProvider{
 
     @Inject
-    public FBCAppointmentProvider(FirebaseDatabase firebaseDatabase) {
-        super(firebaseDatabase);
+    public FBCAppointmentProvider(DatabaseProvider databaseProvider) {
+        super(databaseProvider);
     }
+
 
     @Override
     public Observable<List<AppointmentModel>> getCollectionObservable(String id) {
-        return observeValuesList(firebaseDatabase.getReference()
+        return mDatabaseProvider.observeValuesList(mDatabaseProvider.getReference()
                         .child(AppointmentModel.MODEL_ROOT_ID_CLIENT)
                         .child(id),
                 AppointmentModel.class);
