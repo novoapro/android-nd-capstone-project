@@ -3,13 +3,11 @@ package com.manpdev.appointment.ui.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.provider.OpenableColumns;
+import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
@@ -18,8 +16,10 @@ import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.databinding.ActivityEditServiceInfoBinding;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
-import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.helper.AlertsHelper;
+import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -94,7 +94,11 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
         if (data != null) {
             uri = data.getData();
             Log.i(TAG, "Uri: " + uri.toString());
-            dumpImageMetaData(uri);
+            try {
+                mPresenter.uploadNewBanner(getContentResolver().openInputStream(uri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -163,46 +167,4 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
         intent.setType("image/*");
         startActivityForResult(intent, SELECT_FILE_REQUEST_CODE);
     }
-
-    public void dumpImageMetaData(Uri uri) {
-
-        // The query, since it only applies to a single document, will only return
-        // one row. There's no need to filter, sort, or select fields, since we want
-        // all fields for one document.
-        Cursor cursor = getContentResolver()
-                .query(uri, null, null, null, null, null);
-
-        try {
-            // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
-            // "if there's anything to look at, look at it" conditionals.
-            if (cursor != null && cursor.moveToFirst()) {
-
-                // Note it's called "Display Name".  This is
-                // provider-specific, and might not necessarily be the file name.
-                String displayName = cursor.getString(
-                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                Log.i(TAG, "Display Name: " + displayName);
-
-                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
-                // If the size is unknown, the value stored is null.  But since an
-                // int can't be null in Java, the behavior is implementation-specific,
-                // which is just a fancy term for "unpredictable".  So as
-                // a rule, check if it's null before assigning to an int.  This will
-                // happen often:  The storage API allows for remote files, whose
-                // size might not be locally known.
-                String size = null;
-                if (!cursor.isNull(sizeIndex)) {
-                    // Technically the column stores an int, but cursor.getString()
-                    // will do the conversion automatically.
-                    size = cursor.getString(sizeIndex);
-                } else {
-                    size = "Unknown";
-                }
-                Log.i(TAG, "Size: " + size);
-            }
-        } finally {
-            cursor.close();
-        }
-    }
-
 }

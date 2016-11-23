@@ -1,14 +1,19 @@
 package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
+import com.manpdev.appointment.data.remote.firebase.storage.FBBannerStorage;
 import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import rx.functions.Action1;
 
@@ -23,12 +28,14 @@ public class ServiceInfoPresenter implements ServiceInfoContract.Presenter {
     private ServiceInfoContract.View mView;
     private final AuthProvider mAuthProvider;
     private final FBServiceProvider mServiceProvider;
+    private final FBBannerStorage mBannerStorage;
 
     private boolean mViewAttached;
 
-    public ServiceInfoPresenter(Context context, AuthProvider authProvider, FBServiceProvider serviceProvider) {
+    public ServiceInfoPresenter(Context context, AuthProvider authProvider, FBServiceProvider serviceProvider, FBBannerStorage bannerStorage) {
         this.mAuthProvider = authProvider;
         this.mServiceProvider = serviceProvider;
+        this.mBannerStorage = bannerStorage;
     }
 
     @Override
@@ -83,5 +90,10 @@ public class ServiceInfoPresenter implements ServiceInfoContract.Presenter {
                             mView.showError(throwable.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void uploadNewBanner(InputStream stream) {
+        mBannerStorage.upload(stream);
     }
 }

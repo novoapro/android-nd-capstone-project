@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.StorageProvider;
 import com.manpdev.appointment.data.remote.listeners.AuthStateProviderListener;
@@ -32,4 +33,7 @@ public class FBStorageProvider implements StorageProvider{
         this.mFireBaseStorage = firebaseStorage;
     }
 
+    public StorageReference getPublicReference(){
+        return this.mFireBaseStorage.getReference(PUBLIC_REFERENCE);
+    }
 }
