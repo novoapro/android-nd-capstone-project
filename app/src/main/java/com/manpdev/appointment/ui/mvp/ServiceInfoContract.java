@@ -24,5 +24,6 @@ public interface ServiceInfoContract extends MVPContract{
         void updateServiceInformation(ServiceModel service);
         void showConfirmationDialog(@StringRes int msgRes);
         void serviceUpdated();
+        void bannerCallback(boolean success);
     }
 }

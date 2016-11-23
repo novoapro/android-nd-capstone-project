@@ -36,7 +36,6 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
 
     private ActivityEditServiceInfoBinding mViewBinding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +95,9 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
             Log.i(TAG, "Uri: " + uri.toString());
             try {
                 mPresenter.uploadNewBanner(getContentResolver().openInputStream(uri));
+                mAlertHelper.showProgressDialog(R.string.banner_uploading);
             } catch (IOException e) {
-                e.printStackTrace();
+                showError(e.getMessage());
             }
         }
     }
@@ -105,7 +105,6 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
     @Override
     public void updateServiceInformation(ServiceModel service) {
         Log.d(TAG, "updateServiceInformation: ");
-
         mAlertHelper.hideDialog();
 
         mViewBinding.swEnable.setChecked(service.isActive());
@@ -149,6 +148,14 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
     public void serviceUpdated() {
         mAlertHelper.hideDialog();
         finish();
+    }
+
+    @Override
+    public void bannerCallback(boolean success) {
+        mAlertHelper.hideDialog();
+
+        if(!success)
+            mAlertHelper.showError(R.string.failed_upload);
     }
 
     @Override

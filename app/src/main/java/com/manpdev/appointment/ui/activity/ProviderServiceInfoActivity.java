@@ -82,7 +82,8 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
             showConfirmationDialog(R.string.no_service_enable_message);
             return;
         }
-        
+
+        mPicasso.invalidate(service.getBanner());
         mPicasso.load(service.getBanner())
                 .placeholder(R.drawable.ic_logo_no_text)
                 .into(mViewBinding.ivServiceBanner);
@@ -136,6 +137,11 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
 
     @Override
     public void serviceUpdated() {
+
+    }
+
+    @Override
+    public void bannerCallback(boolean success) {
 
     }
 

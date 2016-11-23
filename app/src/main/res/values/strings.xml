@@ -51,4 +51,6 @@
     <string name="saving_action">saving…</string>
     <string name="action_enabled">Enabled</string>
     <string name="banner_label">banner</string>
+    <string name="banner_uploading">Uploading banner</string>
+    <string name="failed_upload">Upload Failed</string>
 </resources>
