@@ -5,9 +5,11 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.inputmethodservice.KeyboardView;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.transition.Explode;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -29,6 +31,11 @@ public class CreateAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_create_appointment);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setExitTransition(new Explode());
+            getWindow().setEnterTransition(new Explode());
+        }
 
         mViewBinding.bnSave.setOnClickListener(new View.OnClickListener() {
             @Override

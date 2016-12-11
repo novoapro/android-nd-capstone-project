@@ -23,6 +23,11 @@ public class TransitionHelper {
         TransitionHelper.startActivity(activity, intent, null);
     }
 
+    public static void transitionToActivityForResult(Activity activity, Intent intent, int requestCode) {
+        final Pair<View, String>[] pairs = null;
+        TransitionHelper.startActivityForResult(activity, intent, requestCode, null);
+    }
+
     public static void transitionToActivity(Activity activity, Intent intent, @Nullable Pair<View, String>[] members) {
         TransitionHelper.startActivity(activity, intent, members);
     }
@@ -32,5 +37,11 @@ public class TransitionHelper {
 
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
         activity.startActivity(intent, transitionActivityOptions.toBundle());
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static void startActivityForResult(Activity activity, Intent intent, int requestCode, Pair<View, String>[] pairs) {
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pairs);
+        activity.startActivityForResult(intent, requestCode, transitionActivityOptions.toBundle());
     }
 }

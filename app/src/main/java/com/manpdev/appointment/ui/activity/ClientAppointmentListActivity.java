@@ -16,6 +16,7 @@ import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 import com.manpdev.appointment.ui.adapter.ClientAppointmentAdapter;
 import com.manpdev.appointment.ui.adapter.ClientAppointmentItemListener;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
+import com.manpdev.appointment.ui.helper.TransitionHelper;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
 
 import java.util.List;
@@ -145,11 +146,11 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     public void onReviewClicked(AppointmentModel model) {
         Intent intent = new Intent(this, CreateReviewActivity.class);
         intent.putExtra(CreateReviewActivity.APPOINTMENT_MODEL_EXTRA, model);
-        startActivityForResult(intent, CREATE_NEW_REVIEW_CODE);
+        TransitionHelper.transitionToActivityForResult(this, intent, CREATE_NEW_REVIEW_CODE);
     }
 
     private void openAppointmentCreatorView() {
         Intent intent = new Intent(ClientAppointmentListActivity.this, CreateAppointmentActivity.class);
-        startActivityForResult(intent, CREATE_NEW_APPOINTMENT_CODE);
+        TransitionHelper.transitionToActivityForResult(this, intent, CREATE_NEW_APPOINTMENT_CODE);
     }
 }

@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.Explode;
+import android.transition.Slide;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,6 +34,10 @@ public class CreateReviewActivity extends AppCompatActivity {
         mViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_create_review);
         mAppointment = getIntent().getParcelableExtra(APPOINTMENT_MODEL_EXTRA);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setExitTransition(new Slide());
+            getWindow().setEnterTransition(new Explode());
+        }
 
         mViewBinding.btCancel.setOnClickListener(new View.OnClickListener() {
             @Override
