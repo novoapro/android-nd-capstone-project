@@ -90,7 +90,7 @@ public abstract class BaseNavigationActivity extends AppCompatActivity
                 .activity()
                 .inject(this);
 
-        mAlertHelper.setContext(this);
+        mAlertHelper.setContext(BaseNavigationActivity.this);
     }
 
     @Override

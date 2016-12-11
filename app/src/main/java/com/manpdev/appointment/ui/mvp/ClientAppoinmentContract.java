@@ -15,10 +15,11 @@ import rx.Observable;
 public interface ClientAppoinmentContract extends MVPContract{
     interface Presenter extends MVPContract.Presenter{
         void loadList();
-        void createNewAppointment();
+        void createNewAppointment(AppointmentModel model);
     }
 
     interface View extends MVPContract.View{
         void showList(Observable<List<AppointmentModel>> appointments);
+        void hideProgressDialog();
     }
 }

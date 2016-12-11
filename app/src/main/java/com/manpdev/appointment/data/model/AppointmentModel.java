@@ -1,5 +1,7 @@
 package com.manpdev.appointment.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 
@@ -13,7 +15,7 @@ import java.util.Date;
 /**
  * novoa on 9/11/16.
  */
-public class AppointmentModel {
+public class AppointmentModel implements Parcelable{
 
     public static final String MODEL_ROOT_ID_CLIENT = "client-appointments";
     public static final String MODEL_ROOT_ID_PROVIDER = "provider-appointments";
@@ -22,7 +24,7 @@ public class AppointmentModel {
     private String pid;
     private String client;
     private String provider;
-    private Long datetime;
+    private long datetime;
     private int state;
     private String notes;
 
@@ -31,6 +33,46 @@ public class AppointmentModel {
     public AppointmentModel() {
 
     }
+
+    protected AppointmentModel(Parcel in) {
+        cid = in.readString();
+        pid = in.readString();
+        client = in.readString();
+        provider = in.readString();
+        datetime = in.readLong();
+        state = in.readInt();
+        notes = in.readString();
+        date = new Date(in.readLong());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(cid);
+        dest.writeString(pid);
+        dest.writeString(client);
+        dest.writeString(provider);
+        dest.writeLong(datetime);
+        dest.writeInt(state);
+        dest.writeString(notes);
+        dest.writeLong(date.getTime());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AppointmentModel> CREATOR = new Creator<AppointmentModel>() {
+        @Override
+        public AppointmentModel createFromParcel(Parcel in) {
+            return new AppointmentModel(in);
+        }
+
+        @Override
+        public AppointmentModel[] newArray(int size) {
+            return new AppointmentModel[size];
+        }
+    };
 
     public String getCid() {
         return cid;

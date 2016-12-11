@@ -25,7 +25,7 @@ public class FBPAppointmentProvider extends FBAppointmentProvider{
     public Observable<List<AppointmentModel>> getCollectionObservable(String id) {
         return mDatabaseProvider.observeValuesList(mDatabaseProvider.getReference()
                         .child(AppointmentModel.MODEL_ROOT_ID_PROVIDER)
-                        .child(id),
+                        .child(id).orderByKey(),
                 AppointmentModel.class);
     }
 }

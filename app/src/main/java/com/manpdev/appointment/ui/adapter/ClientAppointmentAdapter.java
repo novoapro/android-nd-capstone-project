@@ -14,6 +14,7 @@ import com.manpdev.appointment.databinding.ListItemClientAppointmentBinding;
 import com.manpdev.appointment.ui.utils.DateFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
@@ -43,6 +44,7 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
 
         @Override
         public void onNext(List<AppointmentModel> appointmentModel) {
+            Collections.reverse(appointmentModel);
             mAppointmentList = appointmentModel;
             notifyDataSetChanged();
         }

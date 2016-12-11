@@ -8,6 +8,7 @@ import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvi
 import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
 import com.manpdev.appointment.data.remote.firebase.storage.FBBannerStorage;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
 import com.manpdev.appointment.ui.mvp.LoginContract;
@@ -44,8 +45,10 @@ public class PresentersModule {
     }
 
     @Provides
-    ClientAppoinmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider, FBCAppointmentProvider appointmentProvider){
-        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider);
+    ClientAppoinmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider,
+                                                                         FBCAppointmentProvider appointmentProvider,
+                                                                         FBUserProvider userProvider, FBServiceProvider serviceProvider){
+        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider);
     }
 
     @Provides

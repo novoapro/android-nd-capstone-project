@@ -1,10 +1,8 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -28,6 +26,8 @@ import rx.Observable;
 
 public class ClientAppointmentListActivity extends BaseNavigationActivity implements ClientAppoinmentContract.View, ClientAppointmentItemListener {
 
+    private static final int CREATE_NEW_APPOINTMENT_CODE = 345;
+    public static final String NEW_APPOINTMENT_EXTRA = "::new_appointment_extra";
     private ActivityClientAppointmentListBinding mViewBinding;
     private ClientAppointmentAdapter mAdapter;
 
@@ -56,6 +56,7 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
                 openAppointmentCreatorView();
             }
         });
+        mAlertHelper.setContext(this);
     }
 
     @Override
@@ -70,6 +71,21 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
         super.onPause();
         mPresenter.detachView();
         mAdapter.stopUpdateFromObservable();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode != CREATE_NEW_APPOINTMENT_CODE || resultCode != Activity.RESULT_OK)
+            return;
+
+        AppointmentModel newAppointment = data.getParcelableExtra(NEW_APPOINTMENT_EXTRA);
+
+        if(newAppointment != null)
+            mPresenter.createNewAppointment(newAppointment);
+
+        mAlertHelper.showProgressDialog(R.string.appointment_creation_msg);
     }
 
     @Override
@@ -97,6 +113,11 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     }
 
     @Override
+    public void hideProgressDialog() {
+        mAlertHelper.hideDialog();
+    }
+
+    @Override
     public void onCalendarClicked(AppointmentModel model) {
         Toast.makeText(this, model.getProvider(), Toast.LENGTH_LONG).show();
     }
@@ -108,6 +129,6 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
 
     private void openAppointmentCreatorView() {
         Intent intent = new Intent(ClientAppointmentListActivity.this, CreateAppointmentActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, CREATE_NEW_APPOINTMENT_CODE);
     }
 }
