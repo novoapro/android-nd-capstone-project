@@ -83,13 +83,14 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
 
     @Override
     public void onBindViewHolder(final ClientAppointmentItemHolder holder, final int position) {
-        int iconRes = (mAppointmentList.get(position).getIconRes());
+        AppointmentModel appointmentModel = mAppointmentList.get(position);
+        int iconRes = (appointmentModel.getIconRes());
         holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
-        holder.mViewBinding.tvProviderName.setText(mAppointmentList.get(position).getProvider());
-        holder.mViewBinding.tvAppState.setText(mAppointmentList.get(position).getStateString());
-        holder.mViewBinding.tvAppDate.setText(DateFormatter.getDateTimeFormat(mAppointmentList.get(position).getDate()));
+        holder.mViewBinding.tvProviderName.setText(appointmentModel.getProvider());
+        holder.mViewBinding.tvAppState.setText(appointmentModel.getStateString());
+        holder.mViewBinding.tvAppDate.setText(DateFormatter.getDateTimeFormat(appointmentModel.getDate()));
 
-        setItemListener(holder);
+        setItemListener(holder, appointmentModel);
     }
 
     @Override
@@ -98,22 +99,32 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
     }
 
 
-    private void setItemListener(final ClientAppointmentItemHolder holder) {
+    private void setItemListener(final ClientAppointmentItemHolder holder, AppointmentModel appointmentModel) {
         if(mListener == null)
             return;
 
-        holder.mViewBinding.ivCalendar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onCalendarClicked(mAppointmentList.get(holder.getAdapterPosition()));
-            }
-        });
-        holder.mViewBinding.ivReview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onReviewClicked(mAppointmentList.get(holder.getAdapterPosition()));
-            }
-        });
+        if(appointmentModel.getState() != AppointmentModel.DENIED && appointmentModel.getState() != AppointmentModel.REQUESTED) {
+            holder.mViewBinding.ivCalendar.setVisibility(View.VISIBLE);
+            holder.mViewBinding.ivCalendar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onCalendarClicked(mAppointmentList.get(holder.getAdapterPosition()));
+                }
+            });
+        } else
+            holder.mViewBinding.ivCalendar.setVisibility(View.GONE);
+
+        if(appointmentModel.getState() == AppointmentModel.COMPLETED) {
+            holder.mViewBinding.ivReview.setVisibility(View.VISIBLE);
+            holder.mViewBinding.ivReview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onReviewClicked(mAppointmentList.get(holder.getAdapterPosition()));
+                }
+            });
+        } else
+            holder.mViewBinding.ivReview.setVisibility(View.GONE);
+
     }
 
     class ClientAppointmentItemHolder extends RecyclerView.ViewHolder {

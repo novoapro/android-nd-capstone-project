@@ -90,10 +90,12 @@ public class ProviderServiceReviewListActivity extends BaseNavigationActivity im
     }
 
     @Override
-    public void showServiceRating(Observable<RatingModel> rating) {
+    public void showServiceRating(final Observable<RatingModel> rating) {
         mRatingSubscription = rating.subscribe(new Action1<RatingModel>() {
             @Override
             public void call(RatingModel ratingModel) {
+                if(ratingModel == null)
+                    return;
                 mViewBinding.rbServiceRating.setRating((float) ratingModel.getRating());
             }
         });

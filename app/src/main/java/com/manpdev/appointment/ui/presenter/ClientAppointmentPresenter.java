@@ -1,14 +1,21 @@
 package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.manpdev.appointment.R;
+import com.manpdev.appointment.data.local.CalendarProvider;
 import com.manpdev.appointment.data.model.AppointmentModel;
+import com.manpdev.appointment.data.model.RatingModel;
+import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.data.model.ServiceModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
+import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
 import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
@@ -26,20 +33,28 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
     private static final String TAG = "LoginPresenter";
 
     private ClientAppoinmentContract.View mView;
+
     private final AuthProvider mAuthProvider;
     private final FBCAppointmentProvider mAppointmentProvider;
     private final FBUserProvider mUserProvider;
     private final FBServiceProvider mServiceProvider;
+    private final CalendarProvider mCalendarProvider;
+    private final FBReviewProvider mReviewProvider;
+    private final FBRatingProvider mRatingProvider;
 
     private boolean mViewAttached;
 
     public ClientAppointmentPresenter(Context context, AuthProvider authProvider,
                                       FBCAppointmentProvider appointmentProvider, FBUserProvider userProvider,
-                                      FBServiceProvider serviceProvider) {
+                                      FBServiceProvider serviceProvider, CalendarProvider calendarProvider,
+                                      FBReviewProvider reviewProvider, FBRatingProvider ratingProvider) {
         this.mAuthProvider = authProvider;
         this.mAppointmentProvider = appointmentProvider;
         this.mUserProvider = userProvider;
         this.mServiceProvider = serviceProvider;
+        this.mCalendarProvider = calendarProvider;
+        this.mReviewProvider = reviewProvider;
+        this.mRatingProvider = ratingProvider;
     }
 
     @Override
@@ -63,7 +78,6 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
     public void createNewAppointment(@NonNull final AppointmentModel model) {
         model.setCid(mAuthProvider.getUserId());
         model.setClient(mAuthProvider.getUserFullName());
-
 
         mUserProvider.getSingleValueObservable(model.getProvider())
                 .subscribe(new Action1<String>() {
@@ -102,6 +116,31 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
                         mView.showError(R.string.invalid_provider_information);
                     }
                 });
+    }
+
+    @Nullable
+    @Override
+    public Intent getCalendarIntent(@NonNull AppointmentModel model) {
+        if(model.getState() == AppointmentModel.DENIED || model.getState() == AppointmentModel.REQUESTED){
+            mView.showError(R.string.appointment_no_accepted);
+            return null;
+        }
+
+        return mCalendarProvider.getCalendarIntent(model);
+    }
+
+    @Override
+    public void createNewServiceReview(@NonNull ReviewModel review) {
+        mReviewProvider.insert(review);
+        insertRating(review);
+    }
+
+    private void insertRating(@NonNull ReviewModel review) {
+        RatingModel model = new RatingModel();
+        model.setCount(1);
+        model.setuId(review.getUid());
+        model.increaseTotal(review.getRating());
+        mRatingProvider.insert(model);
     }
 
     private void insertAppointment(@NonNull final AppointmentModel model) {

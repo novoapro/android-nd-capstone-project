@@ -60,4 +60,8 @@
     <string name="invalid_appointment_information">Invalid Appointment Information</string>
     <string name="invalid_provider_information">Invalid provider Information</string>
     <string name="provider_service_disabled">The requested service is disabled</string>
+    <string name="appointment_no_accepted">This appointment has not been accepted by the provider.</string>
+    <string name="invalid_review">Review could not be empty</string>
+    <string name="creating_new_review">Creating new review</string>
+    <string name="appointment_no_completed">This appointment has to be completed to provide reviews.</string>
 </resources>

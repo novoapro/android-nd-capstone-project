@@ -20,7 +20,7 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-public class FBRatingProvider{
+public class FBRatingProvider {
 
     private static final String TAG = "FBRatingProvider";
 
@@ -74,7 +74,8 @@ public class FBRatingProvider{
             @Override
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
-                Log.w(TAG, "onComplete: " + databaseError.getMessage());
+                if (databaseError != null)
+                    Log.w(TAG, "onComplete: " + databaseError.getMessage());
             }
         });
 

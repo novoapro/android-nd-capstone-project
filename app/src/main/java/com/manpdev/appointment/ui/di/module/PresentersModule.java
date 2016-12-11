@@ -2,6 +2,7 @@ package com.manpdev.appointment.ui.di.module;
 
 import android.content.Context;
 
+import com.manpdev.appointment.data.local.CalendarProvider;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
@@ -47,8 +48,10 @@ public class PresentersModule {
     @Provides
     ClientAppoinmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider,
                                                                          FBCAppointmentProvider appointmentProvider,
-                                                                         FBUserProvider userProvider, FBServiceProvider serviceProvider){
-        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider);
+                                                                         FBUserProvider userProvider, FBServiceProvider serviceProvider,
+                                                                         CalendarProvider calendarProvider, FBRatingProvider ratingProvider,
+                                                                         FBReviewProvider reviewProvider){
+        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider, calendarProvider, reviewProvider, ratingProvider);
     }
 
     @Provides

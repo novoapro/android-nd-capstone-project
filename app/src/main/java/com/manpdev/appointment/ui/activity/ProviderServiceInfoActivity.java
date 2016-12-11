@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -20,10 +21,10 @@ import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 
 import javax.inject.Inject;
 
-public class ProviderServiceInfoActivity extends BaseNavigationActivity implements ServiceInfoContract.View{
+public class ProviderServiceInfoActivity extends BaseNavigationActivity implements ServiceInfoContract.View {
 
     private static final String TAG = "ProviderServiceInfoActi";
-    
+
     @Inject
     ServiceInfoContract.Presenter mPresenter;
 
@@ -33,7 +34,7 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((AppointmentApplication)getApplication()).getApplicationComponent()
+        ((AppointmentApplication) getApplication()).getApplicationComponent()
                 .activity()
                 .mvp(new PresentersModule())
                 .inject(this);
@@ -78,12 +79,14 @@ public class ProviderServiceInfoActivity extends BaseNavigationActivity implemen
 
         mAlertHelper.hideDialog();
 
-        if(service == null) {
+        if (service == null) {
             showConfirmationDialog(R.string.no_service_enable_message);
             return;
         }
 
-        mPicasso.invalidate(service.getBanner());
+        if (!TextUtils.isEmpty(service.getBanner()))
+            mPicasso.invalidate(service.getBanner());
+
         mPicasso.load(service.getBanner())
                 .placeholder(R.drawable.ic_logo_no_text)
                 .into(mViewBinding.ivServiceBanner);

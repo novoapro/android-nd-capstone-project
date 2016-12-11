@@ -6,11 +6,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.AppointmentModel;
+import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.databinding.ActivityClientAppointmentListBinding;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 import com.manpdev.appointment.ui.adapter.ClientAppointmentAdapter;
@@ -27,7 +27,12 @@ import rx.Observable;
 public class ClientAppointmentListActivity extends BaseNavigationActivity implements ClientAppoinmentContract.View, ClientAppointmentItemListener {
 
     private static final int CREATE_NEW_APPOINTMENT_CODE = 345;
+    private static final int INSERT_CALENDAR_REQUEST = 346;
+    private static final int CREATE_NEW_REVIEW_CODE = 347;
+
     public static final String NEW_APPOINTMENT_EXTRA = "::new_appointment_extra";
+    public static final String NEW_REVIEW_EXTRA = "::new_review_extra";
+
     private ActivityClientAppointmentListBinding mViewBinding;
     private ClientAppointmentAdapter mAdapter;
 
@@ -38,7 +43,7 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((AppointmentApplication)getApplication()).getApplicationComponent()
+        ((AppointmentApplication) getApplication()).getApplicationComponent()
                 .activity()
                 .mvp(new PresentersModule())
                 .inject(this);
@@ -77,15 +82,26 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode != CREATE_NEW_APPOINTMENT_CODE || resultCode != Activity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK)
             return;
 
-        AppointmentModel newAppointment = data.getParcelableExtra(NEW_APPOINTMENT_EXTRA);
+        switch (requestCode) {
+            case CREATE_NEW_APPOINTMENT_CODE:
+                AppointmentModel newAppointment = data.getParcelableExtra(NEW_APPOINTMENT_EXTRA);
 
-        if(newAppointment != null)
-            mPresenter.createNewAppointment(newAppointment);
+                if (newAppointment != null)
+                    mPresenter.createNewAppointment(newAppointment);
 
-        mAlertHelper.showProgressDialog(R.string.appointment_creation_msg);
+                mAlertHelper.showProgressDialog(R.string.appointment_creation_msg);
+                break;
+
+            case CREATE_NEW_REVIEW_CODE:
+                ReviewModel newReview = data.getParcelableExtra(NEW_REVIEW_EXTRA);
+
+                if (newReview != null)
+                    mPresenter.createNewServiceReview(newReview);
+                break;
+        }
     }
 
     @Override
@@ -119,12 +135,17 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
 
     @Override
     public void onCalendarClicked(AppointmentModel model) {
-        Toast.makeText(this, model.getProvider(), Toast.LENGTH_LONG).show();
+        Intent calendarIntent = mPresenter.getCalendarIntent(model);
+
+        if (calendarIntent != null)
+            startActivityForResult(calendarIntent, INSERT_CALENDAR_REQUEST);
     }
 
     @Override
     public void onReviewClicked(AppointmentModel model) {
-        Toast.makeText(this, model.getNotes(), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, CreateReviewActivity.class);
+        intent.putExtra(CreateReviewActivity.APPOINTMENT_MODEL_EXTRA, model);
+        startActivityForResult(intent, CREATE_NEW_REVIEW_CODE);
     }
 
     private void openAppointmentCreatorView() {

@@ -47,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:hint="review..."
                 android:maxLines="1"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:id="@+id/et_review" />
         </android.support.design.widget.TextInputLayout>
 
         <RatingBar

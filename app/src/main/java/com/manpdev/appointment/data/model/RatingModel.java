@@ -47,7 +47,7 @@ public class RatingModel {
     }
 
     public void increaseCount(){
-        total += 1;
+        count += 1;
     }
 
     public double getRating(){

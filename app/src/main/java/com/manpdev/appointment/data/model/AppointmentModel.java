@@ -42,7 +42,7 @@ public class AppointmentModel implements Parcelable{
         datetime = in.readLong();
         state = in.readInt();
         notes = in.readString();
-        date = new Date(in.readLong());
+        setDate(new Date(in.readLong()));
     }
 
     @Override

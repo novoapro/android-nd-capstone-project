@@ -2,6 +2,7 @@ package com.manpdev.appointment.data.remote.firebase.database;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.DatabaseReference;
 import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.data.remote.DatabaseProvider;
 
@@ -16,7 +17,7 @@ import rx.Single;
  * novoa on 9/24/16.
  */
 
-public class FBReviewProvider{
+public class FBReviewProvider {
 
     private final DatabaseProvider mDatabaseProvider;
 
@@ -43,11 +44,15 @@ public class FBReviewProvider{
 
 
     public Single<Void> insert(@NonNull ReviewModel element) {
+        DatabaseReference reference = mDatabaseProvider.getReference()
+                .child(ReviewModel.MODEL_ROOT_ID)
+                .child(element.getUid())
+                .push();
+
+
         return mDatabaseProvider.observeSingleValue(
-                mDatabaseProvider.getReference()
-                        .child(ReviewModel.MODEL_ROOT_ID)
-                        .child(element.getUid())
-                        .setValue(element));
+                reference.setValue(element)
+        );
     }
 
     public Single<Void> remove(@NonNull ReviewModel element) {

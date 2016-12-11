@@ -1,5 +1,8 @@
 package com.manpdev.appointment.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.Date;
@@ -8,7 +11,7 @@ import java.util.Date;
  * novoa on 9/11/16.
  */
 
-public class ReviewModel{
+public class ReviewModel implements Parcelable{
 
     public static final String MODEL_ROOT_ID = "service-reviews";
 
@@ -22,6 +25,42 @@ public class ReviewModel{
 
     public ReviewModel() {
     }
+
+    protected ReviewModel(Parcel in) {
+        id = in.readString();
+        uid = in.readString();
+        author = in.readString();
+        rating = in.readFloat();
+        review = in.readString();
+        setDate(new Date(in.readLong()));
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(uid);
+        dest.writeString(author);
+        dest.writeFloat(rating);
+        dest.writeString(review);
+        dest.writeLong(date.getTime());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ReviewModel> CREATOR = new Creator<ReviewModel>() {
+        @Override
+        public ReviewModel createFromParcel(Parcel in) {
+            return new ReviewModel(in);
+        }
+
+        @Override
+        public ReviewModel[] newArray(int size) {
+            return new ReviewModel[size];
+        }
+    };
 
     public String getAuthor() {
         return author;
