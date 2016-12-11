@@ -107,6 +107,9 @@ public class EditServiceInfoActivity extends AppCompatActivity implements Servic
         Log.d(TAG, "updateServiceInformation: ");
         mAlertHelper.hideDialog();
 
+        if(service == null)
+            return;
+
         mViewBinding.swEnable.setChecked(service.isActive());
         mViewBinding.etServicename.setText(service.getName());
         mViewBinding.etServicetype.setText(service.getType());
