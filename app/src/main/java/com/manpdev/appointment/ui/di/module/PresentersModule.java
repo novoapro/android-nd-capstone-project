@@ -55,8 +55,8 @@ public class PresentersModule {
     }
 
     @Provides
-    ProviderAppoinmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider){
-        return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider);
+    ProviderAppoinmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider, CalendarProvider calendarProvider){
+        return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider, calendarProvider);
     }
 
     @Provides

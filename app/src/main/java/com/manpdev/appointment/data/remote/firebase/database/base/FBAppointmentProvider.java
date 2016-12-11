@@ -34,6 +34,8 @@ public abstract class FBAppointmentProvider{
                 .child(element.getCid())
                 .push().getKey();
 
+        element.setId(appointmentId);
+
         Map<String, Object> childUpdates = new HashMap<>();
 
         childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getCid() + "/" + appointmentId,
@@ -49,7 +51,18 @@ public abstract class FBAppointmentProvider{
     }
 
     public Single<Void> update(@NonNull AppointmentModel element) {
-        return insert(element);
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_CLIENT + "/" + element.getCid() + "/" + element.getId(),
+                element);
+
+        childUpdates.put(AppointmentModel.MODEL_ROOT_ID_PROVIDER + "/" + element.getPid() + "/" + element.getId(),
+                element);
+
+        return mDatabaseProvider.observeSingleValue(
+                mDatabaseProvider.getReference()
+                        .updateChildren(childUpdates)
+        );
     }
 
     public Single<Void> remove(@NonNull AppointmentModel element) {

@@ -20,6 +20,7 @@ public class AppointmentModel implements Parcelable{
     public static final String MODEL_ROOT_ID_CLIENT = "client-appointments";
     public static final String MODEL_ROOT_ID_PROVIDER = "provider-appointments";
 
+    private String id;
     private String cid;
     private String pid;
     private String client;
@@ -35,6 +36,7 @@ public class AppointmentModel implements Parcelable{
     }
 
     protected AppointmentModel(Parcel in) {
+        id = in.readString();
         cid = in.readString();
         pid = in.readString();
         client = in.readString();
@@ -47,6 +49,7 @@ public class AppointmentModel implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(cid);
         dest.writeString(pid);
         dest.writeString(client);
@@ -73,6 +76,14 @@ public class AppointmentModel implements Parcelable{
             return new AppointmentModel[size];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCid() {
         return cid;
@@ -186,7 +197,7 @@ public class AppointmentModel implements Parcelable{
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({REQUESTED, ACCEPTED, DENIED, COMPLETED})
-    @interface StateInt {
+    public @interface StateInt {
     }
 
     public static final int REQUESTED = 0;

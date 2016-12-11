@@ -88,7 +88,7 @@ public class ClientAppointmentAdapter extends RecyclerView.Adapter<ClientAppoint
         holder.mViewBinding.ivAppointmentState.setImageResource(iconRes);
         holder.mViewBinding.tvProviderName.setText(appointmentModel.getProvider());
         holder.mViewBinding.tvAppState.setText(appointmentModel.getStateString());
-        holder.mViewBinding.tvAppDate.setText(DateFormatter.getDateTimeFormat(appointmentModel.getDate()));
+        holder.mViewBinding.tvAppDate.setText(DateFormatter.getFullDateTimeFormat(appointmentModel.getDate()));
 
         setItemListener(holder, appointmentModel);
     }

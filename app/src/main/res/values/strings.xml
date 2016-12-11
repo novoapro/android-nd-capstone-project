@@ -64,4 +64,8 @@
     <string name="invalid_review">Review could not be empty</string>
     <string name="creating_new_review">Creating new review</string>
     <string name="appointment_no_completed">This appointment has to be completed to provide reviews.</string>
+    <string name="requested_state">Requested</string>
+    <string name="accepted_state">Accepted</string>
+    <string name="denied_state">Denied</string>
+    <string name="completed_state">Completed</string>
 </resources>

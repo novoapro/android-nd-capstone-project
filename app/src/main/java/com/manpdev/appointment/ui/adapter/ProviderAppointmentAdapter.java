@@ -86,7 +86,7 @@ public class ProviderAppointmentAdapter extends RecyclerView.Adapter<ProviderApp
     public void onBindViewHolder(final ProviderAppointmentItemHolder holder, final int position) {
         holder.mViewBinding.tvClientName.setText(mAppointmentList.get(position).getClient());
         holder.mViewBinding.tvAppState.setText(mAppointmentList.get(position).getStateString());
-        holder.mViewBinding.tvAppDate.setText(DateFormatter.getDateTimeFormat(mAppointmentList.get(position).getDate()));
+        holder.mViewBinding.tvAppDate.setText(DateFormatter.getFullDateTimeFormat(mAppointmentList.get(position).getDate()));
         setItemListener(holder);
     }
 

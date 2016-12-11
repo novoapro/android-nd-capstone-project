@@ -44,7 +44,9 @@
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.EditServiceInfoActivity" />
         <activity android:name=".ui.activity.CreateAppointmentActivity" />
-        <activity android:name=".ui.activity.CreateReviewActivity"></activity>
+        <activity android:name=".ui.activity.CreateReviewActivity" />
+        <activity
+            android:name=".ui.activity.UpdateAppointmentActivity" />
     </application>
 
 </manifest>
