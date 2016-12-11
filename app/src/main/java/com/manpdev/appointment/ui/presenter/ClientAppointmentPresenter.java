@@ -18,21 +18,20 @@ import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
-import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ClientAppointmentContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
-import rx.Single;
 import rx.functions.Action1;
 
 /**
  * novoa on 9/11/16.
  */
 
-public class ClientAppointmentPresenter implements ClientAppoinmentContract.Presenter {
+public class ClientAppointmentPresenter implements ClientAppointmentContract.Presenter {
 
     private static final String TAG = "LoginPresenter";
 
-    private ClientAppoinmentContract.View mView;
+    private ClientAppointmentContract.View mView;
 
     private final AuthProvider mAuthProvider;
     private final FBCAppointmentProvider mAppointmentProvider;
@@ -60,7 +59,7 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
     @Override
     public void attachView(MVPContract.View view) {
         Log.d(TAG, "attachView");
-        mView = (ClientAppoinmentContract.View) view;
+        mView = (ClientAppointmentContract.View) view;
         mViewAttached = true;
     }
 
@@ -128,6 +127,26 @@ public class ClientAppointmentPresenter implements ClientAppoinmentContract.Pres
 
         return mCalendarProvider.getCalendarIntent(model);
     }
+
+    @Override
+    public void insertCalendarEvent(@NonNull AppointmentModel model) {
+        mCalendarProvider.insertCalendarEvent(mAuthProvider.getUserEmail(), model)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        // TODO: 12/11/16 Insert in futures version the uri in the database. to reference  the same event.
+                        if(mViewAttached)
+                            mView.calendarEventInserted();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if(mViewAttached)
+                            mView.showError(throwable.getMessage());
+                    }
+                });
+    }
+
 
     @Override
     public void createNewServiceReview(@NonNull ReviewModel review) {

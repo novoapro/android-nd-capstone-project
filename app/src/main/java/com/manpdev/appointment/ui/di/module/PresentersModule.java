@@ -11,9 +11,9 @@ import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBServiceProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
 import com.manpdev.appointment.data.remote.firebase.storage.FBBannerStorage;
-import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ClientAppointmentContract;
 import com.manpdev.appointment.ui.mvp.LoginContract;
-import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ProviderAppointmentContract;
 import com.manpdev.appointment.ui.mvp.ServiceInfoContract;
 import com.manpdev.appointment.ui.mvp.ServiceReviewContract;
 import com.manpdev.appointment.ui.presenter.ClientAppointmentPresenter;
@@ -46,16 +46,16 @@ public class PresentersModule {
     }
 
     @Provides
-    ClientAppoinmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider,
-                                                                         FBCAppointmentProvider appointmentProvider,
-                                                                         FBUserProvider userProvider, FBServiceProvider serviceProvider,
-                                                                         CalendarProvider calendarProvider, FBRatingProvider ratingProvider,
-                                                                         FBReviewProvider reviewProvider){
+    ClientAppointmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider,
+                                                                          FBCAppointmentProvider appointmentProvider,
+                                                                          FBUserProvider userProvider, FBServiceProvider serviceProvider,
+                                                                          CalendarProvider calendarProvider, FBRatingProvider ratingProvider,
+                                                                          FBReviewProvider reviewProvider){
         return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider, calendarProvider, reviewProvider, ratingProvider);
     }
 
     @Provides
-    ProviderAppoinmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider, CalendarProvider calendarProvider){
+    ProviderAppointmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider, CalendarProvider calendarProvider){
         return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider, calendarProvider);
     }
 

@@ -70,4 +70,9 @@
     <string name="completed_state">Completed</string>
     <string name="widget_no_info_available">no info available…</string>
     <string name="widget_review_count">%1$s Reviews</string>
+    <string name="add_calendar_permission">Please add calendar permission.</string>
+    <string name="no_calendar_available">No calendar available</string>
+    <string name="invalid_calendar_entry">Invalid calendar entry</string>
+    <string name="appointment_pre_name">"Appointment: "</string>
+    <string name="calendar_event_inserted">Inserted calendar event.</string>
 </resources>

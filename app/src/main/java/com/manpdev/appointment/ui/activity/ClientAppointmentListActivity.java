@@ -1,11 +1,17 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
@@ -17,7 +23,7 @@ import com.manpdev.appointment.ui.adapter.ClientAppointmentAdapter;
 import com.manpdev.appointment.ui.adapter.ClientAppointmentItemListener;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
 import com.manpdev.appointment.ui.helper.TransitionHelper;
-import com.manpdev.appointment.ui.mvp.ClientAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ClientAppointmentContract;
 
 import java.util.List;
 
@@ -25,11 +31,12 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class ClientAppointmentListActivity extends BaseNavigationActivity implements ClientAppoinmentContract.View, ClientAppointmentItemListener {
+public class ClientAppointmentListActivity extends BaseNavigationActivity implements ClientAppointmentContract.View, ClientAppointmentItemListener {
 
     private static final int CREATE_NEW_APPOINTMENT_CODE = 345;
     private static final int INSERT_CALENDAR_REQUEST = 346;
     private static final int CREATE_NEW_REVIEW_CODE = 347;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_CONTACT = 234;
 
     public static final String NEW_APPOINTMENT_EXTRA = "::new_appointment_extra";
     public static final String NEW_REVIEW_EXTRA = "::new_review_extra";
@@ -38,7 +45,7 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     private ClientAppointmentAdapter mAdapter;
 
     @Inject
-    ClientAppoinmentContract.Presenter mPresenter;
+    ClientAppointmentContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +113,20 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_CONTACT: {
+
+                if (grantResults.length == 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.add_calendar_permission, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
     protected void inflateChildLayout() {
         mViewBinding = DataBindingUtil.inflate(
                 getLayoutInflater(),
@@ -136,10 +157,13 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
 
     @Override
     public void onCalendarClicked(AppointmentModel model) {
-        Intent calendarIntent = mPresenter.getCalendarIntent(model);
-
-        if (calendarIntent != null)
-            startActivityForResult(calendarIntent, INSERT_CALENDAR_REQUEST);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+                requestCalendarPermissions();
+        } else {
+            mPresenter.insertCalendarEvent(model);
+        }
     }
 
     @Override
@@ -152,5 +176,26 @@ public class ClientAppointmentListActivity extends BaseNavigationActivity implem
     private void openAppointmentCreatorView() {
         Intent intent = new Intent(ClientAppointmentListActivity.this, CreateAppointmentActivity.class);
         TransitionHelper.transitionToActivityForResult(this, intent, CREATE_NEW_APPOINTMENT_CODE);
+    }
+
+    private void requestCalendarPermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_CALENDAR)) {
+
+            Toast.makeText(this, R.string.add_calendar_permission, Toast.LENGTH_LONG).show();
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_CALENDAR},
+                    MY_PERMISSIONS_REQUEST_WRITE_CONTACT);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_CALENDAR},
+                    MY_PERMISSIONS_REQUEST_WRITE_CONTACT);
+        }
+    }
+
+    @Override
+    public void calendarEventInserted() {
+        Toast.makeText(this, R.string.calendar_event_inserted, Toast.LENGTH_LONG).show();
     }
 }

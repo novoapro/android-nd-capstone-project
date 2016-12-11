@@ -2,6 +2,7 @@ package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.manpdev.appointment.R;
@@ -9,7 +10,7 @@ import com.manpdev.appointment.data.local.CalendarProvider;
 import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
-import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ProviderAppointmentContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
 import rx.functions.Action1;
@@ -18,12 +19,12 @@ import rx.functions.Action1;
  * novoa on 9/11/16.
  */
 
-public class ProviderAppointmentPresenter implements ProviderAppoinmentContract.Presenter {
+public class ProviderAppointmentPresenter implements ProviderAppointmentContract.Presenter {
 
     private static final String TAG = "LoginPresenter";
 
     private final CalendarProvider mCalendarProvider;
-    private ProviderAppoinmentContract.View mView;
+    private ProviderAppointmentContract.View mView;
     private final AuthProvider mAuthProvider;
     private final FBPAppointmentProvider mAppointmentProvider;
 
@@ -38,7 +39,7 @@ public class ProviderAppointmentPresenter implements ProviderAppoinmentContract.
     @Override
     public void attachView(MVPContract.View view) {
         Log.d(TAG, "attachView");
-        mView = (ProviderAppoinmentContract.View) view;
+        mView = (ProviderAppointmentContract.View) view;
         mViewAttached = true;
     }
 
@@ -55,6 +56,25 @@ public class ProviderAppointmentPresenter implements ProviderAppoinmentContract.
     @Override
     public Intent getCalendarIntent(AppointmentModel model) {
         return mCalendarProvider.getCalendarIntent(model);
+    }
+
+    @Override
+    public void insertCalendarEvent(@NonNull AppointmentModel model) {
+        mCalendarProvider.insertCalendarEvent(mAuthProvider.getUserEmail(), model)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        // TODO: 12/11/16 Insert in futures version the uri in the database. to reference  the same event.
+                        if(mViewAttached)
+                            mView.calendarEventInserted();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if(mViewAttached)
+                            mView.showError(throwable.getMessage());
+                    }
+                });
     }
 
     @Override

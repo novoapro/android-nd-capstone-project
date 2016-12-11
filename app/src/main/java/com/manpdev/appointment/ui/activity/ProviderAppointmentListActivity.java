@@ -1,22 +1,26 @@
 package com.manpdev.appointment.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
 import com.manpdev.appointment.data.model.AppointmentModel;
-import com.manpdev.appointment.data.model.ReviewModel;
 import com.manpdev.appointment.databinding.ActivityProviderAppointmentListBinding;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
 import com.manpdev.appointment.ui.adapter.ProviderAppointmentAdapter;
 import com.manpdev.appointment.ui.adapter.ProviderAppointmentItemListener;
 import com.manpdev.appointment.ui.di.module.PresentersModule;
-import com.manpdev.appointment.ui.mvp.ProviderAppoinmentContract;
+import com.manpdev.appointment.ui.mvp.ProviderAppointmentContract;
 
 import java.util.List;
 
@@ -24,19 +28,19 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-import static com.manpdev.appointment.ui.activity.ClientAppointmentListActivity.NEW_REVIEW_EXTRA;
-
-public class ProviderAppointmentListActivity extends BaseNavigationActivity implements ProviderAppoinmentContract.View, ProviderAppointmentItemListener {
+public class ProviderAppointmentListActivity extends BaseNavigationActivity implements ProviderAppointmentContract.View, ProviderAppointmentItemListener {
 
     public static final String EDITED_APPOINTMENT_EXTRA = "::edited_appointment_extra";
     private static final int INSERT_CALENDAR_REQUEST = 345;
     private static final int EDIT_APPOINTMENR_REQUEST = 346;
 
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_CONTACT = 234;
+
     private ActivityProviderAppointmentListBinding mViewBinding;
     private ProviderAppointmentAdapter mAdapter;
 
     @Inject
-    ProviderAppoinmentContract.Presenter mPresenter;
+    ProviderAppointmentContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,20 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_CONTACT: {
+
+                if (grantResults.length == 0
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, R.string.add_calendar_permission, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
     protected int getContentLayoutId() {
         return R.layout.activity_provider_appointment_list;
     }
@@ -120,11 +138,19 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
     }
 
     @Override
-    public void onCalendar(AppointmentModel model) {
-        Intent calendarIntent = mPresenter.getCalendarIntent(model);
+    public void calendarEventInserted() {
+        Toast.makeText(this, R.string.calendar_event_inserted, Toast.LENGTH_LONG).show();
+    }
 
-        if (calendarIntent != null)
-            startActivityForResult(calendarIntent, INSERT_CALENDAR_REQUEST);
+    @Override
+    public void onCalendar(AppointmentModel model) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_CALENDAR)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestCalendarPermissions();
+        } else {
+            mPresenter.insertCalendarEvent(model);
+        }
     }
 
     @Override
@@ -132,5 +158,20 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
         Intent intent = new Intent(this, UpdateAppointmentActivity.class);
         intent.putExtra(UpdateAppointmentActivity.APPOINTMENT_MODEL_EXTRA, model);
         startActivityForResult(intent, EDIT_APPOINTMENR_REQUEST);
+    }
+
+    private void requestCalendarPermissions() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_CALENDAR)) {
+
+            Toast.makeText(this, R.string.add_calendar_permission, Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_CALENDAR},
+                    MY_PERMISSIONS_REQUEST_WRITE_CONTACT);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_CALENDAR},
+                    MY_PERMISSIONS_REQUEST_WRITE_CONTACT);
+        }
     }
 }
