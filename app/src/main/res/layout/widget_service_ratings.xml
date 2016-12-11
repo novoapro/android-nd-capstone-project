@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_item_default"
+    android:id="@+id/rl_widget_container">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_service_name"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/mini_dimen"
+        android:textStyle="normal|bold"
+        android:textSize="14sp"
+        android:textAllCaps="false"
+        tools:text="My Awesome Service" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_star"
+        android:src="@drawable/ic_start"
+        android:layout_below="@+id/tv_service_name"
+        android:scaleType="fitCenter"
+        android:layout_margin="@dimen/mini_dimen"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_ratings"
+        android:textStyle="normal|bold"
+        android:layout_centerInParent="false"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/mini_dimen"
+        tools:text="3.4"
+        android:textSize="36sp"
+        android:layout_alignBottom="@+id/iv_star"
+        android:layout_alignTop="@+id/iv_star"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_service_rating_count"
+        android:gravity="center_horizontal"
+        android:layout_margin="@dimen/mini_dimen"
+        android:textStyle="normal|italic"
+        android:layout_below="@+id/iv_star"
+        android:text="@string/widget_no_info_available"
+        tools:text="150 Reviews" />
+
+</RelativeLayout>
+

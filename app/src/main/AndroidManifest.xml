@@ -45,8 +45,21 @@
         <activity android:name=".ui.activity.EditServiceInfoActivity" />
         <activity android:name=".ui.activity.CreateAppointmentActivity" />
         <activity android:name=".ui.activity.CreateReviewActivity" />
-        <activity
-            android:name=".ui.activity.UpdateAppointmentActivity" />
+        <activity android:name=".ui.activity.UpdateAppointmentActivity" />
+
+        <receiver android:name=".ui.widget.ServiceRatingWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/service_rating_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".service.WidgetRatingUpdateService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

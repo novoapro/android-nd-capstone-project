@@ -68,4 +68,6 @@
     <string name="accepted_state">Accepted</string>
     <string name="denied_state">Denied</string>
     <string name="completed_state">Completed</string>
+    <string name="widget_no_info_available">no info available…</string>
+    <string name="widget_review_count">%1$s Reviews</string>
 </resources>

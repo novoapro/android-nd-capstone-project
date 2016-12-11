@@ -1,11 +1,13 @@
 package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBRatingProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBReviewProvider;
+import com.manpdev.appointment.service.WidgetRatingUpdateService;
 import com.manpdev.appointment.ui.mvp.ServiceReviewContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
@@ -16,6 +18,7 @@ import com.manpdev.appointment.ui.mvp.base.MVPContract;
 public class ServiceReviewPresenter implements ServiceReviewContract.Presenter {
 
     private static final String TAG = "LoginPresenter";
+    private final Context mContext;
 
     private ServiceReviewContract.View mView;
     private final AuthProvider mAuthProvider;
@@ -29,6 +32,7 @@ public class ServiceReviewPresenter implements ServiceReviewContract.Presenter {
         this.mAuthProvider = authProvider;
         this.mReviewProvider = reviewProvider;
         this.mRatingProvider = ratingProvider;
+        this.mContext = context;
     }
 
     @Override
@@ -45,11 +49,20 @@ public class ServiceReviewPresenter implements ServiceReviewContract.Presenter {
 
     @Override
     public void loadReviewList() {
-        mView.showList(mReviewProvider.getCollectionObservable(mAuthProvider.getUserId()));
+
+        if (mViewAttached)
+            mView.showList(mReviewProvider.getCollectionObservable(mAuthProvider.getUserId()));
+        updateWidgetInformation();
     }
 
     @Override
     public void loadServiceRating() {
-        mView.showServiceRating(mRatingProvider.getCollectionObservable(mAuthProvider.getUserId()));
+        if (mViewAttached)
+            mView.showServiceRating(mRatingProvider.getCollectionObservable(mAuthProvider.getUserId()));
+    }
+
+    private void updateWidgetInformation() {
+        Intent updateService = new Intent(mContext, WidgetRatingUpdateService.class);
+        mContext.startService(updateService);
     }
 }
