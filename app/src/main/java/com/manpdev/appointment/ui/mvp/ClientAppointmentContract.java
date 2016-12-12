@@ -19,7 +19,6 @@ public interface ClientAppointmentContract extends MVPContract{
     interface Presenter extends MVPContract.Presenter{
         void loadList();
         void createNewAppointment(AppointmentModel model);
-        Intent getCalendarIntent(@NonNull AppointmentModel model);
         void insertCalendarEvent(@NonNull AppointmentModel model);
         void createNewServiceReview(ReviewModel review);
     }

@@ -3,6 +3,7 @@ package com.manpdev.appointment.di.module;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.LoaderManager;
 
 import com.squareup.picasso.Picasso;
 

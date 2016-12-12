@@ -1,11 +1,8 @@
 package com.manpdev.appointment.di.module;
 
-import android.content.Context;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.manpdev.appointment.data.local.CalendarProvider;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.DatabaseProvider;
 import com.manpdev.appointment.data.remote.StorageProvider;
@@ -45,11 +42,5 @@ public class DataModule {
     @Singleton
     StorageProvider provideStorageProvider(FirebaseStorage fbStorage){
         return new FBStorageProvider(fbStorage);
-    }
-
-    @Provides
-    @Singleton
-    CalendarProvider provideCalendarProvider(Context context){
-        return new CalendarProvider(context);
     }
 }

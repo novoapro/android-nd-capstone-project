@@ -2,18 +2,27 @@ package com.manpdev.appointment.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
 import com.manpdev.appointment.AppointmentApplication;
 import com.manpdev.appointment.R;
+import com.manpdev.appointment.data.local.AppointmentCalendarContract;
+import com.manpdev.appointment.data.local.AppointmentCalendarProvider;
 import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.databinding.ActivityProviderAppointmentListBinding;
 import com.manpdev.appointment.ui.activity.base.BaseNavigationActivity;
@@ -28,11 +37,13 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class ProviderAppointmentListActivity extends BaseNavigationActivity implements ProviderAppointmentContract.View, ProviderAppointmentItemListener {
+public class ProviderAppointmentListActivity extends BaseNavigationActivity implements ProviderAppointmentContract.View,
+        ProviderAppointmentItemListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String EDITED_APPOINTMENT_EXTRA = "::edited_appointment_extra";
-    private static final int INSERT_CALENDAR_REQUEST = 345;
     private static final int EDIT_APPOINTMENR_REQUEST = 346;
+    public static final int APPOINTMENT_CALENDAR_LOADER_ID = 123;
+    public static final String APPOINTMENT_ID_EXTRA = "::appointment_id_extra";
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_CONTACT = 234;
 
@@ -41,6 +52,8 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
 
     @Inject
     ProviderAppointmentContract.Presenter mPresenter;
+    private AppointmentModel mSelectedAppointment;
+    private LoaderManager mLoadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +72,7 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
         mViewBinding.rvList.setAdapter(mAdapter);
 
         mAlertHelper.setContext(this);
+        mLoadManager = getSupportLoaderManager();
     }
 
     @Override
@@ -73,6 +87,7 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
         super.onPause();
         mPresenter.detachView();
         mAdapter.stopUpdateFromObservable();
+        mLoadManager.destroyLoader(APPOINTMENT_CALENDAR_LOADER_ID);
     }
 
     @Override
@@ -149,7 +164,12 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
                 != PackageManager.PERMISSION_GRANTED) {
             requestCalendarPermissions();
         } else {
-            mPresenter.insertCalendarEvent(model);
+            Bundle arg = new Bundle();
+            arg.putString(APPOINTMENT_ID_EXTRA, model.getId());
+
+            mLoadManager.restartLoader(APPOINTMENT_CALENDAR_LOADER_ID, arg, this);
+
+            mSelectedAppointment = model;
         }
     }
 
@@ -173,5 +193,36 @@ public class ProviderAppointmentListActivity extends BaseNavigationActivity impl
                     new String[]{Manifest.permission.WRITE_CALENDAR},
                     MY_PERMISSIONS_REQUEST_WRITE_CONTACT);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this,
+                AppointmentCalendarContract.getContentUriForAppointment(
+                        AppointmentCalendarProvider.sAUTHORITY, mAuthProvider.getUserEmail(), args.getString(APPOINTMENT_ID_EXTRA)),
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.getCount() > 0 && data.moveToFirst())
+            openCalendar(data.getLong(0));
+        else if (mSelectedAppointment != null)
+            mPresenter.insertCalendarEvent(mSelectedAppointment);
+    }
+
+    private void openCalendar(Long eventId) {
+        Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
+        Intent intent = new Intent(Intent.ACTION_VIEW).setData(uri);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

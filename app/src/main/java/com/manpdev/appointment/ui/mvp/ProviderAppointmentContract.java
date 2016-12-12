@@ -1,6 +1,5 @@
 package com.manpdev.appointment.ui.mvp;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.manpdev.appointment.data.model.AppointmentModel;
@@ -17,7 +16,6 @@ import rx.Observable;
 public interface ProviderAppointmentContract extends MVPContract{
     interface Presenter extends MVPContract.Presenter{
         void loadList();
-        Intent getCalendarIntent(AppointmentModel model);
         void insertCalendarEvent(@NonNull AppointmentModel model);
         void editAppointment(AppointmentModel appointment);
     }

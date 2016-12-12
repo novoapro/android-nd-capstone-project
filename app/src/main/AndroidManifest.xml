@@ -61,7 +61,12 @@
 
         <service
             android:name=".service.WidgetRatingUpdateService"
-            android:exported="false"></service>
+            android:exported="false"/>
+
+        <provider
+            android:authorities="com.manpdev.appointment.provider"
+            android:name=".data.local.AppointmentCalendarProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

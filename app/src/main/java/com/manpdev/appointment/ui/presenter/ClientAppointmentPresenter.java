@@ -1,13 +1,13 @@
 package com.manpdev.appointment.ui.presenter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.manpdev.appointment.R;
-import com.manpdev.appointment.data.local.CalendarProvider;
+import com.manpdev.appointment.data.local.AppointmentCalendarContract;
+import com.manpdev.appointment.data.local.AppointmentCalendarProvider;
 import com.manpdev.appointment.data.model.AppointmentModel;
 import com.manpdev.appointment.data.model.RatingModel;
 import com.manpdev.appointment.data.model.ReviewModel;
@@ -21,6 +21,8 @@ import com.manpdev.appointment.data.remote.firebase.database.FBUserProvider;
 import com.manpdev.appointment.ui.mvp.ClientAppointmentContract;
 import com.manpdev.appointment.ui.mvp.base.MVPContract;
 
+import rx.Single;
+import rx.SingleSubscriber;
 import rx.functions.Action1;
 
 /**
@@ -30,6 +32,7 @@ import rx.functions.Action1;
 public class ClientAppointmentPresenter implements ClientAppointmentContract.Presenter {
 
     private static final String TAG = "LoginPresenter";
+    private final Context mContext;
 
     private ClientAppointmentContract.View mView;
 
@@ -37,7 +40,6 @@ public class ClientAppointmentPresenter implements ClientAppointmentContract.Pre
     private final FBCAppointmentProvider mAppointmentProvider;
     private final FBUserProvider mUserProvider;
     private final FBServiceProvider mServiceProvider;
-    private final CalendarProvider mCalendarProvider;
     private final FBReviewProvider mReviewProvider;
     private final FBRatingProvider mRatingProvider;
 
@@ -45,15 +47,15 @@ public class ClientAppointmentPresenter implements ClientAppointmentContract.Pre
 
     public ClientAppointmentPresenter(Context context, AuthProvider authProvider,
                                       FBCAppointmentProvider appointmentProvider, FBUserProvider userProvider,
-                                      FBServiceProvider serviceProvider, CalendarProvider calendarProvider,
+                                      FBServiceProvider serviceProvider,
                                       FBReviewProvider reviewProvider, FBRatingProvider ratingProvider) {
         this.mAuthProvider = authProvider;
         this.mAppointmentProvider = appointmentProvider;
         this.mUserProvider = userProvider;
         this.mServiceProvider = serviceProvider;
-        this.mCalendarProvider = calendarProvider;
         this.mReviewProvider = reviewProvider;
         this.mRatingProvider = ratingProvider;
+        this.mContext = context;
     }
 
     @Override
@@ -117,34 +119,39 @@ public class ClientAppointmentPresenter implements ClientAppointmentContract.Pre
                 });
     }
 
-    @Nullable
-    @Override
-    public Intent getCalendarIntent(@NonNull AppointmentModel model) {
-        if(model.getState() == AppointmentModel.DENIED || model.getState() == AppointmentModel.REQUESTED){
-            mView.showError(R.string.appointment_no_accepted);
-            return null;
-        }
-
-        return mCalendarProvider.getCalendarIntent(model);
-    }
 
     @Override
-    public void insertCalendarEvent(@NonNull AppointmentModel model) {
-        mCalendarProvider.insertCalendarEvent(mAuthProvider.getUserEmail(), model)
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        // TODO: 12/11/16 Insert in futures version the uri in the database. to reference  the same event.
-                        if(mViewAttached)
-                            mView.calendarEventInserted();
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        if(mViewAttached)
-                            mView.showError(throwable.getMessage());
-                    }
-                });
+    public void insertCalendarEvent(@NonNull final AppointmentModel model) {
+        Single.create(new Single.OnSubscribe<String>() {
+            @Override
+            public void call(SingleSubscriber<? super String> singleSubscriber) {
+                try {
+                    Uri insert = mContext.getContentResolver()
+                            .insert(AppointmentCalendarContract.getBaseContentUri(AppointmentCalendarProvider.sAUTHORITY),
+                                    AppointmentCalendarContract.getContentValue(mContext, mAuthProvider.getUserEmail(), model));
+
+                    if (insert != null)
+                        singleSubscriber.onSuccess(insert.toString());
+                    else
+                        singleSubscriber.onError(new Throwable(mContext.getString(R.string.invalid_appointment_information)));
+
+                }catch (Exception ex){
+                    singleSubscriber.onError(new Throwable(mContext.getString(R.string.invalid_appointment_information)));
+                }
+            }
+        }).subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                if (mViewAttached)
+                    mView.calendarEventInserted();
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if(mViewAttached)
+                    mView.showError(throwable.getMessage());
+            }
+        });
     }
 
 

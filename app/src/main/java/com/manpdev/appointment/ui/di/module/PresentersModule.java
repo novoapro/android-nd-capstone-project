@@ -2,7 +2,6 @@ package com.manpdev.appointment.ui.di.module;
 
 import android.content.Context;
 
-import com.manpdev.appointment.data.local.CalendarProvider;
 import com.manpdev.appointment.data.remote.AuthProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBCAppointmentProvider;
 import com.manpdev.appointment.data.remote.firebase.database.FBPAppointmentProvider;
@@ -49,14 +48,14 @@ public class PresentersModule {
     ClientAppointmentContract.Presenter provideClientAppointmentPresenter(Context context, AuthProvider authProvider,
                                                                           FBCAppointmentProvider appointmentProvider,
                                                                           FBUserProvider userProvider, FBServiceProvider serviceProvider,
-                                                                          CalendarProvider calendarProvider, FBRatingProvider ratingProvider,
+                                                                          FBRatingProvider ratingProvider,
                                                                           FBReviewProvider reviewProvider){
-        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider, calendarProvider, reviewProvider, ratingProvider);
+        return new ClientAppointmentPresenter(context, authProvider, appointmentProvider, userProvider, serviceProvider, reviewProvider, ratingProvider);
     }
 
     @Provides
-    ProviderAppointmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider, CalendarProvider calendarProvider){
-        return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider, calendarProvider);
+    ProviderAppointmentContract.Presenter provideProviderAppointmentPresenter(Context context, AuthProvider authProvider, FBPAppointmentProvider appointmentProvider){
+        return new ProviderAppointmentPresenter(context, authProvider, appointmentProvider);
     }
 
     @Provides
